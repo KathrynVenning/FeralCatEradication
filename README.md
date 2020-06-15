@@ -2,7 +2,7 @@
 stochastic models for prediction feral cat eradication and costs on large islands
 
 
-Predicting feral cat-reduction targets and costs on large islands using stochastic population models
+Paper title: Predicting feral cat-reduction targets and costs on large islands using stochastic population models
 
 Kathryn R. W. Venning1,*, Frédérik Saltré1, Corey J. A. Bradshaw1
 
