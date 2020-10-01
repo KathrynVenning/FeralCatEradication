@@ -18,7 +18,11 @@ Included Files
 "Supplementary code"
 
 Note
+
 No external data files are needed  
+
 Requires library “Plotly”
+
 Run "Matrix Operators" before "Cat eradication models GitHub"
+
 Run "Cat eradication models GitHub" L9-136, before "Supplementary code"
