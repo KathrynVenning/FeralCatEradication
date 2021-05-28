@@ -12,19 +12,20 @@ Pre-published report: https://doi.org/10.1101/2020.06.12.149393
 
 R code (By Kathryn Venning at Flinders University, Adelaide, Australia – kathryn.venning@flinders.edu.au, in collaboration with/under supervision of Corey Bradshaw and Frédérik Saltré ) to predict feasibility and costs of cat eradication through culling on large islands (Kangaroo Island). 
 
-Included Files 
-“Cat eradication models GitHub”
-“Matrix Operators”
-"Supplementary code"
+Included Files
+
+- `FeralCatEradication.R`
+- `matrixOperators.r`
+- `Supplementary code2.0.R`
 
 Note
 
 All files updated and reuploaded 18.02.2021
 
-No external data files are needed  
+No external data files are needed
 
 Requires library “Plotly”
 
-Run "Matrix Operators" before "Cat eradication models GitHub"
+Run `matrixOperators.r` before `FeralCatEradication.R`
 
-Run "Cat eradication models GitHub" L9-136, before "Supplementary code"
+Run `FeralCatEradication.R` L9-136, before `Supplementary code2.0.R`
