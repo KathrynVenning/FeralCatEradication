@@ -4,6 +4,6 @@ clean:
 	rm --force Rplots.pdf
 	rm --force --recursive reports/figures
 
-results: FeralCatEradication.R matrixOperators.r
+results: src/FeralCatEradication.R src/matrixOperators.r
 	mkdir reports/figures/ --parents
-	Rscript FeralCatEradication.R
+	Rscript src/FeralCatEradication.R

@@ -10,7 +10,7 @@ rm(list = ls())
 
 # libraries
 library(plotly)
-source("matrixOperators.r")
+source("src/matrixOperators.r")
 options(scipen = 1000)
 
 ## functions
