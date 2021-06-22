@@ -97,7 +97,7 @@ K.min <- 1 #not used
 K.vec <- c(1,pop.found/2,pop.found,0.75*K.max,K.max) #1= K.min, .75 = red.thresh??
 red.thresh <- 0.75 #not used
 red.vec <- c(1,0.965,0.89,0.79,0.71)
-jpeg("k_vec.jpg")
+jpeg("reports/figures/k_vec.jpg")
 plot(K.vec,red.vec,pch=19,type="b")
 dev.off()
 Kred.dat <- data.frame(K.vec,red.vec)
@@ -111,7 +111,7 @@ fit.lp <- nls(red.vec ~ a/(1+(K.vec/b)^c),
               trace = TRUE,      
               nls.control(maxiter = 1000, tol = 1e-05, minFactor = 1/1024))
 fit.lp.summ <- summary(fit.lp)
-jpeg("reduction_factor.jpg")
+jpeg("reports/figures/reduction_factor.jpg")
 plot(K.vec,red.vec,pch=19,xlab="N",ylab="reduction factor")
 dev.off()
 K.vec.cont <- seq(1,2*pop.found,1)
@@ -142,7 +142,7 @@ for (i in 1:t) {
 }
 
 n.pred <- colSums(n.mat)
-jpeg("something_with_Carry_capacity.jpg")
+jpeg("reports/figures/something_with_Carry_capacity.jpg")
 plot(yrs, n.pred,type="b",lty=2,pch=19,xlab="year",ylab="N",ylim=c(0,1.05*K.max)) #untreated population increases, rate of increase relative to K, no stochastic sampling
 abline(h=K.max, lty=2, col="red") #carry capacity
 legend(yrs[2], n.pred[6], legend=c("N", "Carry capacity"),
