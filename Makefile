@@ -13,8 +13,11 @@ define lint
 endef
 
 clean:
+	rm --force NAMESPACE
 	rm --force Rplots.pdf
 	rm --force --recursive reports/figures
+	rm --force --recursive FeralCatEradication_0.1.0.tar.gz
+	rm --force --recursive FeralCatEradication.Rcheck
 
 coverage:
 	R -e "covr::package_coverage()"
