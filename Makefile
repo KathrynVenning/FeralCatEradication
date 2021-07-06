@@ -1,4 +1,4 @@
-.PHONY: results
+.PHONY: results tests
 
 define runLint
 	R -e "library(lintr)" \
@@ -21,5 +21,4 @@ results: src/FeralCatEradication.R src/matrixOperators.r
 	Rscript src/FeralCatEradication.R
 
 tests:
-	R -e "testthat::test_dir('tests/testthat/', report = 'summary', stop_on_failure = TRUE)" \
-	  -e "devtools::test()"
+	R -e "testthat::test_dir('tests/testthat/', report = 'summary', stop_on_failure = TRUE)"
