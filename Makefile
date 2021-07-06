@@ -16,6 +16,9 @@ lint:
 	$(runLint)
 	$(runLint) | grep -e "\^" && exit 1 || exit 0
 
+mutants:
+	echo "No mutation testing on R 🙁"
+
 results: src/FeralCatEradication.R src/matrixOperators.r
 	mkdir reports/figures/ --parents
 	Rscript src/FeralCatEradication.R
