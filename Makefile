@@ -22,3 +22,9 @@ results: src/FeralCatEradication.R src/matrixOperators.r
 
 tests:
 	R -e "testthat::test_dir('tests/testthat/', report = 'summary', stop_on_failure = TRUE)"
+
+install:
+	R -e "devtools::document()" &&
+	R CMD build . && \
+    R CMD check dimorfismo_0.1.0.tar.gz && \
+    R CMD INSTALL dimorfismo_0.1.0.tar.gz

@@ -1,5 +1,7 @@
 library(testthat)
 
 test_that("all is ok", {
-  expect_equal(1, 1)
+  expected_values = 1
+  obtained_value = return_one()
+  expect_equal(expected_value, obtained_value)
 })
