@@ -17,7 +17,7 @@ lint:
 	$(runLint) | grep -e "\^" && exit 1 || exit 0
 
 mutants:
-	echo "No mutation testing on R 🙁"
+	@echo "🙁🏹 No mutation testing on R 👾🎉👾"
 
 results: src/FeralCatEradication.R src/matrixOperators.r
 	mkdir reports/figures/ --parents
@@ -29,5 +29,5 @@ tests:
 install:
 	R -e "devtools::document()" &&
 	R CMD build . && \
-    R CMD check dimorfismo_0.1.0.tar.gz && \
-    R CMD INSTALL dimorfismo_0.1.0.tar.gz
+    R CMD check FeralCat_0.1.0.tar.gz && \
+    R CMD INSTALL FeralCat_0.1.0.tar.gz
