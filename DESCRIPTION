@@ -1,18 +1,18 @@
-Package: FeralCat
-Title:
+Package: FeralCatEradication
+Title: Predicting feral cat-reduction targets and costs on large islands using stochastic population models
 Version: 0.1.0
 Authors@R:
-    person(given = "Kathryn Venning",
-           family = "Flinders University",
+    person(given = "Kathryn",
+           family = "Venning",
            role = c("aut"),
            email = "kathryn.venning@flinders.edu.au"
            )
-    person(given = "Ciencia de Datos GECI",
+    person(given = "Ciencia de Datos",
            family = "GECI",
            role = c("ctb", "cre"),
            email = "ciencia.datos@islas.org.mx"
            )
-Description: Predicting targets and costs for feral‐cat reduction on large islands using stochastic population models
+Description: Stochastic models for prediction feral cat eradication and costs on large islands
 Imports:
     data.table,
     R6,
