@@ -7,6 +7,11 @@ Authors@R:
            role = c("aut", "cre"),
            email = "ciencia.datos@islas.org.mx"
            )
+    person(given = "Kathryn Venning",
+           family = "Flinders University",
+           role = c("aut", "cre"),
+           email = "kathryn.venning@flinders.edu.au"
+           )
 Description: Predicting targets and costs for feral‐cat reduction on large islands using stochastic population models
 Imports:
     data.table,
