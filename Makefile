@@ -9,6 +9,9 @@ clean:
 	rm --force Rplots.pdf
 	rm --force --recursive reports/figures
 
+coverage:
+	R -e "covr::package_coverage()"
+
 lint:
 	$(runLint)
 	$(runLint) | grep -e "\^" && exit 1 || exit 0
@@ -16,3 +19,7 @@ lint:
 results: src/FeralCatEradication.R src/matrixOperators.r
 	mkdir reports/figures/ --parents
 	Rscript src/FeralCatEradication.R
+
+tests:
+	R -e "testthat::test_dir('tests/testthat/', report = 'summary', stop_on_failure = TRUE)" \
+	  -e "devtools::test()"
