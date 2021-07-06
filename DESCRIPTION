@@ -2,15 +2,15 @@ Package: FeralCat
 Title:
 Version: 0.1.0
 Authors@R:
-    person(given = "Ciencia de Datos GECI",
-           family = "GECI",
-           role = c("aut", "cre"),
-           email = "ciencia.datos@islas.org.mx"
-           )
     person(given = "Kathryn Venning",
            family = "Flinders University",
-           role = c("aut", "cre"),
+           role = c("aut"),
            email = "kathryn.venning@flinders.edu.au"
+           )
+    person(given = "Ciencia de Datos GECI",
+           family = "GECI",
+           role = c("ctb", "cre"),
+           email = "ciencia.datos@islas.org.mx"
            )
 Description: Predicting targets and costs for feral‐cat reduction on large islands using stochastic population models
 Imports:
