@@ -27,3 +27,12 @@ describe("Get the first eigenvalue og the Leslie Matrix", {
     expect_equal(expected_eigenvalue, obtained_eigenvalue)
   })
 })
+
+describe("Get the Malthusian parameter from the Leslie Matrix", {
+  it("Diagonal matrix 3x3", {
+    expected_eigenvalue <- 3
+    matriz <- matrix(c(exp(1), 0, 0, 0, exp(2), 0, 0, 0, exp(3)), nrow = 3)
+    obtained_eigenvalue <- max.r(matriz)
+    expect_equal(expected_eigenvalue, obtained_eigenvalue)
+  })
+})
