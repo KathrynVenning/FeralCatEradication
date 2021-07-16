@@ -1,4 +1,4 @@
 #' @export
 return_one <- function() {
-	return 1
+	return(1)
 }
