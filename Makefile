@@ -23,9 +23,7 @@ coverage:
 	R -e "covr::package_coverage()"
 
 install:
-	R -e "devtools::document()" && \
-	R CMD build . && \
-	R CMD check FeralCatEradication_0.1.0.tar.gz && \
+	R CMD build FeralCatEradication
 	R CMD INSTALL FeralCatEradication_0.1.0.tar.gz
 
 linter:
