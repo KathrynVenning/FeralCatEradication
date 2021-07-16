@@ -1,8 +1,5 @@
 # Matrix operators for population models
 
-## maximum lambda function
-max.lambda <- function(x) Re((eigen(x)$values)[1]) ## where 'x' is a Leslie matrix
-
 ## Maximum r function
 max.r <- function(x) log(Re((eigen(x)$values)[1])) ## where 'x' is a Leslie matrix
 

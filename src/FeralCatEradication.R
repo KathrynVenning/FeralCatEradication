@@ -10,6 +10,7 @@ rm(list = ls())
 
 # libraries
 library(plotly)
+library(FeralCatEradication)
 source("src/matrixOperators.r")
 options(scipen = 1000)
 
@@ -53,7 +54,7 @@ popmat[1,] <- m.vec
 popmat.orig <- popmat ## save original matrix
 
 ## matrix properties
-max.lambda(popmat) ## 1-yr lambda
+FeralCatEradication::max.lambda(popmat) ## 1-yr lambda
 max.r(popmat) # rate of population change, 1-yr
 stable.stage.dist(popmat) ## stable stage distribution
 R.val(popmat, age.max) # reproductive value
