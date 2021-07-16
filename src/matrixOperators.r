@@ -1,8 +1,5 @@
 # Matrix operators for population models
 
-## Maximum r function
-max.r <- function(x) log(Re((eigen(x)$values)[1])) ## where 'x' is a Leslie matrix
-
 ## Stable stage distribution
 stable.stage.dist <- function(x) ((x %*% (Re((eigen(x)$vectors)[,1])))/(sum((x %*% (Re((eigen(x)$vectors)[,1]))))))[,1]
 
