@@ -1,0 +1,28 @@
+Package: FeralCatEradication
+Title: Predicting feral cat-reduction targets and costs on large islands using stochastic population models
+Version: 0.1.0
+Authors@R: c(
+    person(given = "Kathryn",
+           family = "Venning",
+           role = c("aut", "cre", "cph"),
+           email = "kathryn.venning@flinders.edu.au"
+           ),
+    person(given = "Ciencia de Datos",
+           family = "GECI",
+           role = "ctb",
+           email = "ciencia.datos@islas.org.mx"
+           ))
+Description: Stochastic models for prediction feral cat eradication and costs on large islands
+Imports:
+    data.table,
+    R6,
+    tidyverse
+Suggests:
+    devtools,
+    roxygen2,
+    testthat
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
