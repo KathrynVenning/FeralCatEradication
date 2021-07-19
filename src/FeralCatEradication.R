@@ -67,8 +67,7 @@ pop_found <- 1629 # +/- 661 founding population size Hohnen et al 2020
 ssd <- stable_stage_dist(popmat)
 init_vec <- ssd * pop_found #initial population vector
 
-#################
-# project
+# Project
 # set time limit for projection in 1-yr increments
 yr_now <- 2020 # update if more data available post-2010
 #************************

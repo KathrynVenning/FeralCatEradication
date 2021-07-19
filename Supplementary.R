@@ -1,17 +1,17 @@
-##### Supplementary code for 
-#### Predicting feral cat-reduction targets and costs on large islands using stochastic population models
-#### Venning, Saltre, Bradshaw 2021
-##### can only be used after running lines 9-136 of main code
+# Supplementary code for 
+# Predicting feral cat-reduction targets and costs on large islands using stochastic population models
+# Venning, Saltre, Bradshaw 2021
+# can only be used after running lines 9-136 of main code
 
-################################################### 
-# iterations and quasi ext for each following model
-####################################################
+#####################################################
+# iterations and quasi ext for each following model #
+#####################################################
 iter <- 10000 #final model run at 10 000
 itdiv <- iter / 100 #final model rate at iter/1000
 
-################################################################################################################
-# untreated population with leakage
-###############################################################################################################
+#####################################
+# untreated population with leakage #
+#####################################
 # stochatic projection with density feedback
 # set storage matrices & vectors
 stray.cat.vec <- seq(0, 100, 10) #stray cats added 0 - 100 cats increasing by 10
@@ -84,9 +84,9 @@ lines(stray.cat.vec, final.n.up.out, lty = 2, col = "red", lwd = 1.5)
 
 
 
-##############################################################################################################
-## main two-phase cull with leakage
-###############################################################################################################
+####################################
+# main two-phase cull with leakage #
+####################################
 # stochatic projection with density feedback
 # set storage matrices & vectors
 stray.cat.vec <- seq(0, 100, 10) #stray cats added 0 - 100 cats increasing by 10
@@ -171,13 +171,14 @@ final.md.table[5,] <- final.n.up.out #final upper 95% confidence
 final.md.table #display table
 
 
-###############################################################################################################################
-##stopping early
-###############################################################################################################################
+##################
+# stopping early #
+##################
 
-##############################################################################################################
-# main two-phase cull 
-###############################################################################################################
+#######################
+# main two-phase cull #
+#######################
+
 # stochatic projection with density feedback
 # set storage matrices & vectors
 
@@ -246,9 +247,10 @@ two.phase.N[2,] <- n.md * pop_found
 two.phase.N
 
 
-################################################### 
-# Stopping culling early 
-####################################################
+##########################
+# Stopping culling early #
+##########################
+
 iter <- 10000
 itdiv <- iter / 100
 stopped.yrs.vec <- seq(3, 11, 1) #stopping cull after years 3-11, intervals of 1
