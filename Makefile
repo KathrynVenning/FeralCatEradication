@@ -22,7 +22,7 @@ clean:
 	rm --force --recursive FeralCatEradication_0.1.0.tar.gz
 	rm --force --recursive FeralCatEradication.Rcheck
 
-coverage:
+coverage: install
 	R -e "covr::package_coverage('FeralCatEradication')"
 
 install:
