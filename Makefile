@@ -10,7 +10,7 @@
 
 define lint
 	R -e "library(lintr)" \
-	  -e "lint_dir('src', linters = with_defaults(line_length_linter(100)))"
+	  -e "lint_dir('src', linters = with_defaults(line_length_linter(120)))"
 endef
 
 check: linter

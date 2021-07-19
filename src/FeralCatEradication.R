@@ -3,7 +3,7 @@
 # feral cat reduction on Kangaroo Island
 # requires library - Plotly
 
-## remove everything
+# remove everything
 rm(list = ls())
 
 # libraries
@@ -12,138 +12,146 @@ library(FeralCatEradication)
 source("src/matrixOperators.r")
 options(scipen = 1000)
 
-## functions
+# functions
 # beta distribution shape parameter estimator function
-estBetaParams <- function(mu, var) {
+est_beta_params <- function(mu, var) {
   alpha <- ((1 - mu) / var - 1 / mu) * mu ^ 2
   beta <- alpha * (1 / mu - 1)
   return(params = list(alpha = alpha, beta = beta))
 }
 
-## source/matrix operators
-#source("matrixOperators.r")
-
 # create Leslie matrix
-age.max = 7
+age_max <- 7
 
-## create vectors 
-#fertility 
-m.vec <- c((0.745 / 3), 0.745, 2.52, 2.52, 2.52, 2.52, 1.98) ## KI cat birth rates matrix, data for female offsping produced each year. Data from Budke, C & Slater, M (2009)
+# Create vectors
+# Fertility
+# KI cat birth rates matrix, data for female offsping produced each year.
+# Data from Budke, C & Slater, M (2009)
+m_vec <- c((0.745 / 3), 0.745, 2.52, 2.52, 2.52, 2.52, 1.98)
 
-# fertility errors based on Budke & Slater
-juv.m.sd <- mean(c(((0.745 / 3 - 0.352 / 3) / 2), ((1.58 / 3 - 0.745 / 3) / 2))) #mean and standard deviations, juvenile fertility
-fy.m.sd <- mean(c(((0.745 - 0.352) / 2), ((1.58 - 0.745) / 2))) #mean and standard deviations, juvenile fertility
-A.m.sd <- mean(c(((2.52 - 1.98) / 2), ((3.78 - 2.52) / 2))) #mean and standard deviations, adult fertility
-m.sd.vec <- c(0.18 * m.vec[1], 0.18 * m.vec[2], A.m.sd, A.m.sd, A.m.sd, A.m.sd, A.m.sd) #mean and standard deviations vector, juvenile and adult fertility 
+# Fertility errors based on Budke & Slater
+# Mean and standard deviations, juvenile fertility:
+juv_m_sd <- mean(c(((0.745 / 3 - 0.352 / 3) / 2), ((1.58 / 3 - 0.745 / 3) / 2)))
+fy_m_sd <- mean(c(((0.745 - 0.352) / 2), ((1.58 - 0.745) / 2))) # Mean and standard deviations, juvenile fertility
+a_m_sd <- mean(c(((2.52 - 1.98) / 2), ((3.78 - 2.52) / 2))) # Mean and standard deviations, adult fertility
+# Mean and standard deviations vector, juvenile and adult fertility:
+m_sd_vec <- c(0.18 * m_vec[1], 0.18 * m_vec[2], a_m_sd, a_m_sd, a_m_sd, a_m_sd, a_m_sd)
 
-#survival
-s.vec <- c(0.46, 0.46, 0.7, 0.7, 0.7, 0.7) ##KI cat survival # probability of surviving from one year to the next. e.g surviving fourth year of life
+# Survival
+# KI cat survival
+# probability of surviving from one year to the next. e.g surviving fourth year of life
+s_vec <- c(0.46, 0.46, 0.7, 0.7, 0.7, 0.7)
 
 # survival errors based on Budke & Slater
-y1.2.S.sd <- mean(c(((0.46 - 0.27) / 2), ((0.73 - 0.46) / 2))) #mean and standard deviations, juvenile survival
-A.S.sd <- mean(c(((0.7 - 0.55) / 2), ((0.78 - 0.7) / 2))) #mean and standard deviations, adult survival
-s.sd.vec <- c(y1.2.S.sd, y1.2.S.sd, A.S.sd, A.S.sd, A.S.sd, A.S.sd) #mean and standard deviations vector, juvenile and adult survival
+y1_2_s_sd <- mean(c(((0.46 - 0.27) / 2), ((0.73 - 0.46) / 2))) #mean and standard deviations, juvenile survival
+a_s_sd <- mean(c(((0.7 - 0.55) / 2), ((0.78 - 0.7) / 2))) #mean and standard deviations, adult survival
+# Mean and standard deviations vector, juvenile and adult survival:
+s_sd_vec <- c(y1_2_s_sd, y1_2_s_sd, a_s_sd, a_s_sd, a_s_sd, a_s_sd)
 
 # create matrix
-popmat <- matrix(data = 0, nrow = age.max, ncol = age.max)
-diag(popmat[2:age.max,]) <- s.vec
-popmat[age.max, age.max] <- 0
-popmat[1,] <- m.vec
-popmat.orig <- popmat ## save original matrix
+popmat <- matrix(data = 0, nrow = age_max, ncol = age_max)
+diag(popmat[2:age_max, ]) <- s_vec
+popmat[age_max, age_max] <- 0
+popmat[1, ] <- m_vec
+popmat_orig <- popmat # save original matrix
 
-## matrix properties
-FeralCatEradication::max.lambda(popmat) ## 1-yr lambda
+# matrix properties
+FeralCatEradication::max.lambda(popmat) # 1-yr lambda
 FeralCatEradication::max.r(popmat) # rate of population change, 1-yr
-stable.stage.dist(popmat) ## stable stage distribution
-R.val(popmat, age.max) # reproductive value
-gen.l <- G.val(popmat, age.max) # mean generation length
+stable_stage_dist(popmat) # stable stage distribution
+r_val(popmat, age_max) # reproductive value
+gen_l <- g_val(popmat, age_max) # mean generation length
 
-## initial population vector
-pop.found <- 1629 # +/- 661 founding population size Hohnen et al 2020 
-ssd <- stable.stage.dist(popmat)
-init.vec <- ssd * pop.found #initial population vector
+# initial population vector
+pop_found <- 1629 # +/- 661 founding population size Hohnen et al 2020
+ssd <- stable_stage_dist(popmat)
+init_vec <- ssd * pop_found #initial population vector
 
 #################
-## project
-## set time limit for projection in 1-yr increments
-yr.now <- 2020 # update if more data available post-2010
+# project
+# set time limit for projection in 1-yr increments
+yr_now <- 2020 # update if more data available post-2010
 #************************
-yr.end <- 2030 # set projection end date
+yr_end <- 2030 # set projection end date
 #************************
-t <- (yr.end - yr.now) #timeframe
+t <- (yr_end - yr_now) #timeframe
 
-tot.F <- sum(popmat.orig[1,])
-popmat <- popmat.orig #resets matrix 
-yr.vec <- seq(yr.now, yr.end) #year vector, 2020, 2021, 2022...
+tot_f <- sum(popmat_orig[1, ])
+popmat <- popmat_orig #resets matrix
+yr_vec <- seq(yr_now, yr_end) #year vector, 2020, 2021, 2022...
 
-## set population storage matrices
-n.mat <- matrix(0, nrow = age.max, ncol = (t + 1)) #empty matrix
-n.mat[, 1] <- init.vec #fill first matrix column with initial population vector
+# set population storage matrices
+n_mat <- matrix(0, nrow = age_max, ncol = (t + 1)) #empty matrix
+n_mat[, 1] <- init_vec #fill first matrix column with initial population vector
 
-## set up projection loop
+# set up projection loop
 for (i in 1:t) {
-  n.mat[, i + 1] <- popmat %*% n.mat[, i]
+  n_mat[, i + 1] <- popmat %*% n_mat[, i]
 }
 
-n.pred <- colSums(n.mat) #number of predators - cats - through time period, no density reduction treatment, no carry capacity
-yrs <- seq(yr.now, yr.end, 1)
-plot(yrs, n.pred, type = "b", lty = 2, pch = 19, xlab = "year", ylab = "N")
+# Number of predators - cats - through time period, no density reduction treatment, no carry capacity
+n_pred <- colSums(n_mat)
+yrs <- seq(yr_now, yr_end, 1)
+plot(yrs, n_pred, type = "b", lty = 2, pch = 19, xlab = "year", ylab = "N")
 
-# compensatory density feedback # K = carry capacity
-#population rate of increase relative to carry capacity. Larger distance between populationa and K = faster population growth
-K.max <- 2 * pop.found
-K.min <- 1 #not used
-K.vec <- c(1, pop.found / 2, pop.found, 0.75 * K.max, K.max) #1= K.min, .75 = red.thresh??
-red.thresh <- 0.75 #not used
-red.vec <- c(1, 0.965, 0.89, 0.79, 0.71)
+# Compensatory density feedback
+# K = carry capacity
+# Population rate of increase relative to carry capacity
+# Larger distance between populationa and K = faster population growth
+k_max <- 2 * pop_found
+k_min <- 1 #not used
+k_vec <- c(1, pop_found / 2, pop_found, 0.75 * k_max, k_max) #1= k_min, .75 = red_thresh??
+red_thresh <- 0.75 #not used
+red_vec <- c(1, 0.965, 0.89, 0.79, 0.71)
 jpeg("reports/figures/k_vec.jpg")
-plot(K.vec, red.vec, pch = 19, type = "b")
+plot(k_vec, red_vec, pch = 19, type = "b")
 dev.off()
-Kred.dat <- data.frame(K.vec, red.vec)
+k_red_dat <- data.frame(k_vec, red_vec)
 
 # logistic power function a/(1+(x/b)^c) #fits logistic power function to population relative to carry capacity, K
-param.init <- c(1, 15000, 2.5)
-fit.lp <- nls(red.vec ~ a / (1 + (K.vec / b) ^ c),
-              data = Kred.dat,
+param_init <- c(1, 15000, 2.5)
+fit_lp <- nls(red_vec ~ a / (1 + (k_vec / b) ^ c),
+              data = k_red_dat,
               algorithm = "port",
-              start = c(a = param.init[1], b = param.init[2], c = param.init[3]),
+              start = c(a = param_init[1], b = param_init[2], c = param_init[3]),
               trace = TRUE,
               nls.control(maxiter = 1000, tol = 1e-05, minFactor = 1 / 1024))
-fit.lp.summ <- summary(fit.lp)
+fit_lp_summ <- summary(fit_lp)
 jpeg("reports/figures/reduction_factor.jpg")
-plot(K.vec, red.vec, pch = 19, xlab = "N", ylab = "reduction factor")
+plot(k_vec, red_vec, pch = 19, xlab = "N", ylab = "reduction factor")
 dev.off()
-K.vec.cont <- seq(1, 2 * pop.found, 1)
-pred.lp.fx <- coef(fit.lp)[1] / (1 + (K.vec.cont / coef(fit.lp)[2]) ^ coef(fit.lp)[3])
-lines(K.vec.cont, pred.lp.fx, lty = 2, lwd = 3, col = "red")
+k_vec_cont <- seq(1, 2 * pop_found, 1)
+pred_lp_fx <- coef(fit_lp)[1] / (1 + (k_vec_cont / coef(fit_lp)[2]) ^ coef(fit_lp)[3])
+lines(k_vec_cont, pred_lp_fx, lty = 2, lwd = 3, col = "red")
 
-a.lp <- coef(fit.lp)[1]
-b.lp <- coef(fit.lp)[2]
-c.lp <- coef(fit.lp)[3]
+a_lp <- coef(fit_lp)[1]
+b_lp <- coef(fit_lp)[2]
+c_lp <- coef(fit_lp)[3]
 
-print(a.lp)
-print(b.lp)
-print(c.lp)
+print(a_lp)
+print(b_lp)
+print(c_lp)
 
-## compensatory density-feedback deterministic model
-## set population storage matrices
-n.mat <- matrix(0, nrow = age.max, ncol = (t + 1))
-n.mat[, 1] <- init.vec
-popmat <- popmat.orig
+# compensatory density-feedback deterministic model
+# set population storage matrices
+n_mat <- matrix(0, nrow = age_max, ncol = (t + 1))
+n_mat[, 1] <- init_vec
+popmat <- popmat_orig
 
-## set up projection loop
+# set up projection loop
 for (i in 1:t) {
-  totN.i <- sum(n.mat[, i])
-  pred.red <- a.lp / (1 + (totN.i / b.lp) ^ c.lp)
-  diag(popmat[2:age.max,]) <- s.vec * pred.red
-  popmat[age.max, age.max] <- 0
-  n.mat[, i + 1] <- popmat %*% n.mat[, i]
+  tot_n_i <- sum(n_mat[, i])
+  pred_red <- a_lp / (1 + (tot_n_i / b_lp) ^ c_lp)
+  diag(popmat[2:age_max, ]) <- s_vec * pred_red
+  popmat[age_max, age_max] <- 0
+  n_mat[, i + 1] <- popmat %*% n_mat[, i]
 }
 
-n.pred <- colSums(n.mat)
+n_pred <- colSums(n_mat)
 jpeg("reports/figures/something_with_Carry_capacity.jpg")
-plot(yrs, n.pred, type = "b", lty = 2, pch = 19, xlab = "year", ylab = "N", ylim = c(0, 1.05 * K.max)) #untreated population increases, rate of increase relative to K, no stochastic sampling
-abline(h = K.max, lty = 2, col = "red") #carry capacity
-legend(yrs[2], n.pred[6], legend = c("N", "Carry capacity"),
+# Untreated population increases, rate of increase relative to K, no stochastic sampling:
+plot(yrs, n_pred, type = "b", lty = 2, pch = 19, xlab = "year", ylab = "N", ylim = c(0, 1.05 * k_max))
+abline(h = k_max, lty = 2, col = "red") #carry capacity
+legend(yrs[2], n_pred[6], legend = c("N", "Carry capacity"),
        col = c("black", "red"), lty = 1:2, cex = 0.8)
 dev.off()

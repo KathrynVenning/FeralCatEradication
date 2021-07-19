@@ -1,19 +1,19 @@
-###### Supplementary code for 
-##### Predicting feral cat-reduction targets and costs on large islands using stochastic population models
-##### Venning, Saltre, Bradshaw 2021
-###### can only be used after running lines 9-136 of main code
+##### Supplementary code for 
+#### Predicting feral cat-reduction targets and costs on large islands using stochastic population models
+#### Venning, Saltre, Bradshaw 2021
+##### can only be used after running lines 9-136 of main code
 
-#################################################### 
-## iterations and quasi ext for each following model
+################################################### 
+# iterations and quasi ext for each following model
 ####################################################
 iter <- 10000 #final model run at 10 000
 itdiv <- iter / 100 #final model rate at iter/1000
 
 ################################################################################################################
-## untreated population with leakage
+# untreated population with leakage
 ###############################################################################################################
-## stochatic projection with density feedback
-## set storage matrices & vectors
+# stochatic projection with density feedback
+# set storage matrices & vectors
 stray.cat.vec <- seq(0, 100, 10) #stray cats added 0 - 100 cats increasing by 10
 final.md.out <- final.n.up.out <- final.n.lo.out <- rep(NA, length(stray.cat.vec)) #storage matrix
 
@@ -22,35 +22,35 @@ for (s in 1:length(stray.cat.vec)) {
   n.sums.mat <- matrix(data = 0, nrow = iter, ncol = (t + 1)) #storage matrix
 
   for (e in 1:iter) {
-    popmat <- popmat.orig
+    popmat <- popmat_orig
 
-    n.mat <- matrix(0, nrow = age.max, ncol = (t + 1))
-    n.mat[, 1] <- init.vec
+    n_mat <- matrix(0, nrow = age_max, ncol = (t + 1))
+    n_mat[, 1] <- init_vec
 
     for (i in 1:t) {
-      ## stochastic survival values
-      s.alpha <- estBetaParams(s.vec, s.sd.vec ^ 2)$alpha
-      s.beta <- estBetaParams(s.vec, s.sd.vec ^ 2)$beta
+      # stochastic survival values
+      s.alpha <- est_beta_params(s_vec, s_sd_vec ^ 2)$alpha
+      s.beta <- est_beta_params(s_vec, s_sd_vec ^ 2)$beta
       s.stoch <- rbeta(length(s.alpha), s.alpha, s.beta)
 
       # stochastic fertilty sampler (gaussian)
-      fert.stch <- rnorm(length(popmat[, 1]), popmat[1,], m.sd.vec)
+      fert.stch <- rnorm(length(popmat[, 1]), popmat[1,], m_sd_vec)
       fert.stoch <- ifelse(fert.stch < 0, 0, fert.stch)
 
-      totN.i <- sum(n.mat[, i])
-      pred.red <- a.lp / (1 + (totN.i / b.lp) ^ c.lp)
+      tot_n_i <- sum(n_mat[, i])
+      pred_red <- a_lp / (1 + (tot_n_i / b_lp) ^ c_lp)
 
       popmat[1,] <- fert.stoch
-      diag(popmat[2:age.max,]) <- s.stoch * pred.red
+      diag(popmat[2:age_max,]) <- s.stoch * pred_red
 
-      n.mat[, i + 1] <- popmat %*% n.mat[, i]
+      n_mat[, i + 1] <- popmat %*% n_mat[, i]
 
-      n.mat[, i + 1] <- n.mat[, i + 1] + round(rnorm(1, mean = stray.cat.vec[s], sd = (0.05 * stray.cat.vec[s])) * ssd, 0) #adding stray cats into the population vector
+      n_mat[, i + 1] <- n_mat[, i + 1] + round(rnorm(1, mean = stray.cat.vec[s], sd = (0.05 * stray.cat.vec[s])) * ssd, 0) #adding stray cats into the population vector
 
     }
     # end i loop
 
-    n.sums.mat[e,] <- ((as.vector(colSums(n.mat)) / pop.found))
+    n.sums.mat[e,] <- ((as.vector(colSums(n_mat)) / pop_found))
 
     if (e %% itdiv == 0) print(e)
 
@@ -85,10 +85,10 @@ lines(stray.cat.vec, final.n.up.out, lty = 2, col = "red", lwd = 1.5)
 
 
 ##############################################################################################################
-### main two-phase cull with leakage
+## main two-phase cull with leakage
 ###############################################################################################################
-## stochatic projection with density feedback
-## set storage matrices & vectors
+# stochatic projection with density feedback
+# set storage matrices & vectors
 stray.cat.vec <- seq(0, 100, 10) #stray cats added 0 - 100 cats increasing by 10
 final.md.out <- rep(NA, length(stray.cat.vec)) #storage matrix
 
@@ -97,47 +97,47 @@ for (s in 1:length(stray.cat.vec)) {
   n.sums.mat <- matrix(data = 0, nrow = iter, ncol = (t + 1)) #storage matrix
 
   for (e in 1:iter) {
-    popmat <- popmat.orig
+    popmat <- popmat_orig
 
-    n.mat <- matrix(0, nrow = age.max, ncol = (t + 1))
-    n.mat[, 1] <- init.vec
+    n_mat <- matrix(0, nrow = age_max, ncol = (t + 1))
+    n_mat[, 1] <- init_vec
 
     for (i in 1:t) {
       # stochastic survival values
-      s.alpha <- estBetaParams(s.vec, s.sd.vec ^ 2)$alpha
-      s.beta <- estBetaParams(s.vec, s.sd.vec ^ 2)$beta
+      s.alpha <- est_beta_params(s_vec, s_sd_vec ^ 2)$alpha
+      s.beta <- est_beta_params(s_vec, s_sd_vec ^ 2)$beta
       s.stoch <- rbeta(length(s.alpha), s.alpha, s.beta)
 
       # stochastic fertilty sampler (gaussian)
-      fert.stch <- rnorm(length(popmat[, 1]), popmat[1,], m.sd.vec)
+      fert.stch <- rnorm(length(popmat[, 1]), popmat[1,], m_sd_vec)
       fert.stoch <- ifelse(fert.stch < 0, 0, fert.stch)
 
-      totN.i <- sum(n.mat[, i])
-      pred.red <- a.lp / (1 + (totN.i / b.lp) ^ c.lp)
+      tot_n_i <- sum(n_mat[, i])
+      pred_red <- a_lp / (1 + (tot_n_i / b_lp) ^ c_lp)
 
       popmat[1,] <- fert.stoch
-      diag(popmat[2:age.max,]) <- s.stoch * pred.red
-      #popmat[age.max,age.max] <- 0
+      diag(popmat[2:age_max,]) <- s.stoch * pred_red
+      #popmat[age_max,age_max] <- 0
 
-      n.mat[, i + 1] <- popmat %*% n.mat[, i]
-      n.mat[, i + 1] <- n.mat[, i + 1] + round(rnorm(1, mean = stray.cat.vec[s], sd = (0.05 * stray.cat.vec[s])) * ssd, 0) #add stray cats into population vector
+      n_mat[, i + 1] <- popmat %*% n_mat[, i]
+      n_mat[, i + 1] <- n_mat[, i + 1] + round(rnorm(1, mean = stray.cat.vec[s], sd = (0.05 * stray.cat.vec[s])) * ssd, 0) #add stray cats into population vector
 
-      ## harvest 
+      # harvest 
       if (i < 3) {
-        n.mat[, i + 1] <- n.mat[, i + 1] - round(stable.stage.dist(popmat) * round(sum(n.mat[, i + 1]) * 0.6, 0), 0)
+        n_mat[, i + 1] <- n_mat[, i + 1] - round(stable_stage_dist(popmat) * round(sum(n_mat[, i + 1]) * 0.6, 0), 0)
       } else {
-        n.mat[, i + 1] <- n.mat[, i + 1] - round(stable.stage.dist(popmat) * round(sum(n.mat[, i + 1]) * 0.5, 0), 0)
+        n_mat[, i + 1] <- n_mat[, i + 1] - round(stable_stage_dist(popmat) * round(sum(n_mat[, i + 1]) * 0.5, 0), 0)
       }
 
-      if (length(which(n.mat[, i + 1] < 0)) > 0) {
-        n.mat[which(n.mat[, i + 1] < 0), i + 1] <- 0
+      if (length(which(n_mat[, i + 1] < 0)) > 0) {
+        n_mat[which(n_mat[, i + 1] < 0), i + 1] <- 0
       }
 
 
     }
     # end i loop
 
-    n.sums.mat[e,] <- ((as.vector(colSums(n.mat)) / pop.found))
+    n.sums.mat[e,] <- ((as.vector(colSums(n_mat)) / pop_found))
 
     if (e %% itdiv == 0) print(e)
 
@@ -160,7 +160,7 @@ plot(stray.cat.vec, final.md.out, pch = 19, type = "l", xlab = "mean number of s
 lines(stray.cat.vec, final.n.up.out, lty = 2, col = "red")
 lines(stray.cat.vec, final.n.lo.out, lty = 2, col = "red")
 
-totalN <- final.md.out * pop.found
+totalN <- final.md.out * pop_found
 
 final.md.table <- matrix(0, nrow = 5, ncol = length(stray.cat.vec)) #results matrix
 final.md.table[1,] <- stray.cat.vec #how many stray cats added 
@@ -176,51 +176,51 @@ final.md.table #display table
 ###############################################################################################################################
 
 ##############################################################################################################
-## main two-phase cull 
+# main two-phase cull 
 ###############################################################################################################
-## stochatic projection with density feedback
-## set storage matrices & vectors
+# stochatic projection with density feedback
+# set storage matrices & vectors
 
 n.sums.mat <- matrix(data = 0, nrow = iter, ncol = (t + 1)) #storage matrix
 
 for (e in 1:iter) {
-  popmat <- popmat.orig
+  popmat <- popmat_orig
 
-  n.mat <- matrix(0, nrow = age.max, ncol = (t + 1))
-  n.mat[, 1] <- init.vec
+  n_mat <- matrix(0, nrow = age_max, ncol = (t + 1))
+  n_mat[, 1] <- init_vec
 
   for (i in 1:t) {
     # stochastic survival values
-    s.alpha <- estBetaParams(s.vec, s.sd.vec ^ 2)$alpha
-    s.beta <- estBetaParams(s.vec, s.sd.vec ^ 2)$beta
+    s.alpha <- est_beta_params(s_vec, s_sd_vec ^ 2)$alpha
+    s.beta <- est_beta_params(s_vec, s_sd_vec ^ 2)$beta
     s.stoch <- rbeta(length(s.alpha), s.alpha, s.beta)
 
     # stochastic fertilty sampler (gaussian)
-    fert.stch <- rnorm(length(popmat[, 1]), popmat[1,], m.sd.vec)
+    fert.stch <- rnorm(length(popmat[, 1]), popmat[1,], m_sd_vec)
     fert.stoch <- ifelse(fert.stch < 0, 0, fert.stch)
 
-    totN.i <- sum(n.mat[, i])
-    pred.red <- a.lp / (1 + (totN.i / b.lp) ^ c.lp)
+    tot_n_i <- sum(n_mat[, i])
+    pred_red <- a_lp / (1 + (tot_n_i / b_lp) ^ c_lp)
 
     popmat[1,] <- fert.stoch
-    diag(popmat[2:age.max,]) <- s.stoch * pred.red
+    diag(popmat[2:age_max,]) <- s.stoch * pred_red
 
-    n.mat[, i + 1] <- popmat %*% n.mat[, i]
+    n_mat[, i + 1] <- popmat %*% n_mat[, i]
 
     #harvest 
     if (i < 3) {
-      n.mat[, i + 1] <- n.mat[, i + 1] - round(stable.stage.dist(popmat) * round(sum(n.mat[, i + 1]) * 0.6, 0), 0)
+      n_mat[, i + 1] <- n_mat[, i + 1] - round(stable_stage_dist(popmat) * round(sum(n_mat[, i + 1]) * 0.6, 0), 0)
     } else {
-      n.mat[, i + 1] <- n.mat[, i + 1] - round(stable.stage.dist(popmat) * round(sum(n.mat[, i + 1]) * 0.5, 0), 0)
+      n_mat[, i + 1] <- n_mat[, i + 1] - round(stable_stage_dist(popmat) * round(sum(n_mat[, i + 1]) * 0.5, 0), 0)
     }
 
-    if (length(which(n.mat[, i + 1] < 0)) > 0) {
-      n.mat[which(n.mat[, i + 1] < 0), i + 1] <- 0
+    if (length(which(n_mat[, i + 1] < 0)) > 0) {
+      n_mat[which(n_mat[, i + 1] < 0), i + 1] <- 0
     }
   }
   # end i loop
 
-  n.sums.mat[e,] <- ((as.vector(colSums(n.mat)) / pop.found))
+  n.sums.mat[e,] <- ((as.vector(colSums(n_mat)) / pop_found))
 
   if (e %% itdiv == 0) print(e)
 
@@ -242,12 +242,12 @@ two.phase
 
 two.phase.N <- matrix(data = 0, nrow = 2, ncol = length(yrs)) #results, total pop relative to year
 two.phase.N[1,] <- yrs
-two.phase.N[2,] <- n.md * pop.found
+two.phase.N[2,] <- n.md * pop_found
 two.phase.N
 
 
-#################################################### 
-## Stopping culling early 
+################################################### 
+# Stopping culling early 
 ####################################################
 iter <- 10000
 itdiv <- iter / 100
@@ -262,40 +262,40 @@ for (s in 1:length(stopped.yrs.vec)) {
 
   for (e in 1:iter) {
 
-    n.mat <- matrix(0, nrow = age.max, ncol = (length(t) + 1))
-    n.mat[, 1] <- init.vec
-    popmat <- popmat.orig
+    n_mat <- matrix(0, nrow = age_max, ncol = (length(t) + 1))
+    n_mat[, 1] <- init_vec
+    popmat <- popmat_orig
 
     #for (i in 1:4) {
     for (i in 1:length(t)) {
       # stochastic survival values
-      s.alpha <- estBetaParams(s.vec, s.sd.vec ^ 2)$alpha
-      s.beta <- estBetaParams(s.vec, s.sd.vec ^ 2)$beta
+      s.alpha <- est_beta_params(s_vec, s_sd_vec ^ 2)$alpha
+      s.beta <- est_beta_params(s_vec, s_sd_vec ^ 2)$beta
       s.stoch <- rbeta(length(s.alpha), s.alpha, s.beta)
 
       # stochastic fertilty sampler (gaussian)
-      fert.stch <- rnorm(length(popmat[, 1]), popmat[1,], m.sd.vec)
+      fert.stch <- rnorm(length(popmat[, 1]), popmat[1,], m_sd_vec)
       fert.stoch <- ifelse(fert.stch < 0, 0, fert.stch)
 
-      totN.i <- sum(n.mat[, i])
-      pred.red <- a.lp / (1 + (totN.i / b.lp) ^ c.lp)
+      tot_n_i <- sum(n_mat[, i])
+      pred_red <- a_lp / (1 + (tot_n_i / b_lp) ^ c_lp)
 
       popmat[1,] <- fert.stoch
-      diag(popmat[2:age.max,]) <- s.stoch * pred.red
+      diag(popmat[2:age_max,]) <- s.stoch * pred_red
 
       # projection
-      n.mat[, i + 1] <- popmat %*% n.mat[, i]
+      n_mat[, i + 1] <- popmat %*% n_mat[, i]
 
       #harvest
       if (i <= 11) {
-        harv.initial <- round(stable.stage.dist(popmat.orig) * round(sum(n.mat[, i + 1]) * 0.6, 0), 0)
+        harv.initial <- round(stable_stage_dist(popmat_orig) * round(sum(n_mat[, i + 1]) * 0.6, 0), 0)
         if (i <= 2) {
-          n.mat[, i + 1] <- ifelse(n.mat[, i + 1] - harv.initial < 0, 0, n.mat[, i + 1] - harv.initial) #apply initial harvest
+          n_mat[, i + 1] <- ifelse(n_mat[, i + 1] - harv.initial < 0, 0, n_mat[, i + 1] - harv.initial) #apply initial harvest
         }
         if (i > 2) {
-          harv.maint <- round(stable.stage.dist(popmat.orig) * round(sum(n.mat[, i + 1]) * 0.5, 0), 0)
+          harv.maint <- round(stable_stage_dist(popmat_orig) * round(sum(n_mat[, i + 1]) * 0.5, 0), 0)
           if (i <= stopped.yrs.vec[s]) {
-            n.mat[, i + 1] <- ifelse(n.mat[, i + 1] - harv.maint < 0, 0, n.mat[, i + 1] - harv.maint)
+            n_mat[, i + 1] <- ifelse(n_mat[, i + 1] - harv.maint < 0, 0, n_mat[, i + 1] - harv.maint)
           }
         }
         #stop maintenance harvest at years 3-11 (stooped.yrs.vec)
@@ -305,7 +305,7 @@ for (s in 1:length(stopped.yrs.vec)) {
     }
     # end i loop
 
-    recovery.time[e] <- which(colSums(n.mat[, -1]) >= sum(init.vec))[1]
+    recovery.time[e] <- which(colSums(n_mat[, -1]) >= sum(init_vec))[1]
 
     if (e %% itdiv == 0) print(e)
 
@@ -331,10 +331,3 @@ recovermat[1,] <- stopped.yrs.vec
 recovermat[2,] <- recov.lo
 recovermat[3,] <- recov.med
 recovermat[4,] <- recov.up
-
-
-
-
-
-
-
