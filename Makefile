@@ -1,4 +1,5 @@
 .PHONY: \
+		check \
 		clean \
 		coverage \
 		install \
@@ -11,6 +12,8 @@ define lint
 	R -e "library(lintr)" \
 	  -e "lint_dir('src', linters = with_defaults(line_length_linter(100)))"
 endef
+
+check: linter
 
 clean:
 	rm --force NAMESPACE
