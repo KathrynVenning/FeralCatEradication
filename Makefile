@@ -35,7 +35,7 @@ linter:
 	$(lint)
 	$(lint) | grep -e "\^" && exit 1 || exit 0
 
-mutants:
+mutants: tests
 	@echo "🙁🏹 No mutation testing on R 👾🎉👾"
 
 results: src/FeralCatEradication.R src/matrixOperators.r
