@@ -23,10 +23,12 @@ clean:
 	rm --force --recursive FeralCatEradication.Rcheck
 
 coverage:
-	R -e "covr::package_coverage()"
+	R -e "covr::package_coverage('FeralCatEradication')"
 
 install:
-	R CMD build FeralCatEradication
+	R -e "devtools::document('FeralCatEradication')" && \
+	R CMD build FeralCatEradication && \
+	R CMD check FeralCatEradication_0.1.0.tar.gz && \
 	R CMD INSTALL FeralCatEradication_0.1.0.tar.gz
 
 linter:
