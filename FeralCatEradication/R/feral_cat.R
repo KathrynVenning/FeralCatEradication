@@ -4,7 +4,7 @@ max_lambda <- function(x) {
 }
 
 #' @export
-max.r <- function(x) {
+max_r <- function(x) {
   log(max_lambda(x))
 }
 
