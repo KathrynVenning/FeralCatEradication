@@ -7,6 +7,6 @@ max.r <- function(x) {
   log(max.lambda(x))
 }
 
-return_one <- function() {
-  return(1)
+stable_stage_dist <- function(x) {
+  ((x %*% (Re((eigen(x)$vectors)[, 1]))) / (sum((x %*% (Re((eigen(x)$vectors)[, 1]))))))[, 1]
 }

@@ -1,12 +1,6 @@
 library(testthat)
 library(FeralCatEradication)
 
-test_that("all is ok", {
-  expected_value = 1
-  obtained_value = return_one()
-  expect_equal(expected_value, obtained_value)
-})
-
 describe("Get the first eigenvalue og the Leslie Matrix", {
   it("Matrix 2x2 real eigenvalues", {
     expected_eigenvalue <- 3
