@@ -10,5 +10,7 @@ max_r <- function(x) {
 
 #' @export
 stable_stage_dist <- function(x) {
-  ((x %*% (Re((eigen(x)$vectors)[, 1]))) / (sum((x %*% (Re((eigen(x)$vectors)[, 1]))))))[, 1]
+  real_first_eigen_vector <- Re((eigen(x)$vectors)[, 1])
+  parallel_matrix <- x %*% real_first_eigen_vector
+  (parallel_matrix / (sum(parallel_matrix)))[, 1]
 }
