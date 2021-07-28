@@ -1,11 +1,6 @@
 # Matrix operators for population models
 library(MASS)
 
-# Stable stage distribution
-stable_stage_dist <- function(x) {
-  ((x %*% (Re((eigen(x)$vectors)[, 1]))) / (sum((x %*% (Re((eigen(x)$vectors)[, 1]))))))[, 1]
-}
-
 # Generation length function
 # reproductive value (r_0) where leslie_matrix = Leslie matrix; age_max = maximum age of females
 r_val <- function(leslie_matrix, age_max) {
