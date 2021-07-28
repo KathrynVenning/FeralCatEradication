@@ -2,10 +2,10 @@
 		check \
 		clean \
 		coverage \
-		install \
 		linter \
 		mutants \
 		results \
+		setup \
 		tests
 
 define lint
@@ -22,14 +22,8 @@ clean:
 	rm --force --recursive FeralCatEradication_0.1.0.tar.gz
 	rm --force --recursive FeralCatEradication.Rcheck
 
-coverage: install
+coverage: setup
 	R -e "covr::package_coverage('FeralCatEradication')"
-
-install:
-	R -e "devtools::document('FeralCatEradication')" && \
-	R CMD build FeralCatEradication && \
-	R CMD check FeralCatEradication_0.1.0.tar.gz && \
-	R CMD INSTALL FeralCatEradication_0.1.0.tar.gz
 
 linter:
 	$(lint)
@@ -42,5 +36,10 @@ results: src/FeralCatEradication.R src/matrixOperators.R
 	mkdir reports/figures/ --parents
 	Rscript src/FeralCatEradication.R
 
+setup:
+	R -e "devtools::document('FeralCatEradication')" && \
+	R CMD build FeralCatEradication && \
+	R CMD check FeralCatEradication_0.1.0.tar.gz && \
+	R CMD INSTALL FeralCatEradication_0.1.0.tar.gz
 tests:
 	R -e "testthat::test_dir('tests/testthat/', report = 'summary', stop_on_failure = TRUE)"
