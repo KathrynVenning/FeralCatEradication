@@ -30,3 +30,13 @@ describe("Get the Malthusian parameter from the Leslie Matrix", {
     expect_equal(expected_eigenvalue, obtained_eigenvalue)
   })
 })
+
+
+describe("Get stable stage distribution", {
+  it("Example 6.2.1 of Grossman", {
+    expected_stable_stage_distribution <- c(0.22, 0.78)
+    matriz <- matrix(c(0, 2, 0.3, 0.5), nrow = 2)
+    obtained_stable_stage_distribution <- stable_stage_dist(matriz)
+    expect_equal(expected_stable_stage_distribution, obtained_stable_stage_distribution, tolerance=1e-3)
+  })
+})
