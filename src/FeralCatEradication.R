@@ -56,7 +56,7 @@ popmat[1, ] <- m_vec
 popmat_orig <- popmat # save original matrix
 
 # matrix properties
-FeralCatEradication::max.lambda(popmat) # 1-yr lambda
+FeralCatEradication::max_lambda(popmat) # 1-yr lambda
 FeralCatEradication::max.r(popmat) # rate of population change, 1-yr
 stable_stage_dist(popmat) # stable stage distribution
 r_val(popmat, age_max) # reproductive value
