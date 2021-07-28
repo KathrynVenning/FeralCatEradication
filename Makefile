@@ -16,7 +16,7 @@ endef
 check: linter
 
 clean:
-	rm --force NAMESPACE
+	rm --force FeralCatEradication/NAMESPACE
 	rm --force Rplots.pdf
 	rm --force --recursive reports/figures
 	rm --force --recursive FeralCatEradication_0.1.0.tar.gz
@@ -38,7 +38,7 @@ linter:
 mutants: tests
 	@echo "🙁🏹 No mutation testing on R 👾🎉👾"
 
-results: src/FeralCatEradication.R src/matrixOperators.r
+results: src/FeralCatEradication.R src/matrixOperators.R
 	mkdir reports/figures/ --parents
 	Rscript src/FeralCatEradication.R
 
