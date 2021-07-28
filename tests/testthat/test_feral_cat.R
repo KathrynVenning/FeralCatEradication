@@ -31,7 +31,6 @@ describe("Get the Malthusian parameter from the Leslie Matrix", {
   })
 })
 
-
 describe("Get stable stage distribution", {
   it("Example 6.2.1 of Grossman", {
     expected_stable_stage_distribution <- c(0.22, 0.78)
