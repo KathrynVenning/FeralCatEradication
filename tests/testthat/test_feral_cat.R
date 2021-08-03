@@ -40,12 +40,12 @@ describe("Get stable stage distribution", {
   })
 })
 
-describe("r_val", {
+describe("total_female_offspring_per_female", {
   it("Maximum age: 3 years; matrix: 3x3", {
-    expected_r_val <- c(1)
+    expected_total_female_offspring_per_female <- c(1)
     maximum_age <- 3
     leslie_matrix <- matrix(c(1, 0, 0, 0, 2, 0, 0, 0, 3), nrow = 3)
-    obtained_r_val <- r_val(leslie_matrix,maximum_age)
-    expect_equal(expected_r_val, obtained_r_val, tolerance=1e-3)
+    obtained_total_female_offspring_per_female <- total_female_offspring_per_female(leslie_matrix,maximum_age)
+    expect_equal(expected_total_female_offspring_per_female, obtained_total_female_offspring_per_female, tolerance=1e-3)
   })
 })

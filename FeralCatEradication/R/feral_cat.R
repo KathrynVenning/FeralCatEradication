@@ -18,7 +18,7 @@ stable_stage_dist <- function(x) {
 # Generation length function
 # reproductive value (r_0) where leslie_matrix = Leslie matrix; age_max = maximum age of females
 #' @export
-r_val <- function(leslie_matrix, age_max) {
+total_female_offspring_per_female <- function(leslie_matrix, age_max) {
   # define the transition matrix
   transition_matrix <- leslie_matrix[1:age_max, 1:age_max]
   transition_matrix[1, 1:(age_max)] <- 0
