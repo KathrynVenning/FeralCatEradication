@@ -1,7 +1,7 @@
 library(testthat)
 library(FeralCatEradication)
 
-describe("Get the first eigenvalue og the Leslie Matrix", {
+describe("Get the first eigenvalue of the Leslie Matrix", {
   it("Matrix 2x2 real eigenvalues", {
     expected_eigenvalue <- 3
     matriz <- matrix(c(2, 1, 1, 2), nrow = 2)
@@ -37,5 +37,15 @@ describe("Get stable stage distribution", {
     matriz <- matrix(c(0, 2, 0.3, 0.5), nrow = 2)
     obtained_stable_stage_distribution <- stable_stage_dist(matriz)
     expect_equal(expected_stable_stage_distribution, obtained_stable_stage_distribution, tolerance=1e-3)
+  })
+})
+
+describe("r_val", {
+  it("Maximum age: 2 years; matrix: 2x2", {
+    expected_r_val <- c(0.22, 0.78)
+    maximum_age <- 2
+    leslie_matrix <- matrix(c(2, 1, 1, 2), nrow = 2)
+    obtained_r_val <- r_val(leslie_matrix,maximum_age)
+    expect_equal(expected_r_val, obtained_r_val, tolerance=1e-3)
   })
 })
