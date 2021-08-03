@@ -4,4 +4,4 @@ RUN Rscript -e "install.packages(c('plotly'), repos='http://cran.rstudio.com')"
 RUN Rscript -e "install.packages(c('covr', 'devtools', 'lintr', 'roxygen2', 'styler', 'testthat'), repos='http://cran.rstudio.com')"
 
 RUN R CMD build FeralCatEradication && \
-	R CMD INSTALL FeralCatEradication_0.1.0.tar.gz
+	R CMD INSTALL FeralCatEradication_0.1.1.tar.gz

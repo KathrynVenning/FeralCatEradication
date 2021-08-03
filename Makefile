@@ -16,11 +16,11 @@ endef
 check: linter
 
 clean:
+	rm --force --recursive FeralCatEradication.Rcheck
+	rm --force --recursive reports/figures
+	rm --force FeralCatEradication_*.tar.gz
 	rm --force FeralCatEradication/NAMESPACE
 	rm --force Rplots.pdf
-	rm --force --recursive reports/figures
-	rm --force --recursive FeralCatEradication_0.1.0.tar.gz
-	rm --force --recursive FeralCatEradication.Rcheck
 
 coverage: setup
 	R -e "covr::package_coverage('FeralCatEradication')"
@@ -39,8 +39,8 @@ results: src/FeralCatEradication.R src/matrixOperators.R
 setup:
 	R -e "devtools::document('FeralCatEradication')" && \
 	R CMD build FeralCatEradication && \
-	R CMD check FeralCatEradication_0.1.0.tar.gz && \
-	R CMD INSTALL FeralCatEradication_0.1.0.tar.gz
+	R CMD check FeralCatEradication_0.1.1.tar.gz && \
+	R CMD INSTALL FeralCatEradication_0.1.1.tar.gz
 	
 tests:
 	R -e "testthat::test_dir('tests/testthat/', report = 'summary', stop_on_failure = TRUE)"
