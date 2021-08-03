@@ -40,9 +40,6 @@ r_val <- function(leslie_matrix, age_max) {
   # define r_0 (number of female offspring produced per female during lifetime)
   r_0 <- Re((eigen(reproductive_matrix)$values)[1])
 
-  # output
-  print("number of female offspring produced per female during its lifetime")
-  print("_________________________________________________________________")
-  print(r_0)
+  return(r_0)
 
 }
