@@ -41,10 +41,10 @@ describe("Get stable stage distribution", {
 })
 
 describe("r_val", {
-  it("Maximum age: 2 years; matrix: 2x2", {
-    expected_r_val <- c(0.22, 0.78)
-    maximum_age <- 2
-    leslie_matrix <- matrix(c(2, 1, 1, 2), nrow = 2)
+  it("Maximum age: 3 years; matrix: 3x3", {
+    expected_r_val <- c(1)
+    maximum_age <- 3
+    leslie_matrix <- matrix(c(1, 0, 0, 0, 2, 0, 0, 0, 3), nrow = 3)
     obtained_r_val <- r_val(leslie_matrix,maximum_age)
     expect_equal(expected_r_val, obtained_r_val, tolerance=1e-3)
   })
