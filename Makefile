@@ -41,5 +41,6 @@ setup:
 	R CMD build FeralCatEradication && \
 	R CMD check FeralCatEradication_0.1.0.tar.gz && \
 	R CMD INSTALL FeralCatEradication_0.1.0.tar.gz
+	
 tests:
 	R -e "testthat::test_dir('tests/testthat/', report = 'summary', stop_on_failure = TRUE)"
