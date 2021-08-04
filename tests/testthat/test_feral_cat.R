@@ -58,3 +58,13 @@ describe("total_female_offspring_per_female", {
     expect_equal(expected_total_female_offspring_per_female, obtained_total_female_offspring_per_female, tolerance=1e-3)
   })
 })
+
+describe("Mean generation time function", {
+  it("Maximum age: 3 years; matrix: 3x3", {
+    expected_mean_generation <- c(0)
+    maximum_age <- 3
+    leslie_matrix <- matrix(c(1, 0, 0, 0, 2, 0, 0, 0, 3), nrow = 3)
+    obtained_mean_generation <- g_val(leslie_matrix,maximum_age)
+    expect_equal(expected_mean_generation, obtained_mean_generation, tolerance=1e-3)
+  })
+})
