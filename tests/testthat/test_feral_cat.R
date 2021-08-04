@@ -2,11 +2,11 @@ library(testthat)
 library(FeralCatEradication)
 
 describe("Get version of the module", {
-  it("The version is  0.1.2", {
+  it("The version is 0.1.2", {
     expected_version <- c("0.1.2")
     obtained_version <- packageVersion("FeralCatEradication")
-    are_the_same_version <- expected_version == obtained_version
-    expect_true(are_the_same_version)
+    version_are_equal <- expected_version == obtained_version
+    expect_true(version_are_equal)
   })
 })
 
