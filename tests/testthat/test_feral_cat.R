@@ -60,15 +60,15 @@ describe("total_female_offspring_per_female", {
 })
 
 describe("Mean generation time function", {
-  it("Maximum age: 3 years; matrix: 3x3", {
+  it("Maximum age: 3 years; Diagonal matrix: 3x3", {
     expected_mean_generation <- c(0)
     maximum_age <- 3
     leslie_matrix <- matrix(c(1, 0, 0, 0, 2, 0, 0, 0, 3), nrow = 3)
     obtained_mean_generation <- g_val(leslie_matrix,maximum_age)
     expect_equal(expected_mean_generation, obtained_mean_generation, tolerance=1e-3)
   })
-  it("Maximum age: 3 years; matrix: 3x3", {
-    expected_mean_generation <- c(0)
+  it("Kathryn example. Maximum age: 7 years; matrix: 7x7", {
+    expected_mean_generation <- c(3.21)
     maximum_age <- 7
     m_vec <- c((0.745 / 3), 0.745, 2.52, 2.52, 2.52, 2.52, 1.98)
     s_vec <- c(0.46, 0.46, 0.7, 0.7, 0.7, 0.7)
@@ -80,5 +80,4 @@ describe("Mean generation time function", {
     obtained_mean_generation <- g_val(leslie_matrix,maximum_age)
     expect_equal(expected_mean_generation, obtained_mean_generation, tolerance=1e-3)
   })
-})
 })
