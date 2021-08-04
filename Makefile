@@ -27,7 +27,7 @@ coverage: setup
 
 linter:
 	$(lint)
-	$(lint) | grep -e "\^" && exit 1 || exit 0
+	if $(lint) | grep -e "\^" ; then exit 1 ; else exit 0 ; fi
 
 mutants: tests
 	@echo "🙁🏹 No mutation testing on R 👾🎉👾"
