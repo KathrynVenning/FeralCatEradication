@@ -15,6 +15,7 @@ Authors@R: c(
 Description: Stochastic models for prediction feral cat eradication and costs on large islands
 Imports:
     data.table,
+    MASS,
     R6,
     tidyverse
 Suggests:
