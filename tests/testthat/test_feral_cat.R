@@ -1,6 +1,15 @@
 library(testthat)
 library(FeralCatEradication)
 
+describe("Get version of the module", {
+  it("The version is  0.1.2", {
+    expected_version <- c("0.1.2")
+    obtained_version <- packageVersion("FeralCatEradication")
+    are_the_same_version <- expected_version == obtained_version
+    expect_true(are_the_same_version)
+  })
+})
+
 describe("Get the first eigenvalue of the Leslie Matrix", {
   it("Matrix 2x2 real eigenvalues", {
     expected_eigenvalue <- 3
