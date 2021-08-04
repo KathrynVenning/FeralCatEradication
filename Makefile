@@ -27,20 +27,19 @@ coverage: setup
 
 linter:
 	$(lint)
-	$(lint) | grep -e "\^" && exit 1 || exit 0
+	if $(lint) | grep -e "\^" ; then exit 1 ; else exit 0 ; fi
 
 mutants: tests
 	@echo "🙁🏹 No mutation testing on R 👾🎉👾"
 
-results: src/FeralCatEradication.R src/matrixOperators.R
+results: src/FeralCatEradication.R
 	mkdir reports/figures/ --parents
 	Rscript src/FeralCatEradication.R
 
 setup:
-	R -e "devtools::document('FeralCatEradication')" && \
-	R CMD build FeralCatEradication && \
-	R CMD check FeralCatEradication_0.1.1.tar.gz && \
-	R CMD INSTALL FeralCatEradication_0.1.1.tar.gz
+	R CMD build . && \
+	R CMD check FeralCatEradication_0.1.2.tar.gz && \
+	R CMD INSTALL FeralCatEradication_0.1.2.tar.gz
 	
 tests:
 	R -e "testthat::test_dir('tests/testthat/', report = 'summary', stop_on_failure = TRUE)"

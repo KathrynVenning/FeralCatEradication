@@ -1,6 +1,15 @@
 library(testthat)
 library(FeralCatEradication)
 
+describe("Get version of the module", {
+  it("The version is 0.1.2", {
+    expected_version <- c("0.1.2")
+    obtained_version <- packageVersion("FeralCatEradication")
+    version_are_equal <- expected_version == obtained_version
+    expect_true(version_are_equal)
+  })
+})
+
 describe("Get the first eigenvalue of the Leslie Matrix", {
   it("Matrix 2x2 real eigenvalues", {
     expected_eigenvalue <- 3
@@ -47,5 +56,28 @@ describe("total_female_offspring_per_female", {
     leslie_matrix <- matrix(c(1, 0, 0, 0, 2, 0, 0, 0, 3), nrow = 3)
     obtained_total_female_offspring_per_female <- total_female_offspring_per_female(leslie_matrix,maximum_age)
     expect_equal(expected_total_female_offspring_per_female, obtained_total_female_offspring_per_female, tolerance=1e-3)
+  })
+})
+
+describe("Mean generation time function", {
+  it("Maximum age: 3 years; Diagonal matrix: 3x3", {
+    expected_mean_generation <- c(0)
+    maximum_age <- 3
+    leslie_matrix <- matrix(c(1, 0, 0, 0, 2, 0, 0, 0, 3), nrow = 3)
+    obtained_mean_generation <- g_val(leslie_matrix,maximum_age)
+    expect_equal(expected_mean_generation, obtained_mean_generation, tolerance=1e-3)
+  })
+  it("Kathryn example. Maximum age: 7 years; matrix: 7x7", {
+    expected_mean_generation <- c(3.21)
+    maximum_age <- 7
+    m_vec <- c((0.745 / 3), 0.745, 2.52, 2.52, 2.52, 2.52, 1.98)
+    s_vec <- c(0.46, 0.46, 0.7, 0.7, 0.7, 0.7)
+    popmat <- matrix(data = 0, nrow = maximum_age, ncol = maximum_age)
+    diag(popmat[2:maximum_age, ]) <- s_vec
+    popmat[maximum_age, maximum_age] <- 0
+    popmat[1, ] <- m_vec
+    leslie_matrix <- popmat
+    obtained_mean_generation <- g_val(leslie_matrix,maximum_age)
+    expect_equal(expected_mean_generation, obtained_mean_generation, tolerance=1e-3)
   })
 })

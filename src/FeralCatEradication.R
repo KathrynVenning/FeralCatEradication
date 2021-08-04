@@ -9,7 +9,6 @@ rm(list = ls())
 # libraries
 library(plotly)
 library(FeralCatEradication)
-source("src/matrixOperators.R")
 options(scipen = 1000)
 
 # functions
@@ -60,7 +59,7 @@ FeralCatEradication::max_lambda(popmat) # 1-yr lambda
 FeralCatEradication::max_r(popmat) # rate of population change, 1-yr
 FeralCatEradication::stable_stage_dist(popmat) # stable stage distribution
 FeralCatEradication::total_female_offspring_per_female(popmat, age_max) # reproductive value
-gen_l <- g_val(popmat, age_max) # mean generation length
+gen_l <- FeralCatEradication::g_val(popmat, age_max) # mean generation length
 
 # initial population vector
 pop_found <- 1629 # +/- 661 founding population size Hohnen et al 2020
