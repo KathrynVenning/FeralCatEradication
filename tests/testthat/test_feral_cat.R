@@ -67,4 +67,18 @@ describe("Mean generation time function", {
     obtained_mean_generation <- g_val(leslie_matrix,maximum_age)
     expect_equal(expected_mean_generation, obtained_mean_generation, tolerance=1e-3)
   })
+  it("Maximum age: 3 years; matrix: 3x3", {
+    expected_mean_generation <- c(0)
+    maximum_age <- 7
+    m_vec <- c((0.745 / 3), 0.745, 2.52, 2.52, 2.52, 2.52, 1.98)
+    s_vec <- c(0.46, 0.46, 0.7, 0.7, 0.7, 0.7)
+    popmat <- matrix(data = 0, nrow = maximum_age, ncol = maximum_age)
+    diag(popmat[2:maximum_age, ]) <- s_vec
+    popmat[maximum_age, maximum_age] <- 0
+    popmat[1, ] <- m_vec
+    leslie_matrix <- popmat
+    obtained_mean_generation <- g_val(leslie_matrix,maximum_age)
+    expect_equal(expected_mean_generation, obtained_mean_generation, tolerance=1e-3)
+  })
+})
 })
