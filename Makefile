@@ -32,7 +32,7 @@ linter:
 mutants: tests
 	@echo "🙁🏹 No mutation testing on R 👾🎉👾"
 
-results: src/FeralCatEradication.R src/matrixOperators.R
+results: src/FeralCatEradication.R
 	mkdir reports/figures/ --parents
 	Rscript src/FeralCatEradication.R
 
