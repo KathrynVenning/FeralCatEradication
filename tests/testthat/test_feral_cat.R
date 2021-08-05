@@ -10,6 +10,7 @@ describe("Get version of the module", {
   })
 })
 
+leslie_matrix_gotelli <- matrix(c(1.5, 1.5, 0.25, 0, 0.8, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0.25, 0), nrow = 4, byrow=TRUE)
 describe("Get the first eigenvalue of the Leslie Matrix", {
   it("Matrix 2x2 real eigenvalues", {
     expected_eigenvalue <- 3
@@ -81,10 +82,9 @@ describe("Mean generation time function", {
     expect_equal(expected_mean_generation, obtained_mean_generation, tolerance=1e-3)
   })
   it("Gotelli example. Maximum age: 4 years; Diagonal matrix: 4x4", {
-    expected_mean_generation <- c(0)
+    expected_mean_generation <- c(1.392)
     maximum_age <- 4
-    leslie_matrix <- matrix(c(1.5, 1.5, 0.25, 0, 0.8, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0.25, 0), nrow = 4, byrow=TRUE)
-    obtained_mean_generation <- g_val(leslie_matrix,maximum_age)
+    obtained_mean_generation <- g_val(leslie_matrix_gotelli, maximum_age)
     expect_equal(expected_mean_generation, obtained_mean_generation, tolerance=1e-3)
   })
 })
