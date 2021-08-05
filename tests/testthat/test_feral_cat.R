@@ -10,7 +10,17 @@ describe("Get version of the module", {
   })
 })
 
+maximum_age <- 7
+m_vec <- c((0.745 / 3), 0.745, 2.52, 2.52, 2.52, 2.52, 1.98)
+s_vec <- c(0.46, 0.46, 0.7, 0.7, 0.7, 0.7)
+popmat <- matrix(data = 0, nrow = maximum_age, ncol = maximum_age)
+diag(popmat[2:maximum_age, ]) <- s_vec
+popmat[maximum_age, maximum_age] <- 0
+popmat[1, ] <- m_vec
+leslie_matrix_kathryn <- popmat
+
 leslie_matrix_gotelli <- matrix(c(1.5, 1.5, 0.25, 0, 0.8, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0.25, 0), nrow = 4, byrow=TRUE)
+
 describe("Get the first eigenvalue of the Leslie Matrix", {
   it("Matrix 2x2 real eigenvalues", {
     expected_eigenvalue <- 3
@@ -92,14 +102,7 @@ describe("Mean generation time function", {
   it("Kathryn example. Maximum age: 7 years; matrix: 7x7", {
     expected_mean_generation <- c(3.21)
     maximum_age <- 7
-    m_vec <- c((0.745 / 3), 0.745, 2.52, 2.52, 2.52, 2.52, 1.98)
-    s_vec <- c(0.46, 0.46, 0.7, 0.7, 0.7, 0.7)
-    popmat <- matrix(data = 0, nrow = maximum_age, ncol = maximum_age)
-    diag(popmat[2:maximum_age, ]) <- s_vec
-    popmat[maximum_age, maximum_age] <- 0
-    popmat[1, ] <- m_vec
-    leslie_matrix <- popmat
-    obtained_mean_generation <- g_val(leslie_matrix,maximum_age)
+    obtained_mean_generation <- g_val(leslie_matrix_kathryn,maximum_age)
     expect_equal(expected_mean_generation, obtained_mean_generation, tolerance=1e-3)
   })
   it("Gotelli example. Maximum age: 4 years; Diagonal matrix: 4x4", {
