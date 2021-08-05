@@ -80,4 +80,11 @@ describe("Mean generation time function", {
     obtained_mean_generation <- g_val(leslie_matrix,maximum_age)
     expect_equal(expected_mean_generation, obtained_mean_generation, tolerance=1e-3)
   })
+  it("Gotelli example. Maximum age: 4 years; Diagonal matrix: 4x4", {
+    expected_mean_generation <- c(0)
+    maximum_age <- 4
+    leslie_matrix <- matrix(c(1.5, 1.5, 0.25, 0, 0.8, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0.25, 0), nrow = 4, byrow=TRUE)
+    obtained_mean_generation <- g_val(leslie_matrix,maximum_age)
+    expect_equal(expected_mean_generation, obtained_mean_generation, tolerance=1e-3)
+  })
 })
