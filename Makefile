@@ -10,10 +10,18 @@
 
 define lint
 	R -e "library(lintr)" \
+	  -e "lint_dir('R', linters = with_defaults(line_length_linter(120)))" \
+	  -e "lint_dir('tests', linters = with_defaults(line_length_linter(120)))" \
 	  -e "lint_dir('src', linters = with_defaults(line_length_linter(120)))"
 endef
 
-check: linter
+check:
+	R -e "library(styler)" \
+	  -e "resumen <- style_dir('R')" \
+	  -e "resumen <- rbind(resumen, style_dir('src'))" \
+	  -e "resumen <- rbind(resumen, style_dir('tests'))" \
+	  -e "any(resumen[[2]])" \
+	  | grep FALSE
 
 clean:
 	rm --force --recursive FeralCatEradication.Rcheck
