@@ -58,6 +58,12 @@ describe("total_female_offspring_per_female", {
     obtained_total_female_offspring_per_female <- total_female_offspring_per_female(leslie_matrix,maximum_age)
     expect_equal(expected_total_female_offspring_per_female, obtained_total_female_offspring_per_female, tolerance=1e-3)
   })
+  it("Gotelli example. Maximum age: 4 years; Diagonal matrix: 4x4", {
+    expected_total_female_offspring_per_female <- c(2.8)
+    maximum_age <- 4
+    obtained_total_female_offspring_per_female <- total_female_offspring_per_female(leslie_matrix_gotelli, maximum_age)
+    expect_equal(expected_total_female_offspring_per_female, obtained_total_female_offspring_per_female, tolerance=1e-3)
+  })
 })
 
 describe("Mean generation time function", {
