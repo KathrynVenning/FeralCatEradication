@@ -27,7 +27,7 @@ clean:
 	rm --force --recursive FeralCatEradication.Rcheck
 	rm --force --recursive reports/figures
 	rm --force FeralCatEradication_*.tar.gz
-	rm --force FeralCatEradication/NAMESPACE
+	rm --force NAMESPACE
 	rm --force Rplots.pdf
 
 coverage: setup
