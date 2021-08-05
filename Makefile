@@ -34,6 +34,12 @@ coverage: setup
 	R -e "cobertura <- covr::file_coverage(c('R/feral_cat.R'), c('tests/testthat/test_feral_cat.R'))" \
 	  -e "covr::codecov(covertura=cobertura, token='d40cba41-8ee3-414d-9e04-581d33a42b62')"
 
+format:
+	R -e "library(styler)" \
+	  -e "style_dir('R')" \
+	  -e "style_dir('src')" \
+	  -e "style_dir('tests')"
+
 linter:
 	$(lint)
 	if $(lint) | grep -e "\^" ; then exit 1 ; else exit 0 ; fi
