@@ -30,6 +30,11 @@ describe("Get the first eigenvalue of the Leslie Matrix", {
     obtained_eigenvalue <- max_lambda(matriz)
     expect_equal(expected_eigenvalue, obtained_eigenvalue)
   })
+  it("Gotelli example. Maximum age: 4 years; Diagonal matrix: 4x4", {
+    expected_eigenvalue <- 2.095
+    obtained_eigenvalue <- max_lambda(leslie_matrix_gotelli)
+    expect_equal(expected_eigenvalue, obtained_eigenvalue, tolerance=1e-3)
+  })
 })
 
 describe("Get the Malthusian parameter from the Leslie Matrix", {
@@ -39,6 +44,11 @@ describe("Get the Malthusian parameter from the Leslie Matrix", {
     obtained_eigenvalue <- max_r(matriz)
     expect_equal(expected_eigenvalue, obtained_eigenvalue)
   })
+  it("Gotelli example. Maximum age: 4 years; Diagonal matrix: 4x4", {
+    expected_eigenvalue <- 0.7397
+    obtained_eigenvalue <- max_r(leslie_matrix_gotelli)
+    expect_equal(expected_eigenvalue, obtained_eigenvalue, tolerance=1e-3)
+  })
 })
 
 describe("Get stable stage distribution", {
@@ -46,6 +56,11 @@ describe("Get stable stage distribution", {
     expected_stable_stage_distribution <- c(0.22, 0.78)
     matriz <- matrix(c(0, 2, 0.3, 0.5), nrow = 2)
     obtained_stable_stage_distribution <- stable_stage_dist(matriz)
+    expect_equal(expected_stable_stage_distribution, obtained_stable_stage_distribution, tolerance=1e-3)
+  })
+  it("Gotelli example. Maximum age: 4 years; Diagonal matrix: 4x4", {
+    expected_stable_stage_distribution <- c(0.67397, 0.25731, 0.06140, 0.00733)
+    obtained_stable_stage_distribution <- stable_stage_dist(leslie_matrix_gotelli)
     expect_equal(expected_stable_stage_distribution, obtained_stable_stage_distribution, tolerance=1e-3)
   })
 })
