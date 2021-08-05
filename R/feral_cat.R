@@ -41,7 +41,6 @@ total_female_offspring_per_female <- function(leslie_matrix, age_max) {
   r_0 <- Re((eigen(reproductive_matrix)$values)[1])
 
   return(r_0)
-
 }
 
 # Mean generation time function
