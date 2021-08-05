@@ -31,7 +31,8 @@ clean:
 	rm --force Rplots.pdf
 
 coverage: setup
-	R -e "covr::package_coverage('FeralCatEradication')"
+	R -e "cobertura <- covr::file_coverage(c('R/feral_cat.R'), c('tests/testthat/test_feral_cat.R'))" \
+	  -e "covr::codecov(covertura=cobertura, token='d40cba41-8ee3-414d-9e04-581d33a42b62')"
 
 linter:
 	$(lint)
