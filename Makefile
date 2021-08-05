@@ -46,6 +46,7 @@ results: src/FeralCatEradication.R
 	Rscript src/FeralCatEradication.R
 
 setup:
+	R -e "devtools::document()" && \
 	R CMD build . && \
 	R CMD check FeralCatEradication_0.1.3.tar.gz && \
 	R CMD INSTALL FeralCatEradication_0.1.3.tar.gz
