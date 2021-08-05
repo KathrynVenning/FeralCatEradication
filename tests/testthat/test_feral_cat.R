@@ -19,7 +19,7 @@ popmat[maximum_age, maximum_age] <- 0
 popmat[1, ] <- m_vec
 leslie_matrix_kathryn <- popmat
 
-leslie_matrix_gotelli <- matrix(c(1.5, 1.5, 0.25, 0, 0.8, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0.25, 0), nrow = 4, byrow=TRUE)
+leslie_matrix_gotelli <- matrix(c(1.5, 1.5, 0.25, 0, 0.8, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0.25, 0), nrow = 4, byrow = TRUE)
 
 describe("Get the first eigenvalue of the Leslie Matrix", {
   it("Matrix 2x2 real eigenvalues", {
@@ -43,12 +43,12 @@ describe("Get the first eigenvalue of the Leslie Matrix", {
   it("Kathryn example. Maximum age: 7 years; Matrix: 7x7", {
     expected_eigenvalue <- 1.25
     obtained_eigenvalue <- max_lambda(leslie_matrix_kathryn)
-    expect_equal(expected_eigenvalue, obtained_eigenvalue, tolerance=1e-3)
+    expect_equal(expected_eigenvalue, obtained_eigenvalue, tolerance = 1e-3)
   })
   it("Gotelli example. Maximum age: 4 years; Diagonal matrix: 4x4", {
     expected_eigenvalue <- 2.095
     obtained_eigenvalue <- max_lambda(leslie_matrix_gotelli)
-    expect_equal(expected_eigenvalue, obtained_eigenvalue, tolerance=1e-3)
+    expect_equal(expected_eigenvalue, obtained_eigenvalue, tolerance = 1e-3)
   })
 })
 
@@ -62,12 +62,12 @@ describe("Get the Malthusian parameter from the Leslie Matrix", {
   it("Kathryn example. Maximum age: 7 years; Matrix: 7x7", {
     expected_eigenvalue <- 0.223
     obtained_eigenvalue <- max_r(leslie_matrix_kathryn)
-    expect_equal(expected_eigenvalue, obtained_eigenvalue, tolerance=1e-3)
+    expect_equal(expected_eigenvalue, obtained_eigenvalue, tolerance = 1e-3)
   })
   it("Gotelli example. Maximum age: 4 years; Diagonal matrix: 4x4", {
     expected_eigenvalue <- 0.7397
     obtained_eigenvalue <- max_r(leslie_matrix_gotelli)
-    expect_equal(expected_eigenvalue, obtained_eigenvalue, tolerance=1e-3)
+    expect_equal(expected_eigenvalue, obtained_eigenvalue, tolerance = 1e-3)
   })
 })
 
@@ -76,17 +76,17 @@ describe("Get stable stage distribution", {
     expected_stable_stage_distribution <- c(0.22, 0.78)
     matriz <- matrix(c(0, 2, 0.3, 0.5), nrow = 2)
     obtained_stable_stage_distribution <- stable_stage_dist(matriz)
-    expect_equal(expected_stable_stage_distribution, obtained_stable_stage_distribution, tolerance=1e-3)
+    expect_equal(expected_stable_stage_distribution, obtained_stable_stage_distribution, tolerance = 1e-3)
   })
   it("Kathryn example. Maximum age: 7 years; Matrix: 7x7", {
     expected_stable_stage_distribution <- c(0.6026, 0.2219, 0.0817, 0.0458, 0.0256, 0.0144, 0.00733)
     obtained_stable_stage_distribution <- stable_stage_dist(leslie_matrix_kathryn)
-    expect_equal(expected_stable_stage_distribution, obtained_stable_stage_distribution, tolerance=1e-3)
+    expect_equal(expected_stable_stage_distribution, obtained_stable_stage_distribution, tolerance = 1e-3)
   })
   it("Gotelli example. Maximum age: 4 years; Diagonal matrix: 4x4", {
     expected_stable_stage_distribution <- c(0.67397, 0.25731, 0.06140, 0.00733)
     obtained_stable_stage_distribution <- stable_stage_dist(leslie_matrix_gotelli)
-    expect_equal(expected_stable_stage_distribution, obtained_stable_stage_distribution, tolerance=1e-3)
+    expect_equal(expected_stable_stage_distribution, obtained_stable_stage_distribution, tolerance = 1e-3)
   })
 })
 
@@ -95,20 +95,20 @@ describe("total_female_offspring_per_female", {
     expected_total_female_offspring_per_female <- c(1)
     maximum_age <- 3
     leslie_matrix <- matrix(c(1, 0, 0, 0, 2, 0, 0, 0, 3), nrow = 3)
-    obtained_total_female_offspring_per_female <- total_female_offspring_per_female(leslie_matrix,maximum_age)
-    expect_equal(expected_total_female_offspring_per_female, obtained_total_female_offspring_per_female, tolerance=1e-3)
+    obtained_total_female_offspring_per_female <- total_female_offspring_per_female(leslie_matrix, maximum_age)
+    expect_equal(expected_total_female_offspring_per_female, obtained_total_female_offspring_per_female, tolerance = 1e-3)
   })
   it("Kathryn example. Maximum age: 7 years; Matrix: 7x7", {
     expected_total_female_offspring_per_female <- c(2.0427)
     maximum_age <- 7
     obtained_total_female_offspring_per_female <- total_female_offspring_per_female(leslie_matrix_kathryn, maximum_age)
-    expect_equal(expected_total_female_offspring_per_female, obtained_total_female_offspring_per_female, tolerance=1e-3)
+    expect_equal(expected_total_female_offspring_per_female, obtained_total_female_offspring_per_female, tolerance = 1e-3)
   })
   it("Gotelli example. Maximum age: 4 years; Diagonal matrix: 4x4", {
     expected_total_female_offspring_per_female <- c(2.8)
     maximum_age <- 4
     obtained_total_female_offspring_per_female <- total_female_offspring_per_female(leslie_matrix_gotelli, maximum_age)
-    expect_equal(expected_total_female_offspring_per_female, obtained_total_female_offspring_per_female, tolerance=1e-3)
+    expect_equal(expected_total_female_offspring_per_female, obtained_total_female_offspring_per_female, tolerance = 1e-3)
   })
 })
 
@@ -117,19 +117,19 @@ describe("Mean generation time function", {
     expected_mean_generation <- c(0)
     maximum_age <- 3
     leslie_matrix <- matrix(c(1, 0, 0, 0, 2, 0, 0, 0, 3), nrow = 3)
-    obtained_mean_generation <- g_val(leslie_matrix,maximum_age)
-    expect_equal(expected_mean_generation, obtained_mean_generation, tolerance=1e-3)
+    obtained_mean_generation <- g_val(leslie_matrix, maximum_age)
+    expect_equal(expected_mean_generation, obtained_mean_generation, tolerance = 1e-3)
   })
   it("Kathryn example. Maximum age: 7 years; matrix: 7x7", {
     expected_mean_generation <- c(3.21)
     maximum_age <- 7
-    obtained_mean_generation <- g_val(leslie_matrix_kathryn,maximum_age)
-    expect_equal(expected_mean_generation, obtained_mean_generation, tolerance=1e-3)
+    obtained_mean_generation <- g_val(leslie_matrix_kathryn, maximum_age)
+    expect_equal(expected_mean_generation, obtained_mean_generation, tolerance = 1e-3)
   })
   it("Gotelli example. Maximum age: 4 years; Diagonal matrix: 4x4", {
     expected_mean_generation <- c(1.392)
     maximum_age <- 4
     obtained_mean_generation <- g_val(leslie_matrix_gotelli, maximum_age)
-    expect_equal(expected_mean_generation, obtained_mean_generation, tolerance=1e-3)
+    expect_equal(expected_mean_generation, obtained_mean_generation, tolerance = 1e-3)
   })
 })
