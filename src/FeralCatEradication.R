@@ -26,7 +26,7 @@ age_max <- 7
 # Fertility
 # KI cat birth rates matrix, data for female offsping produced each year.
 # Data from Budke, C & Slater, M (2009)
-m_vec <- c((0.745 / 3), 0.745, 2.52, 2.52, 2.52, 2.52, 1.98)
+fertility <- c((0.745 / 3), 0.745, 2.52, 2.52, 2.52, 2.52, 1.98)
 
 # Fertility errors based on Budke & Slater
 # Mean and standard deviations, juvenile fertility:
@@ -34,7 +34,7 @@ juv_m_sd <- mean(c(((0.745 / 3 - 0.352 / 3) / 2), ((1.58 / 3 - 0.745 / 3) / 2)))
 fy_m_sd <- mean(c(((0.745 - 0.352) / 2), ((1.58 - 0.745) / 2))) # Mean and standard deviations, juvenile fertility
 a_m_sd <- mean(c(((2.52 - 1.98) / 2), ((3.78 - 2.52) / 2))) # Mean and standard deviations, adult fertility
 # Mean and standard deviations vector, juvenile and adult fertility:
-m_sd_vec <- c(0.18 * m_vec[1], 0.18 * m_vec[2], a_m_sd, a_m_sd, a_m_sd, a_m_sd, a_m_sd)
+m_sd_vec <- c(0.18 * fertility[1], 0.18 * fertility[2], a_m_sd, a_m_sd, a_m_sd, a_m_sd, a_m_sd)
 
 # Survival
 # KI cat survival
@@ -51,7 +51,7 @@ s_sd_vec <- c(y1_2_s_sd, y1_2_s_sd, a_s_sd, a_s_sd, a_s_sd, a_s_sd)
 popmat <- matrix(data = 0, nrow = age_max, ncol = age_max)
 diag(popmat[2:age_max, ]) <- survival_probability
 popmat[age_max, age_max] <- 0
-popmat[1, ] <- m_vec
+popmat[1, ] <- fertility
 popmat_orig <- popmat # save original matrix
 
 # matrix properties

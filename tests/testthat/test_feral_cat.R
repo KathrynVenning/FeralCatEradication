@@ -11,12 +11,12 @@ describe("Get version of the module", {
 })
 
 maximum_age <- 7
-m_vec <- c((0.745 / 3), 0.745, 2.52, 2.52, 2.52, 2.52, 1.98)
+fertility <- c((0.745 / 3), 0.745, 2.52, 2.52, 2.52, 2.52, 1.98)
 survival_probability <- c(0.46, 0.46, 0.7, 0.7, 0.7, 0.7)
 popmat <- matrix(data = 0, nrow = maximum_age, ncol = maximum_age)
 diag(popmat[2:maximum_age, ]) <- survival_probability
 popmat[maximum_age, maximum_age] <- 0
-popmat[1, ] <- m_vec
+popmat[1, ] <- fertility
 leslie_matrix_kathryn <- popmat
 
 leslie_matrix_gotelli <- matrix(c(1.5, 1.5, 0.25, 0, 0.8, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0.25, 0), nrow = 4, byrow = TRUE)
