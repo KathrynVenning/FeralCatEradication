@@ -39,7 +39,7 @@ m_sd_vec <- c(0.18 * m_vec[1], 0.18 * m_vec[2], a_m_sd, a_m_sd, a_m_sd, a_m_sd, 
 # Survival
 # KI cat survival
 # probability of surviving from one year to the next. e.g surviving fourth year of life
-s_vec <- c(0.46, 0.46, 0.7, 0.7, 0.7, 0.7)
+survival_probability <- c(0.46, 0.46, 0.7, 0.7, 0.7, 0.7)
 
 # survival errors based on Budke & Slater
 y1_2_s_sd <- mean(c(((0.46 - 0.27) / 2), ((0.73 - 0.46) / 2))) # mean and standard deviations, juvenile survival
@@ -49,7 +49,7 @@ s_sd_vec <- c(y1_2_s_sd, y1_2_s_sd, a_s_sd, a_s_sd, a_s_sd, a_s_sd)
 
 # create matrix
 popmat <- matrix(data = 0, nrow = age_max, ncol = age_max)
-diag(popmat[2:age_max, ]) <- s_vec
+diag(popmat[2:age_max, ]) <- survival_probability
 popmat[age_max, age_max] <- 0
 popmat[1, ] <- m_vec
 popmat_orig <- popmat # save original matrix
@@ -141,7 +141,7 @@ popmat <- popmat_orig
 for (i in 1:t) {
   tot_n_i <- sum(n_mat[, i])
   pred_red <- a_lp / (1 + (tot_n_i / b_lp)^c_lp)
-  diag(popmat[2:age_max, ]) <- s_vec * pred_red
+  diag(popmat[2:age_max, ]) <- survival_probability * pred_red
   popmat[age_max, age_max] <- 0
   n_mat[, i + 1] <- popmat %*% n_mat[, i]
 }
