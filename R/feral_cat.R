@@ -62,8 +62,20 @@ coefficients_proportion_realized_survival <- function(k_vec, red_vec){
     trace = TRUE,
     nls.control(maxiter = 1000, tol = 1e-05, minFactor = 1 / 1024)
   )
+  coefficients <- clean_coefficients(fit_lp)
+}
+
+clean_coefficients <- function(fit_lp){
   a_lp <- coef(fit_lp)[1]
   b_lp <- coef(fit_lp)[2]
   c_lp <- coef(fit_lp)[3]
-  coefficients <- list(a_lp, b_lp, c_lp)
+  names(a_lp) <- NULL
+  names(b_lp) <- NULL
+  names(c_lp) <- NULL
+  coefficients <- list(a_lp = a_lp, b_lp = b_lp, c_lp = c_lp)
+}
+
+#' @export
+survival_modifier <- function(tot_n_i, coefficients){
+  pred_red <- coefficients$a_lp / (1 + (tot_n_i / coefficients$b_lp)^coefficients$c_lp)
 }

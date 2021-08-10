@@ -141,7 +141,14 @@ describe("Get parameters of survival modifier", {
     k_vec <- c(1, pop_found / 2, pop_found, 0.75 * k_max, k_max)
     red_vec <- c(1, 0.965, 0.89, 0.79, 0.71)
     obtained_coefficients <- coefficients_proportion_realized_survival(k_vec, red_vec)
-    expected_coefficients <- list(a_lp = 1.001, b_lp = 5459.994, c_lp = 1.690)
+    a_lp <- 1.001
+    b_lp <- 5459.994
+    c_lp <- 1.690
+    expected_coefficients <- list(a_lp = a_lp, b_lp = b_lp, c_lp = c_lp)
     expect_equal(expected_coefficients, obtained_coefficients, tolerance = 1e-3)
+    expect_equal(red_vec[1], survival_modifier(k_vec[1], obtained_coefficients), tolerance = 1e-2)
+    expect_equal(red_vec[2], survival_modifier(k_vec[2], obtained_coefficients), tolerance = 1e-2)
+    expect_equal(red_vec[3], survival_modifier(k_vec[3], obtained_coefficients), tolerance = 1e-2)
+    expect_equal(red_vec[4], survival_modifier(k_vec[4], obtained_coefficients), tolerance = 1e-2)
   })
 })
