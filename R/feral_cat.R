@@ -55,7 +55,7 @@ g_val <- function(leslie_matrix, age_max) {
 coefficients_proportion_realized_survival <- function(red_vec, k_vec){
   k_red_dat <- data.frame(k_vec, red_vec)
   param_init <- c(1, 15000, 2.5)
-  nls(red_vec ~ a / (1 + (k_vec / b)^c),
+  fit_lp <- nls(red_vec ~ a / (1 + (k_vec / b)^c),
     data = k_red_dat,
     algorithm = "port",
     start = c(a = param_init[1], b = param_init[2], c = param_init[3]),
