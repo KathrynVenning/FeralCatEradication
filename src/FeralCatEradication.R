@@ -93,8 +93,7 @@ plot(yrs, n_pred, type = "b", lty = 2, pch = 19, xlab = "year", ylab = "N")
 # Population rate of increase relative to carry capacity
 # Larger distance between populationa and K = faster population growth
 k_max <- 2 * pop_found
-k_min <- 1 # not used
-k_vec <- c(1, pop_found / 2, pop_found, 0.75 * k_max, k_max) # 1= k_min, .75 = red_thresh??
+k_vec <- c(1, pop_found / 2, pop_found, 0.75 * k_max, k_max) # .75 = red_thresh??
 red_thresh <- 0.75 # not used
 red_vec <- c(1, 0.965, 0.89, 0.79, 0.71)
 jpeg("reports/figures/k_vec.jpg")
