@@ -2,8 +2,8 @@ library(testthat)
 library(FeralCatEradication)
 
 describe("Get version of the module", {
-  it("The version is 0.1.3", {
-    expected_version <- c("0.1.3")
+  it("The version is 0.1.4", {
+    expected_version <- c("0.1.4")
     obtained_version <- packageVersion("FeralCatEradication")
     version_are_equal <- expected_version == obtained_version
     expect_true(version_are_equal)
@@ -11,12 +11,12 @@ describe("Get version of the module", {
 })
 
 maximum_age <- 7
-m_vec <- c((0.745 / 3), 0.745, 2.52, 2.52, 2.52, 2.52, 1.98)
-s_vec <- c(0.46, 0.46, 0.7, 0.7, 0.7, 0.7)
+fertility <- c((0.745 / 3), 0.745, 2.52, 2.52, 2.52, 2.52, 1.98)
+survival_probability <- c(0.46, 0.46, 0.7, 0.7, 0.7, 0.7)
 popmat <- matrix(data = 0, nrow = maximum_age, ncol = maximum_age)
-diag(popmat[2:maximum_age, ]) <- s_vec
+diag(popmat[2:maximum_age, ]) <- survival_probability
 popmat[maximum_age, maximum_age] <- 0
-popmat[1, ] <- m_vec
+popmat[1, ] <- fertility
 leslie_matrix_kathryn <- popmat
 
 leslie_matrix_gotelli <- matrix(c(1.5, 1.5, 0.25, 0, 0.8, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0.25, 0), nrow = 4, byrow = TRUE)
@@ -131,5 +131,28 @@ describe("Mean generation time function", {
     maximum_age <- 4
     obtained_mean_generation <- g_val(leslie_matrix_gotelli, maximum_age)
     expect_equal(expected_mean_generation, obtained_mean_generation, tolerance = 1e-3)
+  })
+})
+
+describe("Get parameters of survival modifier", {
+  it("Kathryn example", {
+    pop_found <- 1629
+    k_max <- 2 * pop_found
+    k_vec <- c(1, pop_found / 2, pop_found, 0.75 * k_max, k_max)
+    red_vec <- c(1, 0.965, 0.89, 0.79, 0.71)
+    obtained_coefficients <- coefficients_proportion_realized_survival(k_vec, red_vec)
+    a_lp <- 1.001
+    b_lp <- 5459.994
+    c_lp <- 1.690
+    expected_coefficients <- list(a_lp = a_lp, b_lp = b_lp, c_lp = c_lp)
+    expect_equal(expected_coefficients, obtained_coefficients, tolerance = 1e-3)
+    assert_survival_modifier <- function(i) {
+      expect_equal(red_vec[i], survival_modifier(k_vec[i], obtained_coefficients), tolerance = 1e-2)
+    }
+    assert_survival_modifier(1)
+    assert_survival_modifier(2)
+    assert_survival_modifier(3)
+    assert_survival_modifier(4)
+    assert_survival_modifier(5)
   })
 })
