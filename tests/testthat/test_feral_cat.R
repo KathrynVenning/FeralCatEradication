@@ -146,9 +146,13 @@ describe("Get parameters of survival modifier", {
     c_lp <- 1.690
     expected_coefficients <- list(a_lp = a_lp, b_lp = b_lp, c_lp = c_lp)
     expect_equal(expected_coefficients, obtained_coefficients, tolerance = 1e-3)
-    expect_equal(red_vec[1], survival_modifier(k_vec[1], obtained_coefficients), tolerance = 1e-2)
-    expect_equal(red_vec[2], survival_modifier(k_vec[2], obtained_coefficients), tolerance = 1e-2)
-    expect_equal(red_vec[3], survival_modifier(k_vec[3], obtained_coefficients), tolerance = 1e-2)
-    expect_equal(red_vec[4], survival_modifier(k_vec[4], obtained_coefficients), tolerance = 1e-2)
+    assert_survival_modifier <- function(i) {
+      expect_equal(red_vec[i], survival_modifier(k_vec[i], obtained_coefficients), tolerance = 1e-2)
+    }
+    assert_survival_modifier(1)
+    assert_survival_modifier(2)
+    assert_survival_modifier(3)
+    assert_survival_modifier(4)
+    assert_survival_modifier(5)
   })
 })
