@@ -95,35 +95,6 @@ plot(yrs, n_pred, type = "b", lty = 2, pch = 19, xlab = "year", ylab = "N")
 k_max <- 2 * pop_found
 k_vec <- c(1, pop_found / 2, pop_found, 0.75 * k_max, k_max)
 red_vec <- c(1, 0.965, 0.89, 0.79, 0.71)
-jpeg("reports/figures/k_vec.jpg")
-plot(k_vec, red_vec, pch = 19, type = "b")
-dev.off()
-k_red_dat <- data.frame(k_vec, red_vec)
-
-# logistic power function a/(1+(x/b)^c) #fits logistic power function to population relative to carry capacity, K
-param_init <- c(1, 15000, 2.5)
-fit_lp <- nls(red_vec ~ a / (1 + (k_vec / b)^c),
-  data = k_red_dat,
-  algorithm = "port",
-  start = c(a = param_init[1], b = param_init[2], c = param_init[3]),
-  trace = TRUE,
-  nls.control(maxiter = 1000, tol = 1e-05, minFactor = 1 / 1024)
-)
-fit_lp_summ <- summary(fit_lp)
-jpeg("reports/figures/reduction_factor.jpg")
-plot(k_vec, red_vec, pch = 19, xlab = "N", ylab = "reduction factor")
-dev.off()
-k_vec_cont <- seq(1, 2 * pop_found, 1)
-pred_lp_fx <- coef(fit_lp)[1] / (1 + (k_vec_cont / coef(fit_lp)[2])^coef(fit_lp)[3])
-lines(k_vec_cont, pred_lp_fx, lty = 2, lwd = 3, col = "red")
-
-a_lp <- coef(fit_lp)[1]
-b_lp <- coef(fit_lp)[2]
-c_lp <- coef(fit_lp)[3]
-
-print(a_lp)
-print(b_lp)
-print(c_lp)
 
 # compensatory density-feedback deterministic model
 # set population storage matrices
