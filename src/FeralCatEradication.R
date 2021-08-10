@@ -95,6 +95,7 @@ plot(yrs, n_pred, type = "b", lty = 2, pch = 19, xlab = "year", ylab = "N")
 k_max <- 2 * pop_found
 k_vec <- c(1, pop_found / 2, pop_found, 0.75 * k_max, k_max)
 red_vec <- c(1, 0.965, 0.89, 0.79, 0.71)
+coefficients <- coefficients_proportion_realized_survival(k_vec, red_vec)
 
 # compensatory density-feedback deterministic model
 # set population storage matrices
@@ -105,7 +106,7 @@ popmat <- popmat_orig
 # set up projection loop
 for (i in 1:t) {
   tot_n_i <- sum(n_mat[, i])
-  pred_red <- a_lp / (1 + (tot_n_i / b_lp)^c_lp)
+  pred_red <- survival_modifier(tot_n_i, coefficients)
   diag(popmat[2:age_max, ]) <- survival_probability * pred_red
   popmat[age_max, age_max] <- 0
   n_mat[, i + 1] <- popmat %*% n_mat[, i]
