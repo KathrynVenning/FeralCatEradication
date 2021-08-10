@@ -136,12 +136,12 @@ describe("Mean generation time function", {
 
 describe("Get parameters of survival modifier", {
   it("Kathryn example", {
-    pop_found <- 1609
+    pop_found <- 1629
     k_max <- 2 * pop_found
     k_vec <- c(1, pop_found / 2, pop_found, 0.75 * k_max, k_max)
     red_vec <- c(1, 0.965, 0.89, 0.79, 0.71)
     obtained_coefficients <- coefficients_proportion_realized_survival(k_vec, red_vec)
     expected_coefficients <- list(a_lp = 1.001, b_lp = 5459.994, c_lp = 1.690)
-    expect_true(expected_coefficients, obtained_coefficients, tolerance = 1e-3)
+    expect_equal(expected_coefficients, obtained_coefficients, tolerance = 1e-3)
   })
 })
