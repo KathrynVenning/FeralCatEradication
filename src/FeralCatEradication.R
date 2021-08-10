@@ -55,9 +55,6 @@ popmat[1, ] <- fertility
 popmat_orig <- popmat # save original matrix
 
 # matrix properties
-FeralCatEradication::max_lambda(popmat) # 1-yr lambda
-FeralCatEradication::max_r(popmat) # rate of population change, 1-yr
-FeralCatEradication::total_female_offspring_per_female(popmat, age_max) # reproductive value
 gen_l <- FeralCatEradication::g_val(popmat, age_max) # mean generation length
 
 # initial population vector
