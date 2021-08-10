@@ -52,7 +52,7 @@ g_val <- function(leslie_matrix, age_max) {
 }
 
 #' @export
-coefficients_proportion_realized_survival <- function(k_vec, red_vec){
+coefficients_proportion_realized_survival <- function(k_vec, red_vec) {
   k_red_dat <- data.frame(k_vec, red_vec)
   param_init <- c(1, 15000, 2.5)
   fit_lp <- nls(red_vec ~ a / (1 + (k_vec / b)^c),
@@ -65,7 +65,7 @@ coefficients_proportion_realized_survival <- function(k_vec, red_vec){
   coefficients <- clean_coefficients(fit_lp)
 }
 
-clean_coefficients <- function(fit_lp){
+clean_coefficients <- function(fit_lp) {
   a_lp <- coef(fit_lp)[1]
   b_lp <- coef(fit_lp)[2]
   c_lp <- coef(fit_lp)[3]
@@ -76,6 +76,6 @@ clean_coefficients <- function(fit_lp){
 }
 
 #' @export
-survival_modifier <- function(tot_n_i, coefficients){
+survival_modifier <- function(tot_n_i, coefficients) {
   pred_red <- coefficients$a_lp / (1 + (tot_n_i / coefficients$b_lp)^coefficients$c_lp)
 }
