@@ -49,3 +49,18 @@ g_val <- function(leslie_matrix, age_max) {
   mean_generation_time <- (log(total_female_offspring_per_female(leslie_matrix, age_max))) / (log(Re((eigen(leslie_matrix)$values)[1])))
   return(mean_generation_time)
 }
+
+coefficients_proportion_realized_survival <- function(red_vec, k_vec){
+  param_init <- c(1, 15000, 2.5)
+  nls(red_vec ~ a / (1 + (k_vec / b)^c),
+    data = k_red_dat,
+    algorithm = "port",
+    start = c(a = param_init[1], b = param_init[2], c = param_init[3]),
+    trace = TRUE,
+    nls.control(maxiter = 1000, tol = 1e-05, minFactor = 1 / 1024)
+  )
+  a_lp <- coef(fit_lp)[1]
+  b_lp <- coef(fit_lp)[2]
+  c_lp <- coef(fit_lp)[3]
+  coefficients <- list(a_lp, b_lp, c_lp)
+}
