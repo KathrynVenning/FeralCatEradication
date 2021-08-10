@@ -45,12 +45,15 @@ total_female_offspring_per_female <- function(leslie_matrix, age_max) {
 
 # Mean generation time function
 # where leslie_matrix is a Leslie Matrix
+#' @export
 g_val <- function(leslie_matrix, age_max) {
   mean_generation_time <- (log(total_female_offspring_per_female(leslie_matrix, age_max))) / (log(Re((eigen(leslie_matrix)$values)[1])))
   return(mean_generation_time)
 }
 
+#' @export
 coefficients_proportion_realized_survival <- function(red_vec, k_vec){
+  k_red_dat <- data.frame(k_vec, red_vec)
   param_init <- c(1, 15000, 2.5)
   nls(red_vec ~ a / (1 + (k_vec / b)^c),
     data = k_red_dat,
