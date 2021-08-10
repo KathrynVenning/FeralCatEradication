@@ -1,6 +1,6 @@
 Package: FeralCatEradication
 Title: Predicting feral cat-reduction targets and costs on large islands using stochastic population models
-Version: 0.1.4
+Version: 0.1.5
 Authors@R: c(
     person(given = "Kathryn",
            family = "Venning",
