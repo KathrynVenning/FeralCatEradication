@@ -135,20 +135,20 @@ describe("Mean generation time function", {
 })
 
 describe("Get parameters of survival modifier", {
+  pop_found <- 1629
+  k_max <- 2 * pop_found
+  k_vec <- c(1, pop_found / 2, pop_found, 0.75 * k_max, k_max)
+  red_vec <- c(1, 0.965, 0.89, 0.79, 0.71)
+  obtained_coefficients <- coefficients_proportion_realized_survival(k_vec, red_vec)
+  assert_survival_modifier <- function(i) {
+    expect_equal(red_vec[i], survival_modifier(k_vec[i], obtained_coefficients), tolerance = 1e-2)
+  }
   it("Kathryn example", {
-    pop_found <- 1629
-    k_max <- 2 * pop_found
-    k_vec <- c(1, pop_found / 2, pop_found, 0.75 * k_max, k_max)
-    red_vec <- c(1, 0.965, 0.89, 0.79, 0.71)
-    obtained_coefficients <- coefficients_proportion_realized_survival(k_vec, red_vec)
     a_lp <- 1.001
     b_lp <- 5459.994
     c_lp <- 1.690
     expected_coefficients <- list(a_lp = a_lp, b_lp = b_lp, c_lp = c_lp)
     expect_equal(expected_coefficients, obtained_coefficients, tolerance = 1e-3)
-    assert_survival_modifier <- function(i) {
-      expect_equal(red_vec[i], survival_modifier(k_vec[i], obtained_coefficients), tolerance = 1e-2)
-    }
     assert_survival_modifier(1)
     assert_survival_modifier(2)
     assert_survival_modifier(3)
