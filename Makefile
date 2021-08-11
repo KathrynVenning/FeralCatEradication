@@ -1,9 +1,9 @@
 png_reduction_factor = \
-	reports/figures/reduction_factor.png \
-	reports/figures/k_vec.png
+	reports/figures/k_vec.png \
+	reports/figures/reduction_factor.png
 
-$(png_reduction_factor): src/FeralCatEradication.R
-	mkdir reports/figures/ --parents
+$(png_reduction_factor): src/plot_reduction_factor.R
+	mkdir --parents $(@D)
 	Rscript src/plot_reduction_factor.R
 
 .PHONY: \
