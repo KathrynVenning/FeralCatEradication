@@ -1,3 +1,11 @@
+png_reduction_factor = \
+	reports/figures/reduction_factor.png \
+	reports/figures/k_vec.png
+
+$(png_reduction_factor): src/FeralCatEradication.R
+	mkdir reports/figures/ --parents
+	Rscript src/plot_reduction_factor.R
+
 .PHONY: \
 		check \
 		clean \
