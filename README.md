@@ -4,7 +4,7 @@ Stochastic models for predicting feral cat eradication and costs on large island
 
 This repository is a fork of
 [FeralCatEradication](https://github.com/KathrynVenning/FeralCatEradication) by [Kathryn
-Venning](https://github.com/KathrynVenning) <kathryn.venning@flinders.edu.au> at Flinders
+Venning](https://github.com/KathrynVenning) (<kathryn.venning@flinders.edu.au>) at Flinders
 University, Adelaide, Australia, in collaboration with/under supervision of Corey Bradshaw and
 Frédérik Saltré.
 
