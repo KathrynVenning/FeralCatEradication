@@ -1,6 +1,6 @@
 # FeralCatEradication
 
-Stochastic models for predicting feral cat eradication and costs on large islands.
+## Stochastic models for predicting feral cat eradication and costs on large islands.
 
 This repository is a fork of
 [FeralCatEradication](https://github.com/KathrynVenning/FeralCatEradication) by [Kathryn
