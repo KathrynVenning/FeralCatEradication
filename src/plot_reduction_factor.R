@@ -25,17 +25,6 @@ plot(k_vec, red_vec, pch = 19)
 dev.off()
 k_red_dat <- data.frame(k_vec, red_vec)
 
-# logistic power function a/(1+(x/b)^c) #fits logistic power function to population relative to carry capacity, K
-param_init <- c(1, 15000, 2.5)
-fit_lp <- nls(red_vec ~ a / (1 + (k_vec / b)^c),
-  data = k_red_dat,
-  algorithm = "port",
-  start = c(a = param_init[1], b = param_init[2], c = param_init[3]),
-  trace = TRUE,
-  nls.control(maxiter = 1000, tol = 1e-05, minFactor = 1 / 1024)
-)
-fit_lp_summ <- summary(fit_lp)
 jpeg("reports/figures/reduction_factor.jpg")
 plot(k_vec, red_vec, pch = 19, type = "b", xlab = "N", ylab = "reduction factor")
 dev.off()
-
