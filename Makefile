@@ -1,8 +1,4 @@
-png_reduction_factor = \
-	reports/figures/k_vec.png \
-	reports/figures/reduction_factor.png
-
-$(png_reduction_factor): src/plot_reduction_factor.R
+reports/figures/reduction_factor.jpg: src/plot_reduction_factor.R
 	mkdir --parents $(@D)
 	Rscript src/plot_reduction_factor.R
 
