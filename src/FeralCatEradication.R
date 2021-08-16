@@ -87,7 +87,12 @@ for (i in 1:t) {
 # Number of predators - cats - through time period, no density reduction treatment, no carry capacity
 n_pred <- colSums(n_mat)
 yrs <- seq(yr_now, yr_end, 1)
-plot(yrs, n_pred, type = "b", lty = 2, pch = 19, xlab = "year", ylab = "N")
+predators <- tibble(yrs, n_pred)
+ggplot(data = predators, aes(x = yrs, y = n_pred)) +
+  geom_point(shape=19) +
+  geom_line(linetype="dashed") +
+  labs(x = "year", y = "N")
+ggsave("reports/figures/time_serie_predators.jpg")
 
 # Compensatory density feedback
 # K = carry capacity
