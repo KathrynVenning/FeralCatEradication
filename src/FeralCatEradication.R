@@ -107,7 +107,7 @@ popmat <- popmat_orig
 # set up projection loop
 for (i in 1:t) {
   tot_n_i <- sum(n_mat[, i])
-  pred_red <- survival_modifier(tot_n_i, coefficients)
+  pred_red <- FeralCatEradication::survival_modifier(tot_n_i, coefficients)
   diag(popmat[2:age_max, ]) <- survival_probability * pred_red
   popmat[age_max, age_max] <- 0
   n_mat[, i + 1] <- popmat %*% n_mat[, i]
