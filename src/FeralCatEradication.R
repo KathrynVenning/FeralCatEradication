@@ -73,7 +73,6 @@ t <- (yr_end - yr_now) # timeframe
 
 tot_f <- sum(popmat_orig[1, ])
 popmat <- popmat_orig # resets matrix
-yr_vec <- seq(yr_now, yr_end) # year vector, 2020, 2021, 2022...
 
 # set population storage matrices
 n_mat <- matrix(0, nrow = age_max, ncol = (t + 1)) # empty matrix
