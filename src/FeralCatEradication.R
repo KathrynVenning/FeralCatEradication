@@ -119,10 +119,6 @@ capacity <- tibble(yrs, n_pred)
 ggplot(data=capacity, aes(yrs, n_pred)) +
   geom_point() +
   labs(x = "year", y = "N") +
-  lims(y = c(0, 1.05 * k_max))
-#abline(h = k_max, lty = 2, col = "red") # carry capacity
-#legend(yrs[2], n_pred[6],
-#  legend = c("N", "Carry capacity"),
-#  col = c("black", "red"), lty = 1:2, cex = 0.8
-#)
+  lims(y = c(0, 1.05 * k_max)) +
+  geom_hline(yintercept=k_max, linetype="dashed", color = "red")
 ggsave("reports/figures/something_with_Carry_capacity.jpg")
