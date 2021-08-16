@@ -7,9 +7,6 @@
 rm(list = ls())
 
 # libraries
-library(plotly)
-library(FeralCatEradication)
-options(scipen = 1000)
 library(ggplot2)
 
 
