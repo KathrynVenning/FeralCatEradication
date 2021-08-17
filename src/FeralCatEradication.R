@@ -112,6 +112,7 @@ marcasEjeY <- pretty(c(0, 1.05 * k_max))
 ggplot(data = capacity, aes(yrs, n_pred)) +
   geom_point() +
   geom_hline(aes(yintercept = k_max, linetype = "Capacidad de carga"), color = "red") +
+  scale_linetype_manual(name = "", values = ("dotted")) +
   theme_classic() +
   scale_y_continuous(
     expand = c(0, 0),
