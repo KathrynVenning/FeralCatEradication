@@ -121,6 +121,5 @@ ggplot(data = capacity, aes(yrs, n_pred)) +
     limits = range(marcasEjeY),
     breaks = marcasEjeY
   ) +
-  xlim(c(0,11)) +
   labs(x = "year", y = "N")
 ggsave("reports/figures/something_with_Carry_capacity.jpg")
