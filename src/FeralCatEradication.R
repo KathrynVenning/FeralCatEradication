@@ -3,9 +3,6 @@
 # feral cat reduction on Kangaroo Island
 # requires library - Plotly
 
-# remove everything
-rm(list = ls())
-
 # libraries
 library(plotly)
 library(FeralCatEradication)
