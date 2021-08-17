@@ -105,9 +105,15 @@ for (i in 1:t) {
 n_pred <- colSums(n_mat)
 capacity <- tibble(yrs, n_pred)
 # Untreated population increases, rate of increase relative to K, no stochastic sampling:
+marcasEjeY <- pretty(c(0, 1.05 * k_max))
 ggplot(data=capacity, aes(yrs, n_pred)) +
   geom_point() +
-  labs(x = "year", y = "N") +
-  lims(y = c(0, 1.05 * k_max)) +
-  geom_hline(yintercept=k_max, linetype="dashed", color = "red")
+  geom_hline(yintercept=k_max, linetype="dashed", color = "red") +
+  theme_classic() +
+  scale_y_continuous(
+    expand = c(0,0),
+    limits = range(marcasEjeY),
+    breaks = marcasEjeY
+  ) +
+  labs(x = "year", y = "N")
 ggsave("reports/figures/something_with_Carry_capacity.jpg")
