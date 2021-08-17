@@ -64,12 +64,12 @@ for (i in 1:t) {
   n_mat[, i + 1] <- popmat %*% n_mat[, i]
 }
 
-# Number of predators - cats - through time period, no density reduction treatment, no carry capacity
+# Number of individuals - cats - through time period, no density reduction treatment, no carry capacity
 n_pred <- colSums(n_mat)
 yrs <- seq(yr_now, yr_end, 1)
-predators <- tibble(yrs = as.character(yrs), n_pred)
-marcasEjeY <- pretty(c(0, max(predators$n_pred)))
-ggplot(data = predators, aes(x = yrs, y = n_pred)) +
+individuals <- tibble(yrs = as.character(yrs), n_pred)
+marcasEjeY <- pretty(c(0, max(individuals$n_pred)))
+ggplot(data = individuals, aes(x = yrs, y = n_pred)) +
   geom_point(shape = 19) +
   geom_line(linetype = "dashed") +
   theme_classic() +
@@ -78,8 +78,8 @@ ggplot(data = predators, aes(x = yrs, y = n_pred)) +
     limits = range(marcasEjeY),
     breaks = marcasEjeY
   ) +
-  labs(x = "", y = "Number of predators (cats)")
-ggsave("reports/figures/time_serie_predators.jpg")
+  labs(x = "", y = "Number of individuals (cats)")
+ggsave("reports/figures/time_serie_individuals.jpg")
 
 # Compensatory density feedback
 # K = carry capacity
@@ -118,5 +118,5 @@ ggplot(data = capacity, aes(yrs, n_pred)) +
     limits = c(marcasEjeY[1], marcasEjeY[length(marcasEjeY)]),
     breaks = marcasEjeY
   ) +
-  labs(x = "", y = "Number of predators (cats)")
-ggsave("reports/figures/time_serie_predators_with_carry_capacity.jpg")
+  labs(x = "", y = "Number of individuals (cats)")
+ggsave("reports/figures/time_serie_individuals_with_carry_capacity.jpg")
