@@ -70,11 +70,17 @@ for (i in 1:t) {
 # Number of predators - cats - through time period, no density reduction treatment, no carry capacity
 n_pred <- colSums(n_mat)
 yrs <- seq(yr_now, yr_end, 1)
-predators <- tibble(yrs, n_pred)
+predators <- tibble(yrs = as.character(yrs), n_pred)
+marcasEjeY <- pretty(c(0, max(predators$n_pred)))
 ggplot(data = predators, aes(x = yrs, y = n_pred)) +
   geom_point(shape = 19) +
   geom_line(linetype = "dashed") +
   theme_classic() +
+  scale_y_continuous(
+    expand = c(0, 0),
+    limits = range(marcasEjeY),
+    breaks = marcasEjeY
+  ) +
   labs(x = "year", y = "N")
 ggsave("reports/figures/time_serie_predators.jpg")
 
@@ -103,7 +109,7 @@ for (i in 1:t) {
 }
 
 n_pred <- colSums(n_mat)
-capacity <- tibble(yrs, n_pred)
+capacity <- tibble(yrs = as.character(yrs), n_pred)
 # Untreated population increases, rate of increase relative to K, no stochastic sampling:
 marcasEjeY <- pretty(c(0, 1.05 * k_max))
 ggplot(data = capacity, aes(yrs, n_pred)) +
@@ -115,5 +121,6 @@ ggplot(data = capacity, aes(yrs, n_pred)) +
     limits = range(marcasEjeY),
     breaks = marcasEjeY
   ) +
+  xlim(c(0,11)) +
   labs(x = "year", y = "N")
 ggsave("reports/figures/something_with_Carry_capacity.jpg")
