@@ -81,7 +81,7 @@ ggplot(data = predators, aes(x = yrs, y = n_pred)) +
     limits = range(marcasEjeY),
     breaks = marcasEjeY
   ) +
-  labs(x = "year", y = "N")
+  labs(x = "", y = "Number of predators (cats)")
 ggsave("reports/figures/time_serie_predators.jpg")
 
 # Compensatory density feedback
@@ -118,8 +118,8 @@ ggplot(data = capacity, aes(yrs, n_pred)) +
   theme_classic() +
   scale_y_continuous(
     expand = c(0, 0),
-    limits = range(marcasEjeY),
+    limits = c(marcasEjeY[1], marcasEjeY[length(marcasEjeY)]),
     breaks = marcasEjeY
   ) +
-  labs(x = "year", y = "N")
-ggsave("reports/figures/something_with_Carry_capacity.jpg")
+  labs(x = "", y = "Number of predators (cats)")
+ggsave("reports/figures/time_serie_predators_with_carry_capacity.jpg")

@@ -20,9 +20,22 @@ k_vec <- c(1, pop_found / 2, pop_found, 0.75 * k_max, k_max)
 red_vec <- c(1, 0.965, 0.89, 0.79, 0.71)
 k_red_dat <- data.frame(k_vec, red_vec)
 
+marcasEjeY <- pretty(c(min(red_vec), max(red_vec)))
+ticks_axis_x <- pretty(c(min(k_vec), max(k_vec)))
 ggplot(k_red_dat, aes(k_vec, red_vec)) +
   geom_point() +
   geom_line() +
   theme_classic() +
-  labs(x = "N", y = "Reduction factor")
+  scale_x_continuous(
+    expand = c(0, 0),
+    limits = range(ticks_axis_x),
+    breaks = ticks_axis_x
+  ) +
+  theme(axis.text.x = element_text(hjust = 1)) +
+  scale_y_continuous(
+    expand = c(0, 0),
+    limits = range(marcasEjeY),
+    breaks = marcasEjeY
+  ) +
+  labs(x = "Number of predators (cats)", y = "Reduction factor")
 ggsave("reports/figures/reduction_factor.jpg")
