@@ -74,6 +74,7 @@ predators <- tibble(yrs, n_pred)
 ggplot(data = predators, aes(x = yrs, y = n_pred)) +
   geom_point(shape=19) +
   geom_line(linetype="dashed") +
+  theme_classic() +
   labs(x = "year", y = "N")
 ggsave("reports/figures/time_serie_predators.jpg")
 

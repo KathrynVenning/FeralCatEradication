@@ -23,5 +23,6 @@ k_red_dat <- data.frame(k_vec, red_vec)
 ggplot(k_red_dat, aes(k_vec, red_vec)) +
   geom_point() +
   geom_line() +
+  theme_classic() +
   labs(x = "N", y = "Reduction factor")
 ggsave("reports/figures/reduction_factor.jpg")
