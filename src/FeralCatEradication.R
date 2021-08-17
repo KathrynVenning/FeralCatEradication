@@ -28,7 +28,7 @@ age_max <- length(fertility)
 # probability of surviving from one year to the next. e.g surviving fourth year of life
 survival_probability <- c(0.46, 0.46, 0.7, 0.7, 0.7, 0.7)
 # create matrix
-matrix_leslie <- function(fertility, survival_probability){
+matrix_leslie <- function(fertility, survival_probability) {
   age_max <- length(fertility)
   popmat <- matrix(data = 0, nrow = age_max, ncol = age_max)
   diag(popmat[2:age_max, ]) <- survival_probability
@@ -72,8 +72,8 @@ n_pred <- colSums(n_mat)
 yrs <- seq(yr_now, yr_end, 1)
 predators <- tibble(yrs, n_pred)
 ggplot(data = predators, aes(x = yrs, y = n_pred)) +
-  geom_point(shape=19) +
-  geom_line(linetype="dashed") +
+  geom_point(shape = 19) +
+  geom_line(linetype = "dashed") +
   theme_classic() +
   labs(x = "year", y = "N")
 ggsave("reports/figures/time_serie_predators.jpg")
@@ -106,12 +106,12 @@ n_pred <- colSums(n_mat)
 capacity <- tibble(yrs, n_pred)
 # Untreated population increases, rate of increase relative to K, no stochastic sampling:
 marcasEjeY <- pretty(c(0, 1.05 * k_max))
-ggplot(data=capacity, aes(yrs, n_pred)) +
+ggplot(data = capacity, aes(yrs, n_pred)) +
   geom_point() +
-  geom_hline(yintercept=k_max, linetype="dashed", color = "red") +
+  geom_hline(yintercept = k_max, linetype = "dashed", color = "red") +
   theme_classic() +
   scale_y_continuous(
-    expand = c(0,0),
+    expand = c(0, 0),
     limits = range(marcasEjeY),
     breaks = marcasEjeY
   ) +
