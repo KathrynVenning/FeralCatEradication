@@ -111,7 +111,7 @@ capacity <- tibble(yrs = as.character(yrs), n_pred)
 marcasEjeY <- pretty(c(0, 1.05 * k_max))
 ggplot(data = capacity, aes(yrs, n_pred)) +
   geom_point() +
-  geom_hline(yintercept = k_max, linetype = "dashed", color = "red") +
+  geom_hline(aes(yintercept = k_max, linetype = "Capacidad de carga"), color = "red") +
   theme_classic() +
   scale_y_continuous(
     expand = c(0, 0),
