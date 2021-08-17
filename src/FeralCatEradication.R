@@ -3,55 +3,37 @@
 # feral cat reduction on Kangaroo Island
 # requires library - Plotly
 
-# remove everything
-rm(list = ls())
-
 # libraries
 library(plotly)
 library(FeralCatEradication)
 options(scipen = 1000)
-
-# functions
-# beta distribution shape parameter estimator function
-est_beta_params <- function(mu, var) {
-  alpha <- ((1 - mu) / var - 1 / mu) * mu^2
-  beta <- alpha * (1 / mu - 1)
-  return(params = list(alpha = alpha, beta = beta))
-}
+library(tidyverse)
 
 # create Leslie matrix
-age_max <- 7
 
 # Create vectors
 # Fertility
 # KI cat birth rates matrix, data for female offsping produced each year.
 # Data from Budke, C & Slater, M (2009)
 fertility <- c((0.745 / 3), 0.745, 2.52, 2.52, 2.52, 2.52, 1.98)
+age_max <- length(fertility)
 
 # Fertility errors based on Budke & Slater
 # Mean and standard deviations, juvenile fertility:
-juv_m_sd <- mean(c(((0.745 / 3 - 0.352 / 3) / 2), ((1.58 / 3 - 0.745 / 3) / 2)))
-fy_m_sd <- mean(c(((0.745 - 0.352) / 2), ((1.58 - 0.745) / 2))) # Mean and standard deviations, juvenile fertility
-a_m_sd <- mean(c(((2.52 - 1.98) / 2), ((3.78 - 2.52) / 2))) # Mean and standard deviations, adult fertility
-# Mean and standard deviations vector, juvenile and adult fertility:
-m_sd_vec <- c(0.18 * fertility[1], 0.18 * fertility[2], a_m_sd, a_m_sd, a_m_sd, a_m_sd, a_m_sd)
-
 # Survival
 # KI cat survival
 # probability of surviving from one year to the next. e.g surviving fourth year of life
 survival_probability <- c(0.46, 0.46, 0.7, 0.7, 0.7, 0.7)
-
-# survival errors based on Budke & Slater
-y1_2_s_sd <- mean(c(((0.46 - 0.27) / 2), ((0.73 - 0.46) / 2))) # mean and standard deviations, juvenile survival
-a_s_sd <- mean(c(((0.7 - 0.55) / 2), ((0.78 - 0.7) / 2))) # mean and standard deviations, adult survival
-# Mean and standard deviations vector, juvenile and adult survival:
-s_sd_vec <- c(y1_2_s_sd, y1_2_s_sd, a_s_sd, a_s_sd, a_s_sd, a_s_sd)
-
 # create matrix
-popmat <- matrix(data = 0, nrow = age_max, ncol = age_max)
-diag(popmat[2:age_max, ]) <- survival_probability
-popmat[age_max, age_max] <- 0
-popmat[1, ] <- fertility
+matrix_leslie <- function(fertility, survival_probability) {
+  age_max <- length(fertility)
+  popmat <- matrix(data = 0, nrow = age_max, ncol = age_max)
+  diag(popmat[2:age_max, ]) <- survival_probability
+  popmat[age_max, age_max] <- 0
+  popmat[1, ] <- fertility
+  return(popmat)
+}
+popmat <- matrix_leslie(fertility, survival_probability)
 popmat_orig <- popmat # save original matrix
 
 # matrix properties
@@ -72,7 +54,6 @@ t <- (yr_end - yr_now) # timeframe
 
 tot_f <- sum(popmat_orig[1, ])
 popmat <- popmat_orig # resets matrix
-yr_vec <- seq(yr_now, yr_end) # year vector, 2020, 2021, 2022...
 
 # set population storage matrices
 n_mat <- matrix(0, nrow = age_max, ncol = (t + 1)) # empty matrix
@@ -83,10 +64,22 @@ for (i in 1:t) {
   n_mat[, i + 1] <- popmat %*% n_mat[, i]
 }
 
-# Number of predators - cats - through time period, no density reduction treatment, no carry capacity
+# Number of individuals - cats - through time period, no density reduction treatment, no carry capacity
 n_pred <- colSums(n_mat)
 yrs <- seq(yr_now, yr_end, 1)
-plot(yrs, n_pred, type = "b", lty = 2, pch = 19, xlab = "year", ylab = "N")
+individuals <- tibble(yrs = as.character(yrs), n_pred)
+marcasEjeY <- pretty(c(0, max(individuals$n_pred)))
+ggplot(data = individuals, aes(x = yrs, y = n_pred)) +
+  geom_point(shape = 19) +
+  geom_line(linetype = "dashed") +
+  theme_classic() +
+  scale_y_continuous(
+    expand = c(0, 0),
+    limits = range(marcasEjeY),
+    breaks = marcasEjeY
+  ) +
+  labs(x = "", y = "Number of individuals (cats)")
+ggsave("reports/figures/time_serie_individuals.jpg")
 
 # Compensatory density feedback
 # K = carry capacity
@@ -106,19 +99,25 @@ popmat <- popmat_orig
 # set up projection loop
 for (i in 1:t) {
   tot_n_i <- sum(n_mat[, i])
-  pred_red <- survival_modifier(tot_n_i, coefficients)
+  pred_red <- FeralCatEradication::survival_modifier(tot_n_i, coefficients)
   diag(popmat[2:age_max, ]) <- survival_probability * pred_red
   popmat[age_max, age_max] <- 0
   n_mat[, i + 1] <- popmat %*% n_mat[, i]
 }
 
 n_pred <- colSums(n_mat)
-jpeg("reports/figures/something_with_Carry_capacity.jpg")
+capacity <- tibble(yrs = as.character(yrs), n_pred)
 # Untreated population increases, rate of increase relative to K, no stochastic sampling:
-plot(yrs, n_pred, type = "b", lty = 2, pch = 19, xlab = "year", ylab = "N", ylim = c(0, 1.05 * k_max))
-abline(h = k_max, lty = 2, col = "red") # carry capacity
-legend(yrs[2], n_pred[6],
-  legend = c("N", "Carry capacity"),
-  col = c("black", "red"), lty = 1:2, cex = 0.8
-)
-dev.off()
+marcasEjeY <- pretty(c(0, 1.05 * k_max))
+ggplot(data = capacity, aes(yrs, n_pred)) +
+  geom_point() +
+  geom_hline(aes(yintercept = k_max, linetype = "Capacidad de carga"), color = "red") +
+  scale_linetype_manual(name = "", values = ("dotted")) +
+  theme_classic() +
+  scale_y_continuous(
+    expand = c(0, 0),
+    limits = c(marcasEjeY[1], marcasEjeY[length(marcasEjeY)]),
+    breaks = marcasEjeY
+  ) +
+  labs(x = "", y = "Number of individuals (cats)")
+ggsave("reports/figures/time_serie_individuals_with_carry_capacity.jpg")
