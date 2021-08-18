@@ -37,7 +37,6 @@ matrix_leslie <- function(fertility, survival_probability){
   return(popmat)
 }
 popmat <- matrix_leslie(fertility, survival_probability)
-popmat_orig <- popmat # save original matrix
 
 # matrix properties
 gen_l <- FeralCatEradication::g_val(popmat, age_max) # mean generation length
@@ -56,9 +55,9 @@ yr_end <- 2030 # set projection end date
 t <- (yr_end - yr_now) # timeframe
 
 tot_f <- sum(popmat_orig[1, ])
-popmat <- popmat_orig # resets matrix
 
 # set population storage matrices
+popmat <- matrix_leslie(fertility, survival_probability)
 n_mat <- matrix(0, nrow = age_max, ncol = (t + 1)) # empty matrix
 n_mat[, 1] <- init_vec # fill first matrix column with initial population vector
 
@@ -88,9 +87,9 @@ coefficients <- coefficients_proportion_realized_survival(k_vec, red_vec)
 
 # compensatory density-feedback deterministic model
 # set population storage matrices
+popmat <- matrix_leslie(fertility, survival_probability)
 n_mat <- matrix(0, nrow = age_max, ncol = (t + 1))
 n_mat[, 1] <- init_vec
-popmat <- popmat_orig
 
 # set up projection loop
 for (i in 1:t) {
@@ -102,11 +101,11 @@ for (i in 1:t) {
 }
 
 n_pred <- colSums(n_mat)
-capacity <- tibble(yrs, n_pred)
+predators <- tibble(yrs, n_pred)
 # Untreated population increases, rate of increase relative to K, no stochastic sampling:
-ggplot(data=capacity, aes(yrs, n_pred)) +
+ggplot(data=predators, aes(yrs, n_pred)) +
   geom_point() +
   labs(x = "year", y = "N") +
   lims(y = c(0, 1.05 * k_max)) +
   geom_hline(yintercept=k_max, linetype="dashed", color = "red")
-ggsave("reports/figures/something_with_Carry_capacity.jpg")
+ggsave("reports/figures/time_serie_predators_with_carry_capacity.jpg")
