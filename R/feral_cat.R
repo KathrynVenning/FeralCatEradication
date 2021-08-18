@@ -79,3 +79,25 @@ clean_coefficients <- function(fit_lp) {
 survival_modifier <- function(tot_n_i, coefficients) {
   pred_red <- coefficients$a_lp / (1 + (tot_n_i / coefficients$b_lp)^coefficients$c_lp)
 }
+
+#' @export
+modifie_survival_probability <- function(tot_n_i, coefficients, survival_probability) {
+  pred_red <- FeralCatEradication::survival_modifier(tot_n_i, coefficients)
+  modified_survival_probability <- survival_probability * pred_red
+  return(modified_survival_probability)
+}
+
+#' @export
+dont_modifie_survival_probability <- function(tot_n_i, coefficients, survival_probability) {
+  return(survival_probability)
+}
+
+#' @export
+matrix_leslie <- function(fertility, survival_probability) {
+  age_max <- length(fertility)
+  popmat <- matrix(data = 0, nrow = age_max, ncol = age_max)
+  diag(popmat[2:age_max, ]) <- survival_probability
+  popmat[age_max, age_max] <- 0
+  popmat[1, ] <- fertility
+  return(popmat)
+}

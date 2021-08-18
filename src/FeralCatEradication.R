@@ -25,15 +25,7 @@ age_max <- length(fertility)
 # probability of surviving from one year to the next. e.g surviving fourth year of life
 survival_probability <- c(0.46, 0.46, 0.7, 0.7, 0.7, 0.7)
 # create matrix
-matrix_leslie <- function(fertility, survival_probability) {
-  age_max <- length(fertility)
-  popmat <- matrix(data = 0, nrow = age_max, ncol = age_max)
-  diag(popmat[2:age_max, ]) <- survival_probability
-  popmat[age_max, age_max] <- 0
-  popmat[1, ] <- fertility
-  return(popmat)
-}
-popmat <- matrix_leslie(fertility, survival_probability)
+popmat <- FeralCatEradication::matrix_leslie(fertility, survival_probability)
 
 # matrix properties
 gen_l <- FeralCatEradication::g_val(popmat, age_max) # mean generation length
@@ -52,7 +44,7 @@ yr_end <- 2030 # set projection end date
 t <- (yr_end - yr_now) # timeframe
 
 # set population storage matrices
-popmat <- matrix_leslie(fertility, survival_probability)
+popmat <- FeralCatEradication::matrix_leslie(fertility, survival_probability)
 n_mat <- matrix(0, nrow = age_max, ncol = (t + 1)) # empty matrix
 n_mat[, 1] <- init_vec # fill first matrix column with initial population vector
 
@@ -89,16 +81,15 @@ coefficients <- coefficients_proportion_realized_survival(k_vec, red_vec)
 
 # compensatory density-feedback deterministic model
 # set population storage matrices
-popmat <- matrix_leslie(fertility, survival_probability)
+popmat <- FeralCatEradication::matrix_leslie(fertility, survival_probability)
 n_mat <- matrix(0, nrow = age_max, ncol = (t + 1))
 n_mat[, 1] <- init_vec
 
 # set up projection loop
 for (i in 1:t) {
   tot_n_i <- sum(n_mat[, i])
-  pred_red <- FeralCatEradication::survival_modifier(tot_n_i, coefficients)
-  diag(popmat[2:age_max, ]) <- survival_probability * pred_red
-  popmat[age_max, age_max] <- 0
+  modified_survival_probability <- FeralCatEradication::modifie_survival_probability(tot_n_i, coefficients, survival_probability)
+  popmat <- FeralCatEradication::matrix_leslie(fertility, modified_survival_probability)
   n_mat[, i + 1] <- popmat %*% n_mat[, i]
 }
 
