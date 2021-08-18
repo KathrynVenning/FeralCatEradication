@@ -3,9 +3,6 @@
 # feral cat reduction on Kangaroo Island
 # requires library - Plotly
 
-# remove everything
-rm(list = ls())
-
 # libraries
 library(plotly)
 library(FeralCatEradication)
@@ -28,7 +25,7 @@ age_max <- length(fertility)
 # probability of surviving from one year to the next. e.g surviving fourth year of life
 survival_probability <- c(0.46, 0.46, 0.7, 0.7, 0.7, 0.7)
 # create matrix
-matrix_leslie <- function(fertility, survival_probability){
+matrix_leslie <- function(fertility, survival_probability) {
   age_max <- length(fertility)
   popmat <- matrix(data = 0, nrow = age_max, ncol = age_max)
   diag(popmat[2:age_max, ]) <- survival_probability
@@ -54,8 +51,6 @@ yr_end <- 2030 # set projection end date
 #************************
 t <- (yr_end - yr_now) # timeframe
 
-tot_f <- sum(popmat_orig[1, ])
-
 # set population storage matrices
 popmat <- matrix_leslie(fertility, survival_probability)
 n_mat <- matrix(0, nrow = age_max, ncol = (t + 1)) # empty matrix
@@ -66,15 +61,22 @@ for (i in 1:t) {
   n_mat[, i + 1] <- popmat %*% n_mat[, i]
 }
 
-# Number of predators - cats - through time period, no density reduction treatment, no carry capacity
+# Number of individuals - cats - through time period, no density reduction treatment, no carry capacity
 n_pred <- colSums(n_mat)
 yrs <- seq(yr_now, yr_end, 1)
-predators <- tibble(yrs, n_pred)
-ggplot(data = predators, aes(x = yrs, y = n_pred)) +
-  geom_point(shape=19) +
-  geom_line(linetype="dashed") +
-  labs(x = "year", y = "N")
-ggsave("reports/figures/time_serie_predators.jpg")
+individuals <- tibble(yrs = as.character(yrs), n_pred)
+marcasEjeY <- pretty(c(0, max(individuals$n_pred)))
+ggplot(data = individuals, aes(x = yrs, y = n_pred)) +
+  geom_point(shape = 19) +
+  geom_line(linetype = "dashed") +
+  theme_classic() +
+  scale_y_continuous(
+    expand = c(0, 0),
+    limits = range(marcasEjeY),
+    breaks = marcasEjeY
+  ) +
+  labs(x = "", y = "Number of individuals (cats)")
+ggsave("reports/figures/time_serie_individuals.jpg")
 
 # Compensatory density feedback
 # K = carry capacity
@@ -101,11 +103,18 @@ for (i in 1:t) {
 }
 
 n_pred <- colSums(n_mat)
-predators <- tibble(yrs, n_pred)
+individuals <- tibble(yrs = as.character(yrs), n_pred)
 # Untreated population increases, rate of increase relative to K, no stochastic sampling:
-ggplot(data=predators, aes(yrs, n_pred)) +
+marcasEjeY <- pretty(c(0, 1.05 * k_max))
+ggplot(data = individuals, aes(yrs, n_pred)) +
   geom_point() +
-  labs(x = "year", y = "N") +
-  lims(y = c(0, 1.05 * k_max)) +
-  geom_hline(yintercept=k_max, linetype="dashed", color = "red")
-ggsave("reports/figures/time_serie_predators_with_carry_capacity.jpg")
+  geom_hline(aes(yintercept = k_max, linetype = "Capacidad de carga"), color = "red") +
+  scale_linetype_manual(name = "", values = ("dotted")) +
+  theme_classic() +
+  scale_y_continuous(
+    expand = c(0, 0),
+    limits = c(marcasEjeY[1], marcasEjeY[length(marcasEjeY)]),
+    breaks = marcasEjeY
+  ) +
+  labs(x = "", y = "Number of individuals (cats)")
+ggsave("reports/figures/time_serie_individuals_with_carry_capacity.jpg")
