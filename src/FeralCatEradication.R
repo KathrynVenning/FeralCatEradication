@@ -47,13 +47,13 @@ t <- (yr_end - yr_now) # timeframe
 popmat <- FeralCatEradication::matrix_leslie(fertility, survival_probability)
 n_mat <- matrix(0, nrow = age_max, ncol = (t + 1)) # empty matrix
 n_mat[, 1] <- init_vec # fill first matrix column with initial population vector
-
-# set up projection loop
 for (i in 1:t) {
+  tot_n_i <- sum(n_mat[, i])
+  modified_survival_probability <- survival_probability
+  popmat <- FeralCatEradication::matrix_leslie(fertility, modified_survival_probability)
   n_mat[, i + 1] <- popmat %*% n_mat[, i]
 }
 
-# Number of individuals - cats - through time period, no density reduction treatment, no carry capacity
 n_pred <- colSums(n_mat)
 yrs <- seq(yr_now, yr_end, 1)
 individuals <- tibble(yrs = as.character(yrs), n_pred)
@@ -85,7 +85,6 @@ popmat <- FeralCatEradication::matrix_leslie(fertility, survival_probability)
 n_mat <- matrix(0, nrow = age_max, ncol = (t + 1))
 n_mat[, 1] <- init_vec
 
-# set up projection loop
 for (i in 1:t) {
   tot_n_i <- sum(n_mat[, i])
   modified_survival_probability <- FeralCatEradication::modifie_survival_probability(tot_n_i, coefficients, survival_probability)
