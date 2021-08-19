@@ -152,11 +152,19 @@ Plotter_Population <- R6::R6Class("Plotter_Population",
       y_ticks <- private$setup_y_ticks(individuals)
       private$make_plot(individuals, y_ticks)
     },
+    plot_carry_capacity = function(Carry_Capacity) {
+      private$plot_population + 
+      geom_hline(
+        aes(yintercept = Carry_Capacity$k_max, linetype = "Capacidad de carga"),
+        color = "red"
+      )
+    },
     save = function(path) {
       ggsave(path)
     }
   ),
   private = list(
+    plot_population = NULL,
     setup_variables = function(population) {
       n_pred <- colSums(population$n_mat)
       individuals <- tibble(yrs = as.character(population$sequence_years), n_pred)
@@ -167,7 +175,7 @@ Plotter_Population <- R6::R6Class("Plotter_Population",
       return(marcasEjeY)
     },
     make_plot = function(individuals, y_ticks) {
-      ggplot(data = individuals, aes(x = yrs, y = n_pred)) +
+      private$plot_population <- ggplot(data = individuals, aes(x = yrs, y = n_pred)) +
         geom_point(shape = 19) +
         geom_line(linetype = "dashed") +
         theme_classic() +
@@ -185,11 +193,12 @@ Plotter_Population <- R6::R6Class("Plotter_Population",
 Carry_Capacity <- R6::R6Class("Carry_Capacity",
   public = list(
     red_vec = c(1, 0.965, 0.89, 0.79, 0.71),
+    k_max = NULL,
     initialize = function() {
     },
     coefficients_model = function(half_capacity) {
-      k_max <- 2 * initial_population
-      k_vec <- c(1, initial_population / 2, initial_population, 0.75 * k_max, k_max)
+      self$k_max <- 2 * half_capacity
+      k_vec <- c(1, half_capacity / 2, half_capacity, 0.75 * self$k_max, self$k_max)
       coefficients <- coefficients_proportion_realized_survival(k_vec, self$red_vec)
       return(coefficients)
     }

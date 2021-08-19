@@ -35,4 +35,5 @@ coefficients <- capacity$coefficients_model(half_capacity = initial_population)
 population_with_cc$run_generations(yr_now, yr_end, initial_population = initial_population, coefficients)
 
 plotter$plot(population_with_cc)
+plotter$plot_carry_capacity(capacity)
 plotter$save("reports/figures/time_serie_individuals_with_carry_capacity.jpg")
