@@ -127,8 +127,7 @@ Population <- R6::R6Class("Population",
       self$n_mat <- n_mat
     }
   ),
-  private = list(
-  )
+  private = list()
 )
 
 #' @export
