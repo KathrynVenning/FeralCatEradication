@@ -109,8 +109,8 @@ Population <- R6::R6Class("Population",
       self$survival_probability <- survival_probability
     },
     run_generations = function(initial_year, final_year, initial_population, coefficients = list(a_lp = 2, b_lp = 4, c_lp = 0)) {
-      private$setup_variables(initial_year, final_year, initial_population)
-      for (year in 1:years) {
+      n_mat <- private$setup_variables(initial_year, final_year, initial_population)
+      for (year in 1:private$years) {
         tot_n_i <- sum(n_mat[, year])
         modified_survival_probability <- modifier_survival_probability(tot_n_i, coefficients, survival_probability)
         popmat <- matrix_leslie(self$fertility, modified_survival_probability)
@@ -122,13 +122,20 @@ Population <- R6::R6Class("Population",
   private = list(
     years = NULL,
     setup_variables = function(initial_year, final_year, initial_population) {
+      private$setup_temporal_variables(initial_year, final_year)
+      n_mat <- private$setup_matrix_population(initial_population)
+      return(n_mat)
+    },
+    setup_temporal_variables = function(initial_year, final_year) {
       private$years <- final_year - initial_year
       self$sequence_years <- seq(initial_year, final_year, 1)
+    },
+    setup_matrix_population = function(initial_population) {
       age_max <- length(self$fertility)
       n_mat <- matrix(0, nrow = age_max, ncol = (private$years + 1))
       popmat <- matrix_leslie(self$fertility, self$survival_probability)
       ssd <- FeralCatEradication::stable_stage_dist(popmat)
-      classes_age_population <- ssd * initial_population # initial population vector
+      classes_age_population <- ssd * initial_population
       n_mat[, 1] <- classes_age_population
       return(n_mat)
     }
