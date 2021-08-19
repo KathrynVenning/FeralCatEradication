@@ -154,3 +154,27 @@ describe("Get parameters of survival modifier", {
     }
   })
 })
+
+describe("Class Carry_Capacity", {
+  capacity <- Carry_Capacity$new()
+  it("The property red_vec is correct", {
+    expected_red_vec <- c(1, 0.965, 0.89, 0.79, 0.71)
+    obtained_red_vec <- capacity$red_vec
+    expect_equal(expected_red_vec, obtained_red_vec)
+  })
+  it("The coefficiente are corrects", {
+    a_lp <- 1.001
+    b_lp <- 5459.994
+    c_lp <- 1.690
+    expected_coefficients <- list(a_lp = a_lp, b_lp = b_lp, c_lp = c_lp)
+    initial_population <- 1629
+    obtained_coefficients <- capacity$coefficients_model(half_capacity = initial_population)
+    expect_equal(expected_coefficients, obtained_coefficients, tolerance = 1e-3)
+  })
+  it("The k_max is correct", {
+    initial_population <- 1629
+    expected_k_max <- 2 * initial_population
+    obtained_k_max <- capacity$k_max
+    expect_equal(expected_k_max, obtained_k_max)
+  })
+})
