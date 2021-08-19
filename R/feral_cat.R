@@ -101,3 +101,71 @@ matrix_leslie <- function(fertility, survival_probability) {
   popmat[1, ] <- fertility
   return(popmat)
 }
+
+#' @export
+Population <- R6::R6Class("Population",
+  public = list(
+    fertility = NULL,
+    survival_probability = NULL,
+    popmat = NULL,
+    n_mat = NULL,
+    initialize = function(fertility, survival_probability) {
+      self$fertility <- fertility
+      self$survival_probability <- survival_probability
+      self$popmat <- matrix_leslie(fertility, survival_probability)
+    },
+    run_generations = function(years, initial_population) {
+      age_max <- length(self$fertility)
+      n_mat <- matrix(0, nrow = age_max, ncol = (years + 1))
+      n_mat[, 1] <- initial_population
+      for (year in 1:years) {
+        tot_n_i <- sum(n_mat[, year])
+        modified_survival_probability <- survival_probability
+        popmat <- matrix_leslie(fertility, modified_survival_probability)
+        n_mat[, year + 1] <- popmat %*% n_mat[, year]
+      }
+      self$n_mat <- n_mat
+    }
+  ),
+  private = list(
+  )
+)
+
+#' @export
+Plotter_Population <- R6::R6Class("Plotter_Population",
+  public = list(
+    initialize = function(population) {
+    },
+    plot = function(years, population) {
+      individuals <- private$setup_variables(years, population)
+      y_ticks <- private$setup_y_ticks(individuals)
+      private$make_plot(individuals, y_ticks)
+    },
+    save = function(path) {
+      ggsave(path)
+    }
+  ),
+  private = list(
+    setup_variables = function(years, population) {
+      n_pred <- colSums(population$n_mat)
+      individuals <- tibble(yrs = as.character(years), n_pred)
+      return(individuals)
+    },
+    setup_y_ticks = function(individuals) {
+      marcasEjeY <- pretty(c(0, max(individuals$n_pred)))
+      return(marcasEjeY)
+    },
+    make_plot = function(individuals, y_ticks) {
+      ggplot(data = individuals, aes(x = yrs, y = n_pred)) +
+        geom_point(shape = 19) +
+        geom_line(linetype = "dashed") +
+        theme_classic() +
+        scale_y_continuous(
+          expand = c(0, 0),
+          limits = range(y_ticks),
+          breaks = y_ticks
+        ) +
+        labs(x = "", y = "Number of individuals (cats)")
+    }
+  )
+)

@@ -44,31 +44,13 @@ yr_end <- 2030 # set projection end date
 t <- (yr_end - yr_now) # timeframe
 
 # set population storage matrices
-popmat <- FeralCatEradication::matrix_leslie(fertility, survival_probability)
-n_mat <- matrix(0, nrow = age_max, ncol = (t + 1)) # empty matrix
-n_mat[, 1] <- init_vec # fill first matrix column with initial population vector
-for (i in 1:t) {
-  tot_n_i <- sum(n_mat[, i])
-  modified_survival_probability <- survival_probability
-  popmat <- FeralCatEradication::matrix_leslie(fertility, modified_survival_probability)
-  n_mat[, i + 1] <- popmat %*% n_mat[, i]
-}
+population_with_cc <- Population$new(fertility, survival_probability)
+population_with_cc$run_generations(years = t, initial_population = init_vec)
 
-n_pred <- colSums(n_mat)
+plotter <- Plotter_Population$new()
 yrs <- seq(yr_now, yr_end, 1)
-individuals <- tibble(yrs = as.character(yrs), n_pred)
-marcasEjeY <- pretty(c(0, max(individuals$n_pred)))
-ggplot(data = individuals, aes(x = yrs, y = n_pred)) +
-  geom_point(shape = 19) +
-  geom_line(linetype = "dashed") +
-  theme_classic() +
-  scale_y_continuous(
-    expand = c(0, 0),
-    limits = range(marcasEjeY),
-    breaks = marcasEjeY
-  ) +
-  labs(x = "", y = "Number of individuals (cats)")
-ggsave("reports/figures/time_serie_individuals.jpg")
+plotter$plot(yrs, population_with_cc)
+plotter$save("reports/figures/time_serie_individuals.jpg")
 
 # Compensatory density feedback
 # K = carry capacity
