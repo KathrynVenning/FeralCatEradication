@@ -41,8 +41,6 @@ yr_now <- 2020 # update if more data available post-2010
 #************************
 yr_end <- 2030 # set projection end date
 #************************
-t <- (yr_end - yr_now) # timeframe
-yrs <- seq(yr_now, yr_end, 1)
 
 # set population storage matrices
 population_with_cc <- Population$new(fertility, survival_probability)
@@ -63,22 +61,7 @@ coefficients <- coefficients_proportion_realized_survival(k_vec, red_vec)
 
 # compensatory density-feedback deterministic model
 # set population storage matrices
-population_with <- Population$new(fertility, survival_probability)
-population_with$run_generations(yr_now, yr_end, initial_population = init_vec, coefficients=coefficients)
+population_with_cc$run_generations(yr_now, yr_end, initial_population = init_vec, coefficients)
 
-n_pred <- colSums(population_with$n_mat)
-individuals <- tibble(yrs = as.character(yrs), n_pred)
-# Untreated population increases, rate of increase relative to K, no stochastic sampling:
-marcasEjeY <- pretty(c(0, 1.05 * k_max))
-ggplot(data = individuals, aes(yrs, n_pred)) +
-  geom_point() +
-  geom_hline(aes(yintercept = k_max, linetype = "Capacidad de carga"), color = "red") +
-  scale_linetype_manual(name = "", values = ("dotted")) +
-  theme_classic() +
-  scale_y_continuous(
-    expand = c(0, 0),
-    limits = c(marcasEjeY[1], marcasEjeY[length(marcasEjeY)]),
-    breaks = marcasEjeY
-  ) +
-  labs(x = "", y = "Number of individuals (cats)")
-ggsave("reports/figures/time_serie_individuals_with_carry_capacity.jpg")
+plotter$plot(population_with_cc)
+plotter$save("reports/figures/time_serie_individuals_with_carry_capacity.jpg")
