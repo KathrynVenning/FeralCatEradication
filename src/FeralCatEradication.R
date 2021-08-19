@@ -63,18 +63,10 @@ coefficients <- coefficients_proportion_realized_survival(k_vec, red_vec)
 
 # compensatory density-feedback deterministic model
 # set population storage matrices
-popmat <- FeralCatEradication::matrix_leslie(fertility, survival_probability)
-n_mat <- matrix(0, nrow = age_max, ncol = (t + 1))
-n_mat[, 1] <- init_vec
+population_with <- Population$new(fertility, survival_probability)
+population_with$run_generations(yr_now, yr_end, initial_population = init_vec, coefficients=coefficients)
 
-for (i in 1:t) {
-  tot_n_i <- sum(n_mat[, i])
-  modified_survival_probability <- FeralCatEradication::modifie_survival_probability(tot_n_i, coefficients, survival_probability)
-  popmat <- FeralCatEradication::matrix_leslie(fertility, modified_survival_probability)
-  n_mat[, i + 1] <- popmat %*% n_mat[, i]
-}
-
-n_pred <- colSums(n_mat)
+n_pred <- colSums(population_with$n_mat)
 individuals <- tibble(yrs = as.character(yrs), n_pred)
 # Untreated population increases, rate of increase relative to K, no stochastic sampling:
 marcasEjeY <- pretty(c(0, 1.05 * k_max))
