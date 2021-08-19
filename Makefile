@@ -1,3 +1,7 @@
+reports/figures/reduction_factor.jpg: src/plot_reduction_factor.R
+	mkdir --parents $(@D)
+	Rscript src/plot_reduction_factor.R
+
 .PHONY: \
 		check \
 		clean \
@@ -54,8 +58,8 @@ results: src/FeralCatEradication.R
 setup:
 	R -e "devtools::document()" && \
 	R CMD build . && \
-	R CMD check FeralCatEradication_0.1.3.tar.gz && \
-	R CMD INSTALL FeralCatEradication_0.1.3.tar.gz
+	R CMD check FeralCatEradication_0.1.7.tar.gz && \
+	R CMD INSTALL FeralCatEradication_0.1.7.tar.gz
 	
 tests:
 	R -e "testthat::test_dir('tests/testthat/', report = 'summary', stop_on_failure = TRUE)"
