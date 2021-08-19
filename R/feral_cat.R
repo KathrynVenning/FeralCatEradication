@@ -81,15 +81,10 @@ survival_modifier <- function(tot_n_i, coefficients) {
 }
 
 #' @export
-modifie_survival_probability <- function(tot_n_i, coefficients, survival_probability) {
+modifier_survival_probability <- function(tot_n_i, coefficients, survival_probability) {
   pred_red <- FeralCatEradication::survival_modifier(tot_n_i, coefficients)
   modified_survival_probability <- survival_probability * pred_red
   return(modified_survival_probability)
-}
-
-#' @export
-dont_modifie_survival_probability <- function(tot_n_i, coefficients, survival_probability) {
-  return(survival_probability)
 }
 
 #' @export
@@ -123,7 +118,7 @@ Population <- R6::R6Class("Population",
       n_mat[, 1] <- initial_population
       for (year in 1:years) {
         tot_n_i <- sum(n_mat[, year])
-        modified_survival_probability <- survival_probability
+        modified_survival_probability <- modifier_survival_probability(tot_n_i, coefficients, survival_probability)
         popmat <- matrix_leslie(fertility, modified_survival_probability)
         n_mat[, year + 1] <- popmat %*% n_mat[, year]
       }
