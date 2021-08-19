@@ -153,11 +153,11 @@ Plotter_Population <- R6::R6Class("Plotter_Population",
       private$make_plot(individuals, y_ticks)
     },
     plot_carry_capacity = function(Carry_Capacity) {
-      private$plot_population + 
-      geom_hline(
-        aes(yintercept = Carry_Capacity$k_max, linetype = "Capacidad de carga"),
-        color = "red"
-      )
+      private$plot_population +
+        geom_hline(
+          aes(yintercept = Carry_Capacity$k_max, linetype = "Capacidad de carga"),
+          color = "red"
+        )
     },
     save = function(path) {
       ggsave(path)
