@@ -109,12 +109,15 @@ Population <- R6::R6Class("Population",
     survival_probability = NULL,
     popmat = NULL,
     n_mat = NULL,
+    sequence_years = NULL,
     initialize = function(fertility, survival_probability) {
       self$fertility <- fertility
       self$survival_probability <- survival_probability
       self$popmat <- matrix_leslie(fertility, survival_probability)
     },
-    run_generations = function(years, initial_population) {
+    run_generations = function(initial_year, final_year, initial_population) {
+      self$sequence_years <- seq(initial_year, final_year, 1)
+      years <- final_year - initial_year
       age_max <- length(self$fertility)
       n_mat <- matrix(0, nrow = age_max, ncol = (years + 1))
       n_mat[, 1] <- initial_population
@@ -135,8 +138,8 @@ Plotter_Population <- R6::R6Class("Plotter_Population",
   public = list(
     initialize = function(population) {
     },
-    plot = function(years, population) {
-      individuals <- private$setup_variables(years, population)
+    plot = function(population) {
+      individuals <- private$setup_variables(population)
       y_ticks <- private$setup_y_ticks(individuals)
       private$make_plot(individuals, y_ticks)
     },
@@ -145,9 +148,9 @@ Plotter_Population <- R6::R6Class("Plotter_Population",
     }
   ),
   private = list(
-    setup_variables = function(years, population) {
+    setup_variables = function(population) {
       n_pred <- colSums(population$n_mat)
-      individuals <- tibble(yrs = as.character(years), n_pred)
+      individuals <- tibble(yrs = as.character(population$sequence_years), n_pred)
       return(individuals)
     },
     setup_y_ticks = function(individuals) {

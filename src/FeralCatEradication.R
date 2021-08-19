@@ -42,14 +42,14 @@ yr_now <- 2020 # update if more data available post-2010
 yr_end <- 2030 # set projection end date
 #************************
 t <- (yr_end - yr_now) # timeframe
+yrs <- seq(yr_now, yr_end, 1)
 
 # set population storage matrices
 population_with_cc <- Population$new(fertility, survival_probability)
-population_with_cc$run_generations(years = t, initial_population = init_vec)
+population_with_cc$run_generations(yr_now, yr_end, initial_population = init_vec)
 
 plotter <- Plotter_Population$new()
-yrs <- seq(yr_now, yr_end, 1)
-plotter$plot(yrs, population_with_cc)
+plotter$plot(population_with_cc)
 plotter$save("reports/figures/time_serie_individuals.jpg")
 
 # Compensatory density feedback
