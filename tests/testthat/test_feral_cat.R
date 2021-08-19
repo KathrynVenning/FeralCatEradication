@@ -178,3 +178,13 @@ describe("Class Carry_Capacity", {
     expect_equal(expected_k_max, obtained_k_max)
   })
 })
+
+describe("Class Population",{
+  it("The builder works correctly",{
+    fertility <- rep(1,4)
+    survival_probability <- rep(1,3)
+    population <- Population$new(fertility, survival_probability)
+    expect_equal(fertility, population$fertility)
+    expect_equal(survival_probability, population$survival_probability)
+  })
+})
