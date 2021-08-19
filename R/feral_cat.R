@@ -110,7 +110,7 @@ Population <- R6::R6Class("Population",
       self$survival_probability <- survival_probability
       self$popmat <- matrix_leslie(fertility, survival_probability)
     },
-    run_generations = function(initial_year, final_year, initial_population, coefficients=list(a_lp = 2, b_lp = 4, c_lp = 0)) {
+    run_generations = function(initial_year, final_year, initial_population, coefficients = list(a_lp = 2, b_lp = 4, c_lp = 0)) {
       self$sequence_years <- seq(initial_year, final_year, 1)
       years <- final_year - initial_year
       age_max <- length(self$fertility)
