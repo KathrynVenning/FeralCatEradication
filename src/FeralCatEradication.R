@@ -28,11 +28,8 @@ plotter$save("reports/figures/time_serie_individuals.jpg")
 # K = carry capacity
 # Population rate of increase relative to carry capacity
 # Larger distance between populationa and K = faster population growth
-k_max <- 2 * pop_found
-k_vec <- c(1, pop_found / 2, pop_found, 0.75 * k_max, k_max)
-red_vec <- c(1, 0.965, 0.89, 0.79, 0.71)
-coefficients <- coefficients_proportion_realized_survival(k_vec, red_vec)
-
+capacity <- Carry_Capacity$new()
+coefficients <- capacity$coefficients_model(half_capacity = initial_population)
 # compensatory density-feedback deterministic model
 # set population storage matrices
 population_with_cc$run_generations(yr_now, yr_end, initial_population = initial_population, coefficients)

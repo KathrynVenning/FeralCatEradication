@@ -180,3 +180,19 @@ Plotter_Population <- R6::R6Class("Plotter_Population",
     }
   )
 )
+
+#' @export
+Carry_Capacity <- R6::R6Class("Carry_Capacity",
+  public = list(
+    red_vec = c(1, 0.965, 0.89, 0.79, 0.71),
+    initialize = function() {
+    },
+    coefficients_model = function(half_capacity) {
+      k_max <- 2 * initial_population
+      k_vec <- c(1, initial_population / 2, initial_population, 0.75 * k_max, k_max)
+      coefficients <- coefficients_proportion_realized_survival(k_vec, self$red_vec)
+      return(coefficients)
+    }
+  ),
+  private = list()
+)
