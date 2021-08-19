@@ -2,8 +2,8 @@ library(testthat)
 library(FeralCatEradication)
 
 describe("Get version of the module", {
-  it("The version is 0.1.7", {
-    expected_version <- c("0.1.7")
+  it("The version is 0.1.8", {
+    expected_version <- c("0.1.8")
     obtained_version <- packageVersion("FeralCatEradication")
     version_are_equal <- expected_version == obtained_version
     expect_true(version_are_equal)
