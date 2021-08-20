@@ -38,8 +38,8 @@ Monthly_Population <- R6::R6Class("Monthly_Population",
       return(n_mat)
     },
     setup_temporal_variables = function(initial_year, final_year) {
-      private$years <- (final_year - initial_year)*12
-      self$sequence_years <- seq(initial_year, final_year, 1/12)
+      private$years <- (final_year - initial_year) * 12
+      self$sequence_years <- seq(initial_year, final_year, 1 / 12)
     },
     setup_matrix_population = function(initial_population) {
       month_max <- length(self$fertility) * 12
