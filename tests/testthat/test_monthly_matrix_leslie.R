@@ -1,30 +1,30 @@
 source("../../R/monthly_matrix_leslie.R")
-describe("Dummy test",{
-  it("return_one",{
+describe("Dummy test", {
+  it("return_one", {
     expected <- 1
     obtained <- return_one()
     expect_equal(expected, obtained)
   })
 })
 
-describe("monthly_matrix_leslie",{
+describe("monthly_matrix_leslie", {
   fertility <- c((0.745 / 3), 2.52, 1.98)
   survival_probability <- c(0.46, 0.7)
-  it(" Fertility for tree classes of age",{
-    expected <- c(rep((0.745 / 3)/12,12), rep(2.52/12,12), rep(1.98/12,12))
+  it(" Fertility for tree classes of age", {
+    expected <- c(rep((0.745 / 3) / 12, 12), rep(2.52 / 12, 12), rep(1.98 / 12, 12))
     obtained <- monthly_matrix_leslie(fertility, survival_probability)
-    expect_equal(expected, obtained[1,])
+    expect_equal(expected, obtained[1, ])
   })
-  it("Survival for tree classes of age",{
-    expected <- c(rep((0.46)^(1/12),12), rep(0.7^(1/12),23))
+  it("Survival for tree classes of age", {
+    expected <- c(rep((0.46)^(1 / 12), 12), rep(0.7^(1 / 12), 23))
     obtained <- monthly_matrix_leslie(fertility, survival_probability)
-    expect_equal(expected, diag(obtained[2:36,]))
+    expect_equal(expected, diag(obtained[2:36, ]))
   })
   fertility <- c((0.745 / 3), 2.52, 2.52, 1.98)
   survival_probability <- c(0.46, 0.7, 0.7)
-  it(" Fertility for four classes of age",{
-    expected <- c(rep((0.745 / 3)/12,12), rep(2.52/12,24), rep(1.98/12,12))
+  it(" Fertility for four classes of age", {
+    expected <- c(rep((0.745 / 3) / 12, 12), rep(2.52 / 12, 24), rep(1.98 / 12, 12))
     obtained <- monthly_matrix_leslie(fertility, survival_probability)
-    expect_equal(expected, obtained[1,])
+    expect_equal(expected, obtained[1, ])
   })
 })
