@@ -112,7 +112,7 @@ Population <- R6::R6Class("Population",
       n_mat <- private$setup_variables(initial_year, final_year, initial_population)
       for (year in 1:private$years) {
         tot_n_i <- sum(n_mat[, year])
-        modified_survival_probability <- modifier_survival_probability(tot_n_i, coefficients, survival_probability)
+        modified_survival_probability <- modifier_survival_probability(tot_n_i, coefficients, self$survival_probability)
         popmat <- matrix_leslie(self$fertility, modified_survival_probability)
         n_mat[, year + 1] <- popmat %*% n_mat[, year]
       }
