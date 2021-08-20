@@ -145,7 +145,7 @@ Population <- R6::R6Class("Population",
 #' @export
 Plotter_Population <- R6::R6Class("Plotter_Population",
   public = list(
-    initialize = function(population) {
+    initialize = function() {
     },
     plot = function(population) {
       individuals <- private$setup_variables(population)
