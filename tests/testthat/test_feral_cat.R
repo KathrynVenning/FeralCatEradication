@@ -188,3 +188,12 @@ describe("Class Population",{
     expect_equal(survival_probability, population$survival_probability)
   })
 })
+
+describe("The class Plotter_Population", {
+  it("Has the expected methods", {
+    expected_methods <- c("plot", "plot_carry_capacity", "save")
+    plotter <- Plotter_Population$new()
+    
+    expect_all_true(expected_methods %in% names(plotter))
+  })
+})
