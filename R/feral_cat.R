@@ -102,47 +102,69 @@ Population <- R6::R6Class("Population",
   public = list(
     fertility = NULL,
     survival_probability = NULL,
-    popmat = NULL,
     n_mat = NULL,
     sequence_years = NULL,
     initialize = function(fertility, survival_probability) {
       self$fertility <- fertility
       self$survival_probability <- survival_probability
-      self$popmat <- matrix_leslie(fertility, survival_probability)
     },
     run_generations = function(initial_year, final_year, initial_population, coefficients = list(a_lp = 2, b_lp = 4, c_lp = 0)) {
-      self$sequence_years <- seq(initial_year, final_year, 1)
-      years <- final_year - initial_year
-      age_max <- length(self$fertility)
-      n_mat <- matrix(0, nrow = age_max, ncol = (years + 1))
-      n_mat[, 1] <- initial_population
-      for (year in 1:years) {
+      n_mat <- private$setup_variables(initial_year, final_year, initial_population)
+      for (year in 1:private$years) {
         tot_n_i <- sum(n_mat[, year])
         modified_survival_probability <- modifier_survival_probability(tot_n_i, coefficients, survival_probability)
-        popmat <- matrix_leslie(fertility, modified_survival_probability)
+        popmat <- matrix_leslie(self$fertility, modified_survival_probability)
         n_mat[, year + 1] <- popmat %*% n_mat[, year]
       }
       self$n_mat <- n_mat
     }
   ),
-  private = list()
+  private = list(
+    years = NULL,
+    setup_variables = function(initial_year, final_year, initial_population) {
+      private$setup_temporal_variables(initial_year, final_year)
+      n_mat <- private$setup_matrix_population(initial_population)
+      return(n_mat)
+    },
+    setup_temporal_variables = function(initial_year, final_year) {
+      private$years <- final_year - initial_year
+      self$sequence_years <- seq(initial_year, final_year, 1)
+    },
+    setup_matrix_population = function(initial_population) {
+      age_max <- length(self$fertility)
+      n_mat <- matrix(0, nrow = age_max, ncol = (private$years + 1))
+      popmat <- matrix_leslie(self$fertility, self$survival_probability)
+      ssd <- FeralCatEradication::stable_stage_dist(popmat)
+      classes_age_population <- ssd * initial_population
+      n_mat[, 1] <- classes_age_population
+      return(n_mat)
+    }
+  )
 )
 
 #' @export
 Plotter_Population <- R6::R6Class("Plotter_Population",
   public = list(
-    initialize = function(population) {
+    initialize = function() {
     },
     plot = function(population) {
       individuals <- private$setup_variables(population)
       y_ticks <- private$setup_y_ticks(individuals)
       private$make_plot(individuals, y_ticks)
     },
+    plot_carry_capacity = function(Carry_Capacity) {
+      private$plot_population +
+        geom_hline(
+          aes(yintercept = Carry_Capacity$k_max, linetype = "Capacidad de carga"),
+          color = "red"
+        )
+    },
     save = function(path) {
       ggsave(path)
     }
   ),
   private = list(
+    plot_population = NULL,
     setup_variables = function(population) {
       n_pred <- colSums(population$n_mat)
       individuals <- tibble(yrs = as.character(population$sequence_years), n_pred)
@@ -153,7 +175,7 @@ Plotter_Population <- R6::R6Class("Plotter_Population",
       return(marcasEjeY)
     },
     make_plot = function(individuals, y_ticks) {
-      ggplot(data = individuals, aes(x = yrs, y = n_pred)) +
+      private$plot_population <- ggplot(data = individuals, aes(x = yrs, y = n_pred)) +
         geom_point(shape = 19) +
         geom_line(linetype = "dashed") +
         theme_classic() +
@@ -165,4 +187,21 @@ Plotter_Population <- R6::R6Class("Plotter_Population",
         labs(x = "", y = "Number of individuals (cats)")
     }
   )
+)
+
+#' @export
+Carry_Capacity <- R6::R6Class("Carry_Capacity",
+  public = list(
+    red_vec = c(1, 0.965, 0.89, 0.79, 0.71),
+    k_max = NULL,
+    initialize = function() {
+    },
+    coefficients_model = function(half_capacity) {
+      self$k_max <- 2 * half_capacity
+      k_vec <- c(1, half_capacity / 2, half_capacity, 0.75 * self$k_max, self$k_max)
+      coefficients <- coefficients_proportion_realized_survival(k_vec, self$red_vec)
+      return(coefficients)
+    }
+  ),
+  private = list()
 )

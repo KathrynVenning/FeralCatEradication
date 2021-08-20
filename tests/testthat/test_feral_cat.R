@@ -2,8 +2,8 @@ library(testthat)
 library(FeralCatEradication)
 
 describe("Get version of the module", {
-  it("The version is 0.1.7", {
-    expected_version <- c("0.1.7")
+  it("The version is 0.1.8", {
+    expected_version <- c("0.1.8")
     obtained_version <- packageVersion("FeralCatEradication")
     version_are_equal <- expected_version == obtained_version
     expect_true(version_are_equal)
@@ -152,5 +152,48 @@ describe("Get parameters of survival modifier", {
     for (i in 1:length(k_vec)) {
       assert_survival_modifier(i)
     }
+  })
+})
+
+describe("Class Carry_Capacity", {
+  capacity <- Carry_Capacity$new()
+  it("The property red_vec is correct", {
+    expected_red_vec <- c(1, 0.965, 0.89, 0.79, 0.71)
+    obtained_red_vec <- capacity$red_vec
+    expect_equal(expected_red_vec, obtained_red_vec)
+  })
+  it("The coefficiente are corrects", {
+    a_lp <- 1.001
+    b_lp <- 5459.994
+    c_lp <- 1.690
+    expected_coefficients <- list(a_lp = a_lp, b_lp = b_lp, c_lp = c_lp)
+    initial_population <- 1629
+    obtained_coefficients <- capacity$coefficients_model(half_capacity = initial_population)
+    expect_equal(expected_coefficients, obtained_coefficients, tolerance = 1e-3)
+  })
+  it("The k_max is correct", {
+    initial_population <- 1629
+    expected_k_max <- 2 * initial_population
+    obtained_k_max <- capacity$k_max
+    expect_equal(expected_k_max, obtained_k_max)
+  })
+})
+
+describe("Class Population", {
+  it("The builder works correctly", {
+    fertility <- rep(1, 4)
+    survival_probability <- rep(1, 3)
+    population <- Population$new(fertility, survival_probability)
+    expect_equal(fertility, population$fertility)
+    expect_equal(survival_probability, population$survival_probability)
+  })
+})
+
+describe("The class Plotter_Population", {
+  it("Has the expected methods", {
+    expected_methods <- c("plot", "plot_carry_capacity", "save")
+    plotter <- Plotter_Population$new()
+    all_true <- all(expected_methods %in% names(plotter))
+    expect_true(all_true)
   })
 })
