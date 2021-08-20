@@ -17,4 +17,3 @@ describe(" The function est_beta_params", {
     expect_equal(expected, obtained)
   })
 })
-
