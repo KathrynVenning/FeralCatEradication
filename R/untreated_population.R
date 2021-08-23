@@ -49,7 +49,8 @@ Stochastic_Survival_Fertility <- R6::R6Class("Stochastic_Survival_Fertility",
       private$std_survival <- std_survival
     },
     get_fertility = function() {
-      return(private$fertility)
+      fertility <- get_stochastic_fertility(private$fertility, private$std_fertility)
+      return(fertility)
     }
   ),
   private = list(
