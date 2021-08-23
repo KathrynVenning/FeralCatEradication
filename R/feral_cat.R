@@ -100,13 +100,11 @@ matrix_leslie <- function(fertility, survival_probability) {
 #' @export
 Population <- R6::R6Class("Population",
   public = list(
-    fertility = NULL,
-    survival_probability = NULL,
+    survival = NULL,
     n_mat = NULL,
     sequence_years = NULL,
-    initialize = function(fertility, survival_probability) {
-      self$fertility <- fertility
-      self$survival_probability <- survival_probability
+    initialize = function(survival) {
+      self$survival <- survival
     },
     run_generations = function(initial_year, final_year, initial_population, coefficients = list(a_lp = 2, b_lp = 4, c_lp = 0)) {
       n_mat <- private$setup_variables(initial_year, final_year, initial_population)
