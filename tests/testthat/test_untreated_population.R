@@ -45,5 +45,8 @@ describe("The class Stochastic_Survival_Fertility", {
     fertility <- seq(1, 4)
     survival_probability <- rbeta(3, 1, 1)
     survival <- Stochastic_Survival_Fertility$new(fertility, survival_probability)
+    std_fertility <- rbeta(4, 1, 1)
+    std_survival_probability <- rbeta(3, 1, 1)
+    survival$set_standard_desviations(std_fertility, std_survival_probability)
   })
 })
