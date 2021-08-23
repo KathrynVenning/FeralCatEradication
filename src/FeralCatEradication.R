@@ -16,8 +16,8 @@ initial_population <- 1629
 # Project
 yr_now <- 2020 # update if more data available post-2010
 yr_end <- 2030 # set projection end date
-
-population_with_cc <- Population$new(fertility, survival_probability)
+survival <- Survival_Fertility$new(fertility, survival_probability)
+population_with_cc <- Population$new(survival)
 population_with_cc$run_generations(yr_now, yr_end, initial_population = initial_population)
 
 plotter <- Plotter_Population$new()
