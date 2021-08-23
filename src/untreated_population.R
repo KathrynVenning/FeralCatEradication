@@ -1,3 +1,4 @@
+library("ggplot2")
 library(FeralCatEradication)
 source("src/parameters_of_fertility_and_survival.R")
 ####################################################
@@ -30,7 +31,9 @@ yrs <- seq(yr_now, yr_end)
 n.md <- apply(n.sums.mat, MARGIN = 2, median, na.rm = T) # mean over all iterations
 n.up <- apply(n.sums.mat, MARGIN = 2, quantile, probs = 0.975, na.rm = T) # upper over all iterations
 n.lo <- apply(n.sums.mat, MARGIN = 2, quantile, probs = 0.025, na.rm = T) # lower over all iterations
-plot(yrs, n.md, type = "l", main = "Min N with SD for untr pop", xlab = "year", ylab = "Minimum population", lwd = 2, ylim = c(0.95 * min(n.lo), 1.05 * max(n.up)))
-lines(yrs, n.lo, lty = 2, col = "red", lwd = 1.5)
-lines(yrs, n.up, lty = 2, col = "red", lwd = 1.5)
 untreated <- data.frame(yrs, n.md, n.lo, n.up)
+
+ggplot(untreated, aes(x = yrs, y = n.md)) +
+  geom_line(colour="blue") +
+  geom_ribbon(aes(ymin=n.lo, ymax=n.up), alpha=0.2)
+ggsave("simulation.jpg")
