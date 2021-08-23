@@ -36,3 +36,17 @@ Survival_Fertility <- R6::R6Class("Survival_Fertility",
     survival = NULL
   )
 )
+
+#' @export
+Stochastic_Survival_Fertility <- R6::R6Class("Stochastic_Survival_Fertility",
+  public = list(
+    initialize = function(fertility, survival_probability) {
+      private$survival <- survival_probability
+      private$fertility <- fertility
+    }
+  ),
+  private = list(
+    fertility = NULL,
+    survival = NULL
+  )
+)
