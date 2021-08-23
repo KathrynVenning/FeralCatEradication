@@ -31,9 +31,10 @@ describe("get_stochastic_fertility", {
 })
 
 describe("The class Survival_Fertility", {
-  it("The method builder exist", {
+  it("The method get_fertility works", {
     fertility <- seq(1, 4)
     survival_probability <- rbeta(3, 1, 1)
     survival <- Survival_Fertility$new(fertility, survival_probability)
+    expect_equal(fertility, survival$get_fertility())
   })
 })
