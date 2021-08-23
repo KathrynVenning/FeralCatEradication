@@ -29,3 +29,9 @@ describe("get_stochastic_fertility", {
     expect_true(all_greater_than_two)
   })
 })
+
+describe("The class Survival_Fertility", {
+  it("The method builder exist", {
+    survival <- Survival_Fertility$new()
+  })
+})
