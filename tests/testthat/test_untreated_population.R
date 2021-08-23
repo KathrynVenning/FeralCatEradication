@@ -39,3 +39,11 @@ describe("The class Survival_Fertility", {
     expect_equal(survival_probability, survival$get_survival())
   })
 })
+
+describe("The class Stochastic_Survival_Fertility", {
+  it("The method get_fertility works", {
+    fertility <- seq(1, 4)
+    survival_probability <- rbeta(3, 1, 1)
+    survival <- Stochastic_Survival_Fertility$new(fertility, survival_probability)
+  })
+})
