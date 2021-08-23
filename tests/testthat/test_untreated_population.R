@@ -57,6 +57,6 @@ describe("The class Stochastic_Survival_Fertility", {
   })
   it("The method get_survival works", {
     new_survival <- survival$get_survival()
-    are_all_different <- all(survival != new_survival)
+    are_all_different <- all(survival$get_survival() != new_survival)
   })
 })
