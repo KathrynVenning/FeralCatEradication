@@ -12,7 +12,7 @@ get_stochastic_fertility <- function(fertility, sd_fertility) {
 }
 
 get_stochastic_survival <- function(survival, sd_survival) {
-  parameter <- estBetaParams(survival, sd_survival^2)
+  parameter <- est_beta_params(survival, sd_survival^2)
   s.stoch <- rbeta(length(survival), parameter[["alpha"]], parameter[["beta"]])
   return(s.stoch)
 }
