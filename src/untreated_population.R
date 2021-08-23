@@ -34,6 +34,6 @@ n.lo <- apply(n.sums.mat, MARGIN = 2, quantile, probs = 0.025, na.rm = T) # lowe
 untreated <- data.frame(yrs, n.md, n.lo, n.up)
 
 ggplot(untreated, aes(x = yrs, y = n.md)) +
-  geom_line(colour="blue") +
-  geom_ribbon(aes(ymin=n.lo, ymax=n.up), alpha=0.2)
+  geom_line(colour = "blue") +
+  geom_ribbon(aes(ymin = n.lo, ymax = n.up), alpha = 0.2)
 ggsave("simulation.jpg")
