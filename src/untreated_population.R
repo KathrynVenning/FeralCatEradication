@@ -23,10 +23,10 @@ n.sums.mat <- matrix(data = 0, nrow = iter, ncol = number_year)
 population <- Population$new(survival)
 for (simulation in seq(1, iter)) {
   population$run_generations(yr_now, yr_end, initial_population = initial_population, coefficients)
-  n.sums.mat[simulation, ] <- colSums(population$n_mat)/initial_population
+  n.sums.mat[simulation, ] <- colSums(population$n_mat) / initial_population
 }
 
-
+yrs <- seq(yr_now, yr_end)
 n.md <- apply(n.sums.mat, MARGIN = 2, median, na.rm = T) # mean over all iterations
 n.up <- apply(n.sums.mat, MARGIN = 2, quantile, probs = 0.975, na.rm = T) # upper over all iterations
 n.lo <- apply(n.sums.mat, MARGIN = 2, quantile, probs = 0.025, na.rm = T) # lower over all iterations
