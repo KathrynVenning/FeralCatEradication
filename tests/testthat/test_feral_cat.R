@@ -197,3 +197,12 @@ describe("The class Plotter_Population", {
     expect_true(all_true)
   })
 })
+
+describe("The class Population", {
+  it("The builder use a objct type Survival_Fertility", {
+    fertility <- seq(1, 4)
+    survival_probability <- rbeta(3, 1, 1)
+    survival <- Survival_Fertility$new(fertility, survival_probability)
+    population <- Population$new(survival)
+  })
+})

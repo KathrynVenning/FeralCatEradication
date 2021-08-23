@@ -17,6 +17,7 @@ get_stochastic_survival <- function(survival, sd_survival) {
   return(s.stoch)
 }
 
+#' @export
 Survival_Fertility <- R6::R6Class("Survival_Fertility",
   public = list(
     initialize = function(fertility, survival_probability) {
