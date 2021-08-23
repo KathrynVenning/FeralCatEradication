@@ -16,3 +16,8 @@ get_stochastic_survival <- function(survival, sd_survival) {
   s.stoch <- rbeta(length(survival), parameter[["alpha"]], parameter[["beta"]])
   return(s.stoch)
 }
+
+Survival_Fertility <- R6::R6Class("Survival_Fertility",
+  public = list(),
+  private = list()
+)
