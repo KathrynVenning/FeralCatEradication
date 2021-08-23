@@ -20,7 +20,7 @@ get_stochastic_survival <- function(survival, sd_survival) {
 Survival_Fertility <- R6::R6Class("Survival_Fertility",
   public = list(
     initialize = function(fertility, survival_probability) {
-      private$survival_probability <- survival_probability
+      private$survival <- survival_probability
       private$fertility <- fertility
     },
     get_fertility = function() {
@@ -29,6 +29,6 @@ Survival_Fertility <- R6::R6Class("Survival_Fertility",
   ),
   private = list(
     fertility = NULL,
-    survival_probability = NULL
+    survival = NULL
   )
 )
