@@ -49,5 +49,7 @@ describe("The class Stochastic_Survival_Fertility", {
     std_survival_probability <- rbeta(3, 1, 1)
     survival$set_standard_desviations(std_fertility, std_survival_probability)
     new_fertility <- survival$get_fertility()
+    are_all_different <- all(fertility != new_fertility)
+    expect_true(are_all_different)
   })
 })
