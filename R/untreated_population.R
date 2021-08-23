@@ -47,6 +47,9 @@ Stochastic_Survival_Fertility <- R6::R6Class("Stochastic_Survival_Fertility",
     set_standard_desviations = function(std_fertility, std_survival) {
       private$std_fertility <- std_fertility
       private$std_survival <- std_survival
+    },
+    get_fertility = function() {
+      return(private$fertility)
     }
   ),
   private = list(
