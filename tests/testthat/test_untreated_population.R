@@ -43,10 +43,10 @@ describe("The class Survival_Fertility", {
 
 describe("The class Stochastic_Survival_Fertility", {
   fertility <- seq(1, 4)
-  survival_probability <- rbeta(3, 1, 1)
+  survival_probability <- c(0.46, 0.46, 0.7)
   survival <- Stochastic_Survival_Fertility$new(fertility, survival_probability)
   std_fertility <- rbeta(4, 1, 1)
-  std_survival_probability <- rbeta(3, 1, 1)
+  std_survival_probability <- c(0.1150, 0.1150, 0.0575)
   survival$set_standard_desviations(std_fertility, std_survival_probability)
   it("The method get_fertility works", {
     new_fertility <- survival$get_fertility()
