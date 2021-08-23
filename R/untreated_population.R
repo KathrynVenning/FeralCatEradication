@@ -25,6 +25,9 @@ Survival_Fertility <- R6::R6Class("Survival_Fertility",
     },
     get_fertility = function() {
       return(private$fertility)
+    },
+    get_survival = function() {
+      return(private$survival)
     }
   ),
   private = list(
