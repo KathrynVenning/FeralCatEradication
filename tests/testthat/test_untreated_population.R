@@ -42,17 +42,21 @@ describe("The class Survival_Fertility", {
 })
 
 describe("The class Stochastic_Survival_Fertility", {
+  fertility <- seq(1, 4)
+  survival_probability <- rbeta(3, 1, 1)
+  survival <- Stochastic_Survival_Fertility$new(fertility, survival_probability)
+  std_fertility <- rbeta(4, 1, 1)
+  std_survival_probability <- rbeta(3, 1, 1)
+  survival$set_standard_desviations(std_fertility, std_survival_probability)
   it("The method get_fertility works", {
-    fertility <- seq(1, 4)
-    survival_probability <- rbeta(3, 1, 1)
-    survival <- Stochastic_Survival_Fertility$new(fertility, survival_probability)
-    std_fertility <- rbeta(4, 1, 1)
-    std_survival_probability <- rbeta(3, 1, 1)
-    survival$set_standard_desviations(std_fertility, std_survival_probability)
     new_fertility <- survival$get_fertility()
     are_all_different <- all(fertility != new_fertility)
     expect_true(are_all_different)
     bootstraped_mean <- to_vec(for (x in seq(1, 200)) mean(survival$get_fertility()))
     expect_equal(mean(bootstraped_mean), mean(fertility), tolerance = 1e-2)
+  })
+  it("The method get_survival works", {
+    new_survival <- survival$get_survival()
+    are_all_different <- all(survival != new_survival)
   })
 })
