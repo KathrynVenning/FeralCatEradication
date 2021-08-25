@@ -16,4 +16,4 @@ population$run_generations(yr_now, yr_end, initial_population = initial_populati
 
 plotter <- Plotter_Population$new()
 plotter$plot(population)
-plotter$save("reports/figures/time_serie_individuals.jpg")
+plotter$save("reports/figures/monthly_time_serie_individuals.jpg")
