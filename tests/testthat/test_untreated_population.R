@@ -53,11 +53,11 @@ describe("The class Stochastic_Survival_Fertility", {
     are_all_different <- all(fertility != new_fertility)
     expect_true(are_all_different)
     bootstraped_mean <- to_vec(for (x in seq(1, 200)) mean(survival$get_fertility()))
-    expect_equal(mean(bootstraped_mean), mean(fertility), tolerance = 1e-2)
+    expect_equal(mean(bootstraped_mean), mean(fertility), tolerance = 1e-1)
   })
   it("The method get_survival works", {
     new_survival <- survival$get_survival()
-    are_all_different <- all(survival$get_survival() != new_survival)
+    are_all_different <- all(survival_probability != new_survival)
     expect_true(are_all_different)
     bootstraped_mean <- to_vec(for (x in seq(1, 200)) mean(survival$get_survival()))
     expect_equal(mean(bootstraped_mean), mean(survival_probability), tolerance = 1e-2)
