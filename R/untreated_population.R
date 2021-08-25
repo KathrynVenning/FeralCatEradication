@@ -39,11 +39,8 @@ Survival_Fertility <- R6::R6Class("Survival_Fertility",
 
 #' @export
 Stochastic_Survival_Fertility <- R6::R6Class("Stochastic_Survival_Fertility",
+  inherit = Survival_Fertility,
   public = list(
-    initialize = function(fertility, survival_probability) {
-      private$survival <- survival_probability
-      private$fertility <- fertility
-    },
     set_standard_desviations = function(std_fertility, std_survival) {
       private$std_fertility <- std_fertility
       private$std_survival <- std_survival
@@ -58,8 +55,6 @@ Stochastic_Survival_Fertility <- R6::R6Class("Stochastic_Survival_Fertility",
     }
   ),
   private = list(
-    fertility = NULL,
-    survival = NULL,
     std_fertility = NULL,
     std_survival = NULL
   )
