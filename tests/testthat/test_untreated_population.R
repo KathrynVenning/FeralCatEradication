@@ -71,6 +71,6 @@ describe("The class Monthly_Survival_Fertility", {
   it("Fertility for tree classes of age", {
     expected_monthly_fertility <- c(rep((0.745 / 3) / 12, 12), rep(2.52 / 12, 12), rep(1.98 / 12, 12))
     obtained_monthly_fertility <- survival$get_fertility()
-    expect_equal(expected_monthly_fertility, obtained_monthly_fertility[1, ])
+    expect_equal(expected_monthly_fertility, obtained_monthly_fertility)
   })
 })
