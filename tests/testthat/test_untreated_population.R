@@ -63,3 +63,14 @@ describe("The class Stochastic_Survival_Fertility", {
     expect_equal(mean(bootstraped_mean), mean(survival_probability), tolerance = 1e-2)
   })
 })
+
+describe("The class Monthly_Survival_Fertility", {
+  fertility <- c((0.745 / 3), 2.52, 1.98)
+  survival_probability <- c(0.46, 0.7)
+  survival <- Monthly_Survival_Fertility$new(fertility, survival_probability)
+  it("Fertility for tree classes of age", {
+    expected_monthly_fertility <- c(rep((0.745 / 3) / 12, 12), rep(2.52 / 12, 12), rep(1.98 / 12, 12))
+    obtained_monthly_fertility <- survival$get_fertility()
+    expect_equal(expected_monthly_fertility, obtained_monthly_fertility[1, ])
+  })
+})
