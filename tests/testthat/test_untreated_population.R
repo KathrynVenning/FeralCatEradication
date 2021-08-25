@@ -78,4 +78,12 @@ describe("The class Monthly_Survival_Fertility", {
     obtained_monthly_survival <- survival$get_survival()
     expect_equal(expected_monthly_survival, obtained_monthly_survival)
   })
+  fertility <- c((0.745 / 3), 2.52, 2.52, 1.98)
+  survival_probability <- c(0.46, 0.7, 0.7)
+  survival <- Monthly_Survival_Fertility$new(fertility, survival_probability)
+  it("Fertility for four classes of age", {
+    expected_monthly_fertility <- c(rep((0.745 / 3) / 12, 12), rep(2.52 / 12, 24), rep(1.98 / 12, 12))
+    obtained_monthly_fertility <- survival$get_fertility()
+    expect_equal(expected_monthly_fertility, obtained_monthly_fertility)
+  })
 })
