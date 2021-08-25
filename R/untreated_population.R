@@ -66,7 +66,7 @@ Monthly_Survival_Fertility <- R6::R6Class("Monthly_Survival_Fertility",
   public = list(
     initialize = function(fertility, survival_probability) {
       private$survival <- c(rep((0.46)^(1 / 12), 12), rep(0.7^(1 / 12), 23))
-      private$fertility <- c(rep((0.745 / 3) / 12, 12), rep(2.52 / 12, 12), rep(1.98 / 12, 12))
+      private$fertility <- comprehenr::to_vec(for (f in fertility) rep(f / 12, 12))
     }
   ),
   private = list()
