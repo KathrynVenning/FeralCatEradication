@@ -1,5 +1,6 @@
 library(FeralCatEradication)
 source("R/monthly_matrix_leslie.R")
+source("R/untreated_population.R")
 
 fertility <- c((0.745 / 3), 0.745, 2.52, 2.52, 2.52, 2.52, 1.98)
 survival_probability <- c(0.46, 0.46, 0.7, 0.7, 0.7, 0.7)
@@ -11,7 +12,8 @@ ml <- matrix_leslie(fertility, survival_probability)
 mml <- monthly_matrix_leslie(fertility, survival_probability)
 max_lambda(ml)
 max_lambda(mml)^12
-population <- Monthly_Population$new(fertility, survival_probability)
+survival <- Monthly_Survival_Fertility$new(fertility, survival_probability)
+population <- Monthly_Population$new(survival)
 population$run_generations(yr_now, yr_end, initial_population = initial_population)
 
 plotter <- Plotter_Population$new()
