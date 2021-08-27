@@ -183,9 +183,10 @@ describe("Class Population", {
   it("The builder works correctly", {
     fertility <- rep(1, 4)
     survival_probability <- rep(1, 3)
-    population <- Population$new(fertility, survival_probability)
-    expect_equal(fertility, population$fertility)
-    expect_equal(survival_probability, population$survival_probability)
+    survival <- Survival_Fertility$new(fertility, survival_probability)
+    population <- Population$new(survival)
+    expect_equal(fertility, population$survival$get_fertility())
+    expect_equal(survival_probability, population$survival$get_survival())
   })
 })
 
