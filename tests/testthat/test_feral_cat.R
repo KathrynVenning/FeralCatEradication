@@ -239,8 +239,8 @@ describe("The class Monthly_Interval_Time", {
     expect_equal(expected_months, obtained_months)
   })
   it("The method get_time_sequence works right", {
-    interval_time <- Interval_Time$new(initial_year = 2020, final_year = 2022)
-    expected_sequence_years <- seq(2020, 2022, 1/12)
+    interval_time <- Monthly_Interval_Time$new(initial_year = 2020, final_year = 2022)
+    expected_sequence_years <- seq(2020, 2022, 1 / 12)
     obtained_sequence_years <- interval_time$get_time_sequence()
     expect_equal(expected_sequence_years, obtained_sequence_years)
   })
