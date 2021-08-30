@@ -1,5 +1,6 @@
 library(testthat)
 library(FeralCatEradication)
+source("../../R/feral_cat.R")
 
 describe("Get version of the module", {
   it("The version is 0.1.9", {
@@ -196,5 +197,18 @@ describe("The class Plotter_Population", {
     plotter <- Plotter_Population$new()
     all_true <- all(expected_methods %in% names(plotter))
     expect_true(all_true)
+  })
+})
+
+describe("The class Interval_Time", {
+  it("The method get_years works right", {
+    interval_time <- Interval_Time$new(initial_year = 2020, final_year = 2030)
+    expected_years <- 10
+    obtained_years <- interval_time$get_years()
+    expect_equal(expected_years, obtained_years)
+    interval_time <- Interval_Time$new(initial_year = 2020, final_year = 2031)
+    expected_years <- 11
+    obtained_years <- interval_time$get_years()
+    expect_equal(expected_years, obtained_years)
   })
 })

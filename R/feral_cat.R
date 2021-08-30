@@ -1,3 +1,4 @@
+library(tidyverse)
 #' @export
 max_lambda <- function(x) {
   Re((eigen(x)$values)[1])
@@ -203,4 +204,21 @@ Carry_Capacity <- R6::R6Class("Carry_Capacity",
     }
   ),
   private = list()
+)
+
+Interval_Time <- R6::R6Class("Interval_Time",
+  public = list(
+    initialize = function(initial_year, final_year) {
+      private$initial_year <- initial_year
+      private$final_year <- final_year
+    },
+    get_years = function() {
+      diff_years <- private$final_year - private$initial_year
+      return(diff_years)
+    }
+  ),
+  private = list(
+    initial_year = NULL,
+    final_year = NULL
+  )
 )
