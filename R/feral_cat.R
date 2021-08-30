@@ -207,7 +207,7 @@ Carry_Capacity <- R6::R6Class("Carry_Capacity",
 )
 
 Abstract_Interval_Time <- R6::R6Class("Abstract_Interval_Time",
-public = list(
+  public = list(
     initialize = function(initial_year, final_year) {
       private$initial_year <- initial_year
       private$final_year <- final_year
