@@ -30,6 +30,7 @@ check:
 clean:
 	rm --force --recursive FeralCatEradication.Rcheck
 	rm --force --recursive reports/figures
+	rm --force --recursive tests/testthat/_snaps
 	rm --force FeralCatEradication_*.tar.gz
 	rm --force NAMESPACE
 	rm --force Rplots.pdf

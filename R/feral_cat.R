@@ -149,6 +149,7 @@ Plotter_Population <- R6::R6Class("Plotter_Population",
       individuals <- private$setup_variables(population)
       y_ticks <- private$setup_y_ticks(individuals)
       private$make_plot(individuals, y_ticks)
+      return(private$plot_population)
     },
     plot_carry_capacity = function(Carry_Capacity) {
       private$plot_population +
