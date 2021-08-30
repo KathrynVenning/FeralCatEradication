@@ -206,12 +206,27 @@ Carry_Capacity <- R6::R6Class("Carry_Capacity",
   private = list()
 )
 
-Interval_Time <- R6::R6Class("Interval_Time",
-  public = list(
+Abstract_Interval_Time <- R6::R6Class("Abstract_Interval_Time",
+public = list(
     initialize = function(initial_year, final_year) {
       private$initial_year <- initial_year
       private$final_year <- final_year
     },
+    get_years = function() {
+    },
+    get_time_sequence = function() {
+    }
+  ),
+  private = list(
+    initial_year = NULL,
+    final_year = NULL
+  )
+)
+
+#' @export
+Interval_Time <- R6::R6Class("Interval_Time",
+  inherit = Abstract_Interval_Time,
+  public = list(
     get_years = function() {
       diff_years <- private$final_year - private$initial_year
       return(diff_years)
@@ -221,14 +236,12 @@ Interval_Time <- R6::R6Class("Interval_Time",
       return(sequence_years)
     }
   ),
-  private = list(
-    initial_year = NULL,
-    final_year = NULL
-  )
+  private = list()
 )
 
+#' @export
 Monthly_Interval_Time <- R6::R6Class("Monthly_Interval_Time",
-  inherit = Interval_Time,
+  inherit = Abstract_Interval_Time,
   public = list(
     get_years = function() {
       diff_years <- (private$final_year - private$initial_year) * 12

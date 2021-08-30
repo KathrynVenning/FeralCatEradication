@@ -20,10 +20,16 @@ population_with_cc$run_generations(interval_time, initial_population = initial_p
 test_that("Population anualy from 2020 to 2030", {
   plotter <- Plotter_Population$new()
   p <- plotter$plot(population_with_cc)
-  expect_doppelganger("default histogram", p)
+  expect_doppelganger("Population anualy", p)
 })
 
-test_that("base histogram works", {
-  p <- function() hist(mtcars$disp)
-  expect_doppelganger("base histogram", p)
+interval_time <- Monthly_Interval_Time$new(initial_year = yr_now, final_year = yr_end)
+survival <- Monthly_Survival_Fertility$new(fertility, survival_probability)
+population <- Population$new(survival)
+population$run_generations(interval_time, initial_population = initial_population)
+
+test_that("Population monthly from 2020 to 2030", {
+  plotter <- Plotter_Population$new()
+  p <- plotter$plot(population)
+  expect_doppelganger("Population monthly", p)
 })
