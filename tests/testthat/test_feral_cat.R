@@ -211,4 +211,9 @@ describe("The class Interval_Time", {
     obtained_years <- interval_time$get_years()
     expect_equal(expected_years, obtained_years)
   })
+  it("The method get_time_sequence works right", {
+    interval_time <- Interval_Time$new(initial_year = 2020, final_year = 2023)
+    expected_sequence_years <- c(2020, 2021, 2022, 2023)
+    obtained_sequence_years <- interval_time$get_time_sequence()
+  })
 })
