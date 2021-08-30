@@ -226,3 +226,14 @@ Interval_Time <- R6::R6Class("Interval_Time",
     final_year = NULL
   )
 )
+
+Monthly_Interval_Time <- R6::R6Class("Monthly_Interval_Time",
+  inherit = Interval_Time,
+  public = list(
+    get_years = function() {
+      diff_years <- (private$final_year - private$initial_year) * 12
+      return(diff_years)
+    }
+  ),
+  private = list()
+)
