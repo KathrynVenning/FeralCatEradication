@@ -2,6 +2,14 @@ reports/figures/reduction_factor.jpg: src/plot_reduction_factor.R
 	mkdir --parents $(@D)
 	Rscript src/plot_reduction_factor.R
 
+reports/figures/simulation.jpg: src/untreated_population.R
+	mkdir --parents $(@D)
+	Rscript src/untreated_population.R
+
+reports/figures/monthly_time_serie_individuals.jpg: src/presentacion_210820.R
+	mkdir --parents $(@D)
+	Rscript src/presentacion_210820.R
+
 .PHONY: \
 		check \
 		clean \
