@@ -107,8 +107,8 @@ Population <- R6::R6Class("Population",
     initialize = function(survival) {
       self$survival <- survival
     },
-    run_generations = function(initial_year, final_year, initial_population, coefficients = list(a_lp = 2, b_lp = 4, c_lp = 0)) {
-      n_mat <- private$setup_variables(initial_year, final_year, initial_population)
+    run_generations = function(interval_time, initial_population, coefficients = list(a_lp = 2, b_lp = 4, c_lp = 0)) {
+      n_mat <- private$setup_variables(interval_time, initial_population)
       for (year in 1:private$years) {
         tot_n_i <- sum(n_mat[, year])
         modified_survival_probability <- modifier_survival_probability(tot_n_i, coefficients, self$survival$get_survival())
@@ -120,14 +120,14 @@ Population <- R6::R6Class("Population",
   ),
   private = list(
     years = NULL,
-    setup_variables = function(initial_year, final_year, initial_population) {
-      private$setup_temporal_variables(initial_year, final_year)
+    setup_variables = function(interval_time, initial_population) {
+      private$setup_temporal_variables(interval_time)
       n_mat <- private$setup_matrix_population(initial_population)
       return(n_mat)
     },
-    setup_temporal_variables = function(initial_year, final_year) {
-      private$years <- final_year - initial_year
-      self$sequence_years <- seq(initial_year, final_year, 1)
+    setup_temporal_variables = function(interval_time) {
+      private$years <- interval_time$get_years()
+      self$sequence_years <- interval_time$get_time_sequence()
     },
     setup_matrix_population = function(initial_population) {
       age_max <- length(self$survival$get_fertility())
