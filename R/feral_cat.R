@@ -217,7 +217,7 @@ Interval_Time <- R6::R6Class("Interval_Time",
       return(diff_years)
     },
     get_time_sequence = function() {
-      sequence_years <- c(2020, 2021, 2022, 2023)
+      sequence_years <- seq(private$initial_year, private$final_year, 1)
       return(sequence_years)
     }
   ),
