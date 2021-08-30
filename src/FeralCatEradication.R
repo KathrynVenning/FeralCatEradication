@@ -16,9 +16,10 @@ initial_population <- 1629
 # Project
 yr_now <- 2020 # update if more data available post-2010
 yr_end <- 2030 # set projection end date
+interval_time <- Interval_Time$new(initial_year = yr_now, final_year = yr_end)
 survival <- Survival_Fertility$new(fertility, survival_probability)
 population_with_cc <- Population$new(survival)
-population_with_cc$run_generations(yr_now, yr_end, initial_population = initial_population)
+population_with_cc$run_generations(interval_time, initial_population = initial_population)
 
 plotter <- Plotter_Population$new()
 plotter$plot(population_with_cc)
@@ -32,7 +33,7 @@ capacity <- Carry_Capacity$new()
 coefficients <- capacity$coefficients_model(half_capacity = initial_population)
 # compensatory density-feedback deterministic model
 # set population storage matrices
-population_with_cc$run_generations(yr_now, yr_end, initial_population = initial_population, coefficients)
+population_with_cc$run_generations(interval_time, initial_population = initial_population, coefficients)
 
 plotter$plot(population_with_cc)
 plotter$plot_carry_capacity(capacity)
