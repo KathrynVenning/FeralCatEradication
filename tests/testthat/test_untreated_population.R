@@ -1,5 +1,5 @@
 library(comprehenr)
-source("../../R/untreated_population.R")
+library(FeralCatEradication)
 
 describe(" The function est_beta_params", {
   it("Return right answer", {

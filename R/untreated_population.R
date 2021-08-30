@@ -5,6 +5,7 @@ est_beta_params <- function(mu, var) {
   return(params = list(alpha = alpha, beta = beta))
 }
 
+#' @export
 get_stochastic_fertility <- function(fertility, sd_fertility) {
   fert.stch <- rnorm(length(fertility), fertility, sd_fertility)
   fert.stoch <- ifelse(fert.stch < 0, 0, fert.stch)
