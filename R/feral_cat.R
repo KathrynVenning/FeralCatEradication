@@ -233,6 +233,10 @@ Monthly_Interval_Time <- R6::R6Class("Monthly_Interval_Time",
     get_years = function() {
       diff_years <- (private$final_year - private$initial_year) * 12
       return(diff_years)
+    },
+    get_time_sequence = function() {
+      sequence_years <- seq(private$initial_year, private$final_year, 1 / 12)
+      return(sequence_years)
     }
   ),
   private = list()
