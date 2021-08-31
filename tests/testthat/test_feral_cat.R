@@ -1,6 +1,6 @@
 library(testthat)
 library(FeralCatEradication)
-source("../../R/feral_cat.R")
+
 
 describe("Get version of the module", {
   it("The version is 0.1.9", {

@@ -44,7 +44,7 @@ clean:
 	rm --force Rplots.pdf
 
 coverage: setup
-	R -e "cobertura <- covr::file_coverage(c('R/feral_cat.R'), c('tests/testthat/test_feral_cat.R'))" \
+	R -e "cobertura <- covr::file_coverage(c('R/feral_cat.R'), c('tests/testthat/test_feral_cat.R', 'tests/testthat/test_plots.R', 'tests/testthat/test_monthly_matrix_leslie.R', 'tests/testthat/test_untreated_population.R'))" \
 	  -e "covr::codecov(covertura=cobertura, token='d40cba41-8ee3-414d-9e04-581d33a42b62')"
 
 format:
