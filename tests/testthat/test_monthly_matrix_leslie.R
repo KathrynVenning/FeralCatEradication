@@ -1,4 +1,4 @@
-source("../../R/monthly_matrix_leslie.R")
+library(FeralCatEradication)
 
 describe("monthly_matrix_leslie", {
   fertility <- c((0.745 / 3), 2.52, 1.98)

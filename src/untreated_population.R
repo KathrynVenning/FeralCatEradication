@@ -19,11 +19,12 @@ survival <- Stochastic_Survival_Fertility$new(fertility, survival_probability)
 survival$set_standard_desviations(std_fertility, std_survival_probability)
 yr_now <- 2020 # update if more data available post-2010
 yr_end <- 2030 # set projection end date
+interval_time <- Interval_Time$new(initial_year = yr_now, final_year = yr_end)
 number_year <- yr_end - yr_now + 1
 n_sums_mat <- matrix(data = 0, nrow = iter, ncol = number_year)
 population <- Population$new(survival)
 for (simulation in seq(1, iter)) {
-  population$run_generations(yr_now, yr_end, initial_population = initial_population, coefficients)
+  population$run_generations(interval_time, initial_population = initial_population, coefficients)
   n_sums_mat[simulation, ] <- colSums(population$n_mat) / initial_population
 }
 
@@ -36,4 +37,4 @@ untreated <- data.frame(yrs, n_md, n_lo, n_up)
 ggplot(untreated, aes(x = yrs, y = n_md)) +
   geom_line(colour = "blue") +
   geom_ribbon(aes(ymin = n_lo, ymax = n_up), alpha = 0.2)
-ggsave("simulation.jpg")
+ggsave("reports/figures/simulation.jpg")

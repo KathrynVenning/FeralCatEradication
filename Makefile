@@ -2,6 +2,14 @@ reports/figures/reduction_factor.jpg: src/plot_reduction_factor.R
 	mkdir --parents $(@D)
 	Rscript src/plot_reduction_factor.R
 
+reports/figures/simulation.jpg: src/untreated_population.R
+	mkdir --parents $(@D)
+	Rscript src/untreated_population.R
+
+reports/figures/monthly_time_serie_individuals.jpg: src/presentacion_210820.R
+	mkdir --parents $(@D)
+	Rscript src/presentacion_210820.R
+
 .PHONY: \
 		check \
 		clean \
@@ -30,13 +38,13 @@ check:
 clean:
 	rm --force --recursive FeralCatEradication.Rcheck
 	rm --force --recursive reports/figures
+	rm --force --recursive tests/testthat/_snaps
 	rm --force FeralCatEradication_*.tar.gz
 	rm --force NAMESPACE
 	rm --force Rplots.pdf
 
 coverage: setup
-	R -e "cobertura <- covr::file_coverage(c('R/feral_cat.R'), c('tests/testthat/test_feral_cat.R'))" \
-	  -e "covr::codecov(covertura=cobertura, token='d40cba41-8ee3-414d-9e04-581d33a42b62')"
+	Rscript tests/testthat/coverage.R
 
 format:
 	R -e "library(styler)" \
@@ -58,8 +66,8 @@ results: src/FeralCatEradication.R
 setup:
 	R -e "devtools::document()" && \
 	R CMD build . && \
-	R CMD check FeralCatEradication_0.1.8.tar.gz && \
-	R CMD INSTALL FeralCatEradication_0.1.8.tar.gz
+	R CMD check FeralCatEradication_0.1.9.tar.gz && \
+	R CMD INSTALL FeralCatEradication_0.1.9.tar.gz
 	
 tests:
 	R -e "testthat::test_dir('tests/testthat/', report = 'summary', stop_on_failure = TRUE)"

@@ -5,6 +5,7 @@ est_beta_params <- function(mu, var) {
   return(params = list(alpha = alpha, beta = beta))
 }
 
+#' @export
 get_stochastic_fertility <- function(fertility, sd_fertility) {
   fert.stch <- rnorm(length(fertility), fertility, sd_fertility)
   fert.stoch <- ifelse(fert.stch < 0, 0, fert.stch)
@@ -64,15 +65,15 @@ Stochastic_Survival_Fertility <- R6::R6Class("Stochastic_Survival_Fertility",
 Monthly_Survival_Fertility <- R6::R6Class("Monthly_Survival_Fertility",
   inherit = Survival_Fertility,
   public = list(
-    initialize = function(fertility, survival_probability) {
-      private$survival <- private$set_survival(survival_probability)
-      private$fertility <- comprehenr::to_vec(for (f in fertility) rep(f / 12, 12))
+    get_fertility = function() {
+      fertility <- comprehenr::to_vec(for (f in private$fertility) rep(f / 12, 12))
+      return(fertility)
+    },
+    get_survival = function() {
+      survival <- comprehenr::to_vec(for (s in private$survival) rep(s^(1 / 12), 12))
+      survival <- append(survival, rep(survival[length(survival)], 11))
+      return(survival)
     }
   ),
-  private = list(
-    set_survival = function(survival) {
-      private$survival <- comprehenr::to_vec(for (s in survival) rep(s^(1 / 12), 12))
-      private$survival <- append(private$survival, rep(private$survival[length(private$survival)], 11))
-    }
-  )
+  private = list()
 )

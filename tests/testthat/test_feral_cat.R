@@ -1,9 +1,10 @@
 library(testthat)
 library(FeralCatEradication)
 
+
 describe("Get version of the module", {
-  it("The version is 0.1.8", {
-    expected_version <- c("0.1.8")
+  it("The version is 0.1.9", {
+    expected_version <- c("0.1.9")
     obtained_version <- packageVersion("FeralCatEradication")
     version_are_equal <- expected_version == obtained_version
     expect_true(version_are_equal)
@@ -196,5 +197,55 @@ describe("The class Plotter_Population", {
     plotter <- Plotter_Population$new()
     all_true <- all(expected_methods %in% names(plotter))
     expect_true(all_true)
+  })
+})
+
+describe("The class Interval_Time", {
+  it("The method get_years works right", {
+    interval_time <- Interval_Time$new(initial_year = 2020, final_year = 2030)
+    expected_years <- 10
+    obtained_years <- interval_time$get_years()
+    expect_equal(expected_years, obtained_years)
+    interval_time <- Interval_Time$new(initial_year = 2020, final_year = 2031)
+    expected_years <- 11
+    obtained_years <- interval_time$get_years()
+    expect_equal(expected_years, obtained_years)
+  })
+  it("The method get_time_sequence works right", {
+    interval_time <- Interval_Time$new(initial_year = 2020, final_year = 2023)
+    expected_sequence_years <- c(2020, 2021, 2022, 2023)
+    obtained_sequence_years <- interval_time$get_time_sequence()
+    expect_equal(expected_sequence_years, obtained_sequence_years)
+    interval_time <- Interval_Time$new(initial_year = 2020, final_year = 2022)
+    expected_sequence_years <- c(2020, 2021, 2022)
+    obtained_sequence_years <- interval_time$get_time_sequence()
+    expect_equal(expected_sequence_years, obtained_sequence_years)
+    interval_time <- Interval_Time$new(initial_year = 2020, final_year = 2025)
+    expected_sequence_years <- c(2020, 2021, 2022, 2023, 2024, 2025)
+    obtained_sequence_years <- interval_time$get_time_sequence()
+    expect_equal(expected_sequence_years, obtained_sequence_years)
+  })
+})
+
+describe("The class Monthly_Interval_Time", {
+  it("The method get_years works right", {
+    interval_time <- Monthly_Interval_Time$new(initial_year = 2020, final_year = 2030)
+    expected_months <- 10 * 12
+    obtained_months <- interval_time$get_years()
+    expect_equal(expected_months, obtained_months)
+    interval_time <- Monthly_Interval_Time$new(initial_year = 2020, final_year = 2025)
+    expected_months <- 5 * 12
+    obtained_months <- interval_time$get_years()
+    expect_equal(expected_months, obtained_months)
+  })
+  it("The method get_time_sequence works right", {
+    interval_time <- Monthly_Interval_Time$new(initial_year = 2020, final_year = 2022)
+    expected_sequence_years <- seq(2020, 2022, 1 / 12)
+    obtained_sequence_years <- interval_time$get_time_sequence()
+    expect_equal(expected_sequence_years, obtained_sequence_years)
+    interval_time <- Monthly_Interval_Time$new(initial_year = 2020, final_year = 2032)
+    expected_sequence_years <- seq(2020, 2032, 1 / 12)
+    obtained_sequence_years <- interval_time$get_time_sequence()
+    expect_equal(expected_sequence_years, obtained_sequence_years)
   })
 })

@@ -1,3 +1,4 @@
+library(tidyverse)
 #' @export
 max_lambda <- function(x) {
   Re((eigen(x)$values)[1])
@@ -106,8 +107,8 @@ Population <- R6::R6Class("Population",
     initialize = function(survival) {
       self$survival <- survival
     },
-    run_generations = function(initial_year, final_year, initial_population, coefficients = list(a_lp = 2, b_lp = 4, c_lp = 0)) {
-      n_mat <- private$setup_variables(initial_year, final_year, initial_population)
+    run_generations = function(interval_time, initial_population, coefficients = list(a_lp = 2, b_lp = 4, c_lp = 0)) {
+      n_mat <- private$setup_variables(interval_time, initial_population)
       for (year in 1:private$years) {
         tot_n_i <- sum(n_mat[, year])
         modified_survival_probability <- modifier_survival_probability(tot_n_i, coefficients, self$survival$get_survival())
@@ -119,14 +120,14 @@ Population <- R6::R6Class("Population",
   ),
   private = list(
     years = NULL,
-    setup_variables = function(initial_year, final_year, initial_population) {
-      private$setup_temporal_variables(initial_year, final_year)
+    setup_variables = function(interval_time, initial_population) {
+      private$setup_temporal_variables(interval_time)
       n_mat <- private$setup_matrix_population(initial_population)
       return(n_mat)
     },
-    setup_temporal_variables = function(initial_year, final_year) {
-      private$years <- final_year - initial_year
-      self$sequence_years <- seq(initial_year, final_year, 1)
+    setup_temporal_variables = function(interval_time) {
+      private$years <- interval_time$get_years()
+      self$sequence_years <- interval_time$get_time_sequence()
     },
     setup_matrix_population = function(initial_population) {
       age_max <- length(self$survival$get_fertility())
@@ -149,6 +150,7 @@ Plotter_Population <- R6::R6Class("Plotter_Population",
       individuals <- private$setup_variables(population)
       y_ticks <- private$setup_y_ticks(individuals)
       private$make_plot(individuals, y_ticks)
+      return(private$plot_population)
     },
     plot_carry_capacity = function(Carry_Capacity) {
       private$plot_population +
@@ -199,6 +201,57 @@ Carry_Capacity <- R6::R6Class("Carry_Capacity",
       k_vec <- c(1, half_capacity / 2, half_capacity, 0.75 * self$k_max, self$k_max)
       coefficients <- coefficients_proportion_realized_survival(k_vec, self$red_vec)
       return(coefficients)
+    }
+  ),
+  private = list()
+)
+
+Abstract_Interval_Time <- R6::R6Class("Abstract_Interval_Time",
+  public = list(
+    initialize = function(initial_year, final_year) {
+      private$initial_year <- initial_year
+      private$final_year <- final_year
+    },
+    get_years = function() {
+      stop("Implement this method")
+    },
+    get_time_sequence = function() {
+      stop("Implement this method")
+    }
+  ),
+  private = list(
+    initial_year = NULL,
+    final_year = NULL
+  )
+)
+
+#' @export
+Interval_Time <- R6::R6Class("Interval_Time",
+  inherit = Abstract_Interval_Time,
+  public = list(
+    get_years = function() {
+      diff_years <- private$final_year - private$initial_year
+      return(diff_years)
+    },
+    get_time_sequence = function() {
+      sequence_years <- seq(private$initial_year, private$final_year, 1)
+      return(sequence_years)
+    }
+  ),
+  private = list()
+)
+
+#' @export
+Monthly_Interval_Time <- R6::R6Class("Monthly_Interval_Time",
+  inherit = Abstract_Interval_Time,
+  public = list(
+    get_years = function() {
+      diff_years <- (private$final_year - private$initial_year) * 12
+      return(diff_years)
+    },
+    get_time_sequence = function() {
+      sequence_years <- seq(private$initial_year, private$final_year, 1 / 12)
+      return(sequence_years)
     }
   ),
   private = list()
