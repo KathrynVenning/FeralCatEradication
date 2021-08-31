@@ -13,4 +13,4 @@ cobertura <- file_coverage(
     "tests/testthat/test_untreated_population.R"
   )
 )
-covr::codecov(covertura=cobertura, token='d40cba41-8ee3-414d-9e04-581d33a42b62')
+covr::codecov(covertura = cobertura, token = "d40cba41-8ee3-414d-9e04-581d33a42b62")
