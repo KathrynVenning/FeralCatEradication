@@ -213,8 +213,10 @@ Abstract_Interval_Time <- R6::R6Class("Abstract_Interval_Time",
       private$final_year <- final_year
     },
     get_years = function() {
+      stop("Implement this method")
     },
     get_time_sequence = function() {
+      stop("Implement this method")
     }
   ),
   private = list(
