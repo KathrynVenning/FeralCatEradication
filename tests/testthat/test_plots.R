@@ -2,7 +2,11 @@ library(tidyverse)
 library(testthat)
 library(vdiffr)
 library(ggplot2)
-library(FeralCatEradication)
+#library(FeralCatEradication)
+setwd("/workdir")
+source("R/feral_cat.R")
+source("R/monthly_matrix_leslie.R")
+source("R/untreated_population.R")
 
 
 fertility <- c((0.745 / 3), 0.745, 2.52, 2.52, 2.52, 2.52, 1.98)
