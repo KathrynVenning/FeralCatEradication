@@ -142,6 +142,47 @@ Population <- R6::R6Class("Population",
 )
 
 #' @export
+Runner_Population <- R6::R6Class("Runner_Population",
+  public = list(
+    population = NULL,
+    n_mat = NULL,
+    sequence_years = NULL,
+    initialize = function(population) {
+      self$population <- population
+    },
+    run_generations = function(interval_time, initial_population) {
+      n_mat <- private$setup_variables(interval_time, initial_population)
+      for (year in 1:private$years) {
+        popmat <- matrix_leslie(self$population$survival$get_fertility(), self$population$survival$get_survival())
+        n_mat[, year + 1] <- popmat %*% n_mat[, year]
+      }
+      self$n_mat <- n_mat
+    }
+  ),
+  private = list(
+    years = NULL,
+    setup_variables = function(interval_time, initial_population) {
+      private$setup_temporal_variables(interval_time)
+      n_mat <- private$setup_matrix_population(initial_population)
+      return(n_mat)
+    },
+    setup_temporal_variables = function(interval_time) {
+      private$years <- interval_time$get_years()
+      self$sequence_years <- interval_time$get_time_sequence()
+    },
+    setup_matrix_population = function(initial_population) {
+      age_max <- length(self$population$survival$get_fertility())
+      n_mat <- matrix(0, nrow = age_max, ncol = (private$years + 1))
+      popmat <- matrix_leslie(self$population$survival$get_fertility(), self$population$survival$get_survival())
+      ssd <- FeralCatEradication::stable_stage_dist(popmat)
+      classes_age_population <- ssd * initial_population
+      n_mat[, 1] <- classes_age_population
+      return(n_mat)
+    }
+  )
+)
+
+#' @export
 Plotter_Population <- R6::R6Class("Plotter_Population",
   public = list(
     initialize = function() {
