@@ -73,3 +73,24 @@ lines(harv.prop.consist, min.lo.n, col = "red", lty = 2)
 lines(harv.prop.consist, min.up.n, col = "red", lty = 2)
 
 minn.prop.pop <- data.frame(harv.prop.consist, min.med.n, min.lo.n, min.up.n)
+
+
+## Inicializa parametros
+inicializaVariables()
+creaObjeto()
+## El tratamiento
+
+for (s in 1:length(harv.prop.consist)) {
+
+  # set storage matrices & vectors
+  n.sums.mat <- matrix(data = 0, nrow = iter, ncol = (t + 1))
+    n.sums.mat[e, ] <- as.vector((colSums(n.mat)) / pop.found) # / pop.mat for min proportion remaining population
+    simulator <- Runner_Population$new(s, coefficients)
+    for (simulation in seq(1, iter)) {
+      simulator$run_generations(interval_time, initial_population = initial_population)
+      n_sums_mat[simulation, ] <- colSums(population$n_mat) / initial_population
+    }
+    if (e %% itdiv == 0) print(e)
+  } # end e loop
+
+## Graficacion
