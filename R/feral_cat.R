@@ -273,7 +273,7 @@ Runner_Population_With_CC <- R6::R6Class("Runner_Population_With_CC",
   inherit = Runner_Population,
   public = list(
     coefficients = NULL,
-    initialize = function(population, coefficients){
+    initialize = function(population, coefficients) {
       self$population <- population
       self$coefficients <- coefficients
     },
@@ -297,7 +297,7 @@ Runner_Population_With_CC_harvest <- R6::R6Class("Runner_Population_With_CC_harv
   public = list(
     coefficients = NULL,
     harvest = NULL,
-    initialize = function(population, coefficients, harvest){
+    initialize = function(population, coefficients, harvest) {
       self$population <- population
       self$coefficients <- coefficients
       self$harvest <- harvest
