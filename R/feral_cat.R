@@ -189,13 +189,13 @@ Plotter_Population <- R6::R6Class("Plotter_Population",
       private$plot_population <- ggplot(data = individuals, aes(x = yrs, y = n_pred)) +
         geom_point(shape = 19) +
         geom_line(linetype = "dashed") +
-        theme_classic() +
         scale_y_continuous(
           expand = c(0, 0),
           limits = range(y_ticks),
           breaks = y_ticks
         ) +
-        labs(x = "", y = "Number of individuals (cats)")
+        labs(x = "", y = "Number of individuals (cats)") +
+        theme_classic()
     }
   )
 )
