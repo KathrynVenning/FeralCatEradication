@@ -19,22 +19,23 @@ yr_end <- 2030 # set projection end date
 interval_time <- Interval_Time$new(initial_year = yr_now, final_year = yr_end)
 survival <- Survival_Fertility$new(fertility, survival_probability)
 population_with_cc <- Population$new(survival)
-population_with_cc$run_generations(interval_time, initial_population = initial_population)
-
+simulator <- Runner_Population$new(population_with_cc)
+simulator$run_generations(interval_time, initial_population = initial_population)
 
 test_that("Population anualy from 2020 to 2030", {
   plotter <- Plotter_Population$new()
-  p <- plotter$plot(population_with_cc)
+  p <- plotter$plot(simulator)
   expect_doppelganger("Population anualy", p)
 })
 
 interval_time <- Monthly_Interval_Time$new(initial_year = yr_now, final_year = yr_end)
 survival <- Monthly_Survival_Fertility$new(fertility, survival_probability)
 population <- Population$new(survival)
-population$run_generations(interval_time, initial_population = initial_population)
+simulator <- Runner_Population$new(population)
+simulator$run_generations(interval_time, initial_population = initial_population)
 
 test_that("Population monthly from 2020 to 2030", {
   plotter <- Plotter_Population$new()
-  p <- plotter$plot(population)
+  p <- plotter$plot(simulator)
   expect_doppelganger("Population monthly", p)
 })
