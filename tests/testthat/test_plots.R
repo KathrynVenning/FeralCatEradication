@@ -39,3 +39,25 @@ test_that("Population monthly from 2020 to 2030", {
   p <- plotter$plot(simulator)
   expect_doppelganger("Population monthly", p)
 })
+
+capacity <- Carry_Capacity$new()
+coefficients <- capacity$coefficients_model(half_capacity = initial_population)
+population_with_cc <- Population$new(survival)
+simulator <- Runner_Population_With_CC$new(population_with_cc, coefficients)
+simulator$run_generations(interval_time, initial_population = initial_population)
+
+test_that("Population anualy with carring capacity from 2020 to 2030", {
+  plotter <- Plotter_Population$new()
+  p <- plotter$plot(simulator)
+  expect_doppelganger("Population anualy with carring capacity", p)
+})
+
+population_with_cc <- Population$new(survival)
+simulator <- Runner_Population_With_CC_harvest$new(population_with_cc, coefficients, 0.1)
+simulator$run_generations(interval_time, initial_population = initial_population)
+
+test_that("Population anualy with carring capacity and harvest from 2020 to 2030", {
+  plotter <- Plotter_Population$new()
+  p <- plotter$plot(simulator)
+  expect_doppelganger("Population anualy with carring capacity and harvest", p)
+})
