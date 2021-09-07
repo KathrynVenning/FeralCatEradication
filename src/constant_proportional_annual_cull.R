@@ -31,7 +31,6 @@ number_year <- yr_end - yr_now + 1
 n_sums_mat <- matrix(data = 0, nrow = iter, ncol = number_year)
 population <- Population$new(survival)
 
-yrs <- interval_time$get_time_sequence()
 for (s in 1:length(harv.prop.consist)) {
 
   # set storage matrices & vectors
