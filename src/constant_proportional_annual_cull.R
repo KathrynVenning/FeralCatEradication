@@ -5,6 +5,7 @@ harv.prop.consist <- seq(0.2, 0.99, 0.05) # sequence harvest/culling quotas, e.g
 min.med.n <- min.lo.n <- min.up.n <- rep(0, length(harv.prop.consist))
 
 library("ggplot2")
+library("latex2exp")
 library(FeralCatEradication)
 source("R/feral_cat.R")
 source("src/parameters_of_fertility_and_survival.R")
@@ -53,5 +54,5 @@ minn.prop.pop <- data.frame(harv.prop.consist, min.med.n, min.lo.n, min.up.n)
 ggplot(minn.prop.pop, aes(x = harv.prop.consist, y = min.med.n)) +
   geom_line(colour = "blue") +
   geom_ribbon(aes(ymin = min.lo.n, ymax = min.up.n), alpha = 0.2) +
-  labs(x = "constant proportional cull", y = "proportion of N1")
+  labs(x = "constant proportional cull", y = TeX("proportion of $N_1$"))
 ggsave("reports/figures/constant_proportional_annual_cull.jpg")
