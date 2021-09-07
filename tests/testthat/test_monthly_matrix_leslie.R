@@ -1,4 +1,8 @@
-library(FeralCatEradication)
+# library(FeralCatEradication)
+setwd("/workdir")
+source("R/feral_cat.R")
+source("R/monthly_matrix_leslie.R")
+source("R/untreated_population.R")
 
 describe("monthly_matrix_leslie", {
   fertility <- c((0.745 / 3), 2.52, 1.98)

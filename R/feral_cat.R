@@ -106,14 +106,24 @@ Population <- R6::R6Class("Population",
     sequence_years = NULL,
     initialize = function(survival) {
       self$survival <- survival
+    }
+  ),
+  private = list()
+)
+
+#' @export
+Runner_Population <- R6::R6Class("Runner_Population",
+  public = list(
+    population = NULL,
+    n_mat = NULL,
+    sequence_years = NULL,
+    initialize = function(population) {
+      self$population <- population
     },
-    run_generations = function(interval_time, initial_population, coefficients = list(a_lp = 2, b_lp = 4, c_lp = 0)) {
+    run_generations = function(interval_time, initial_population) {
       n_mat <- private$setup_variables(interval_time, initial_population)
       for (year in 1:private$years) {
-        tot_n_i <- sum(n_mat[, year])
-        modified_survival_probability <- modifier_survival_probability(tot_n_i, coefficients, self$survival$get_survival())
-        popmat <- matrix_leslie(self$survival$get_fertility(), modified_survival_probability)
-        n_mat[, year + 1] <- popmat %*% n_mat[, year]
+        n_mat[, year + 1] <- private$run_a_year(n_mat[, year])
       }
       self$n_mat <- n_mat
     }
@@ -130,13 +140,18 @@ Population <- R6::R6Class("Population",
       self$sequence_years <- interval_time$get_time_sequence()
     },
     setup_matrix_population = function(initial_population) {
-      age_max <- length(self$survival$get_fertility())
+      age_max <- length(self$population$survival$get_fertility())
       n_mat <- matrix(0, nrow = age_max, ncol = (private$years + 1))
-      popmat <- matrix_leslie(self$survival$get_fertility(), self$survival$get_survival())
+      popmat <- matrix_leslie(self$population$survival$get_fertility(), self$population$survival$get_survival())
       ssd <- FeralCatEradication::stable_stage_dist(popmat)
       classes_age_population <- ssd * initial_population
       n_mat[, 1] <- classes_age_population
       return(n_mat)
+    },
+    run_a_year = function(n_mat) {
+      popmat <- matrix_leslie(self$population$survival$get_fertility(), self$population$survival$get_survival())
+      population_next_year <- popmat %*% n_mat
+      return(population_next_year)
     }
   )
 )
@@ -178,13 +193,13 @@ Plotter_Population <- R6::R6Class("Plotter_Population",
       private$plot_population <- ggplot(data = individuals, aes(x = yrs, y = n_pred)) +
         geom_point(shape = 19) +
         geom_line(linetype = "dashed") +
-        theme_classic() +
         scale_y_continuous(
           expand = c(0, 0),
           limits = range(y_ticks),
           breaks = y_ticks
         ) +
-        labs(x = "", y = "Number of individuals (cats)")
+        labs(x = "", y = "Number of individuals (cats)") +
+        theme_classic()
     }
   )
 )
@@ -255,4 +270,51 @@ Monthly_Interval_Time <- R6::R6Class("Monthly_Interval_Time",
     }
   ),
   private = list()
+)
+
+#' @export
+Runner_Population_With_CC <- R6::R6Class("Runner_Population_With_CC",
+  inherit = Runner_Population,
+  public = list(
+    coefficients = NULL,
+    initialize = function(population, coefficients) {
+      self$population <- population
+      self$coefficients <- coefficients
+    }
+  ),
+  private = list(
+    run_a_year = function(n_mat) {
+      tot_n_i <- sum(n_mat)
+      modified_survival_probability <- modifier_survival_probability(tot_n_i, self$coefficients, self$population$survival$get_survival())
+      popmat <- matrix_leslie(self$population$survival$get_fertility(), modified_survival_probability)
+      population_next_year <- popmat %*% n_mat
+      return(population_next_year)
+    }
+  )
+)
+
+#' @export
+Runner_Population_With_CC_harvest <- R6::R6Class("Runner_Population_With_CC_harvest",
+  inherit = Runner_Population,
+  public = list(
+    coefficients = NULL,
+    harvest = NULL,
+    initialize = function(population, coefficients, harvest) {
+      self$population <- population
+      self$coefficients <- coefficients
+      self$harvest <- harvest
+    }
+  ),
+  private = list(
+    run_a_year = function(n_mat) {
+      tot_n_i <- sum(n_mat)
+      modified_survival_probability <- modifier_survival_probability(tot_n_i, self$coefficients, self$population$survival$get_survival())
+      popmat <- matrix_leslie(self$population$survival$get_fertility(), modified_survival_probability)
+      population_next_year <- popmat %*% n_mat
+      ssd <- FeralCatEradication::stable_stage_dist(popmat)
+      population_next_year <- population_next_year - round(ssd * round(sum(population_next_year) * self$harvest, 0), 0)
+      population_next_year[which(population_next_year < 0)] <- 0
+      return(population_next_year)
+    }
+  )
 )

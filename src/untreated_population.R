@@ -1,5 +1,6 @@
 library("ggplot2")
 library(FeralCatEradication)
+source("R/feral_cat.R")
 source("src/parameters_of_fertility_and_survival.R")
 ####################################################
 ## iterations and quasi ext for each following model
@@ -15,17 +16,18 @@ itdiv <- iter / 1000 # final model rate at iter/1000
 initial_population <- 1629
 capacity <- Carry_Capacity$new()
 coefficients <- capacity$coefficients_model(half_capacity = initial_population)
-survival <- Stochastic_Survival_Fertility$new(fertility, survival_probability)
-survival$set_standard_desviations(std_fertility, std_survival_probability)
 yr_now <- 2020 # update if more data available post-2010
 yr_end <- 2030 # set projection end date
 interval_time <- Interval_Time$new(initial_year = yr_now, final_year = yr_end)
 number_year <- yr_end - yr_now + 1
 n_sums_mat <- matrix(data = 0, nrow = iter, ncol = number_year)
-population <- Population$new(survival)
 for (simulation in seq(1, iter)) {
-  population$run_generations(interval_time, initial_population = initial_population, coefficients)
-  n_sums_mat[simulation, ] <- colSums(population$n_mat) / initial_population
+  survival <- Stochastic_Survival_Fertility$new(fertility, survival_probability)
+  survival$set_standard_desviations(std_fertility, std_survival_probability)
+  population <- Population$new(survival)
+  simulator <- Runner_Population_With_CC$new(population, coefficients)
+  simulator$run_generations(interval_time, initial_population = initial_population)
+  n_sums_mat[simulation, ] <- colSums(simulator$n_mat) / initial_population
 }
 
 yrs <- seq(yr_now, yr_end)
