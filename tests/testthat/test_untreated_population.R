@@ -96,3 +96,9 @@ describe("The class Monthly_Survival_Fertility", {
     expect_equal(expected_monthly_survival, obtained_monthly_survival)
   })
 })
+
+describe("The class Kathryn_Survival_Fertility", {
+  it("Dummy test", {
+    expect_equal(true, false)
+  })
+})
