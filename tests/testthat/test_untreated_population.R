@@ -96,3 +96,51 @@ describe("The class Monthly_Survival_Fertility", {
     expect_equal(expected_monthly_survival, obtained_monthly_survival)
   })
 })
+
+iterate_fertility_by_n_times <- function(survival_fertility, n_times) {
+  for (index in seq(1, n_times)) {
+    survival_fertility$get_fertility()
+  }
+  return(survival_fertility$get_fertility())
+}
+
+describe("The class Kathryn_Survival_Fertility", {
+  it("Compare fertility from distribution on Stochastic_Survival_Fertility", {
+    fertility <- rep(1, 20)
+    survival_probability <- rep(0.46, 20)
+    survival <- Stochastic_Survival_Fertility$new(fertility, survival_probability)
+    std_fertility <- rbeta(20, 1, 1)
+    std_survival_probability <- rep(0.1150, 19)
+    survival$set_standard_desviations(std_fertility, std_survival_probability)
+
+    a <- survival$get_fertility()
+    b <- survival$get_fertility()
+    test_case_1 <- t.test(a, b)
+    is_the_same_distribution <- test_case_1$p.value > 0.05
+    expect_true(is_the_same_distribution)
+
+    two_hundred_times_fertility <- iterate_fertility_by_n_times(survival, 200)
+    test_case_2 <- t.test(a, two_hundred_times_fertility)
+    is_the_same_distribution <- test_case_2$p.value > 0.05
+    expect_true(is_the_same_distribution)
+  })
+  it("Compare fertility from distribution on kathryn_Survival_Fertility", {
+    fertility <- rep(1, 20)
+    survival_probability <- rep(0.46, 20)
+    kathryn <- kathryn_Survival_Fertility$new(fertility, survival_probability)
+    std_fertility <- rbeta(20, 1, 1)
+    std_survival_probability <- rep(0.1150, 19)
+    kathryn$set_standard_desviations(std_fertility, std_survival_probability)
+
+    a <- kathryn$get_fertility()
+    b <- kathryn$get_fertility()
+    test_case_1 <- t.test(a, b)
+    is_the_same_distribution <- test_case_1$p.value > 0.05
+    expect_true(is_the_same_distribution)
+
+    two_hundred_times_fertility <- iterate_fertility_by_n_times(kathryn, 200)
+    test_case_2 <- t.test(a, two_hundred_times_fertility)
+    is_the_same_distribution <- test_case_2$p.value > 0.05
+    expect_false(is_the_same_distribution)
+  })
+})

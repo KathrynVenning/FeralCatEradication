@@ -77,3 +77,14 @@ Monthly_Survival_Fertility <- R6::R6Class("Monthly_Survival_Fertility",
   ),
   private = list()
 )
+
+kathryn_Survival_Fertility <- R6::R6Class("kathryn_Survival_Fertility",
+  inherit = Stochastic_Survival_Fertility,
+  public = list(
+    get_fertility = function() {
+      private$fertility <- get_stochastic_fertility(private$fertility, private$std_fertility)
+      return(private$fertility)
+    }
+  ),
+  private = list()
+)
