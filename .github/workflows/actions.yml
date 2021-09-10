@@ -22,3 +22,15 @@ jobs:
       run: docker run islasgeci make coverage
     - name: Evalúa resistencia a mutaciones
       run: docker run islasgeci make mutants
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Copia repositorio
+        uses: actions/checkout@v2
+      - name: Construye imagen
+        run: docker build --tag islasgeci .
+      - name: Corre objetivo principal del Makefile
+        env:
+          BITBUCKET_USERNAME: ${{ secrets.BITBUCKET_USERNAME }}
+          BITBUCKET_PASSWORD: ${{ secrets.BITBUCKET_PASSWORD }}
+        run: docker run --volume ${PWD}:/workdir --env BITBUCKET_USERNAME="${BITBUCKET_USERNAME}" --env BITBUCKET_PASSWORD="${BITBUCKET_PASSWORD}" islasgeci make
