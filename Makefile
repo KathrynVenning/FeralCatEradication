@@ -1,8 +1,9 @@
 all: reports/predicting_targets_and_costs.pdf
 
-define renderLatexAndPythontex
+define renderLatexBibtexAndPythontex
 	cd $(@D) && pdflatex $(<F)
 	cd $(<D) && pythontex $(<F)
+	cd $(<D) && bibtex $(subst .tex,,$(<F))
 	cd $(@D) && pdflatex $(<F)
 	cd $(@D) && pdflatex $(<F)
 endef
@@ -14,8 +15,9 @@ endef
 reports/predicting_targets_and_costs.pdf: reports/predicting_targets_and_costs.tex \
 	reports/figures/reduction_factor.jpg \
 	reports/figures/simulation.jpg \
-	reports/figures/constant_proportional_annual_cull.jpg
-	$(renderLatexAndPythontex)
+	reports/figures/constant_proportional_annual_cull.jpg \
+	reports/figures/monthly_time_serie_individuals.jpg
+	$(renderLatexBibtexAndPythontex)
 
 reports/figures/reduction_factor.jpg: src/plot_reduction_factor.R
 	mkdir --parents $(@D)
