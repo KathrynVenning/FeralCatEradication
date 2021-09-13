@@ -66,6 +66,7 @@ clean:
 	rm --force --recursive reports/figures
 	rm --force --recursive tests/testthat/_snaps
 	rm --force FeralCatEradication_*.tar.gz
+	rm --force --recursive reports/pythontex-files-predicting_targets_and_costs
 	rm --force NAMESPACE
 	rm --force Rplots.pdf
 
