@@ -97,21 +97,21 @@ describe("The class Monthly_Survival_Fertility", {
   })
 })
 
-get_second_comparation <- function(survival_fertility, n_times, p_value=0.05) {
+get_second_comparation <- function(survival_fertility, n_times, p_value = 0.05) {
   a <- survival_fertility$get_fertility()
   for (index in seq(1, n_times)) {
     survival_fertility$get_fertility()
   }
   b <- survival_fertility$get_fertility()
   test_case_2 <- t.test(a, b)
-  return (test_case_2$p.value > p_value)
+  return(test_case_2$p.value > p_value)
 }
 
-get_first_comparation <- function(survival_fertility, p_value=0.05) {
+get_first_comparation <- function(survival_fertility, p_value = 0.05) {
   a <- survival_fertility$get_fertility()
   b <- survival_fertility$get_fertility()
   test_case_1 <- t.test(a, b)
-  return (test_case_1$p.value > p_value)
+  return(test_case_1$p.value > p_value)
 }
 
 
