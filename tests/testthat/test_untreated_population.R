@@ -97,12 +97,23 @@ describe("The class Monthly_Survival_Fertility", {
   })
 })
 
-iterate_fertility_by_n_times <- function(survival_fertility, n_times) {
+get_second_comparation <- function(survival_fertility, n_times, p_value=0.05) {
+  a <- survival_fertility$get_fertility()
   for (index in seq(1, n_times)) {
     survival_fertility$get_fertility()
   }
-  return(survival_fertility$get_fertility())
+  b <- survival_fertility$get_fertility()
+  test_case_2 <- t.test(a, b)
+  return (test_case_2$p.value > p_value)
 }
+
+get_first_comparation <- function(survival_fertility, p_value=0.05) {
+  a <- survival_fertility$get_fertility()
+  b <- survival_fertility$get_fertility()
+  test_case_1 <- t.test(a, b)
+  return (test_case_1$p.value > p_value)
+}
+
 
 describe("The class Kathryn_Survival_Fertility", {
   fertility <- rep(1, 20)
@@ -113,30 +124,20 @@ describe("The class Kathryn_Survival_Fertility", {
     survival <- Stochastic_Survival_Fertility$new(fertility, survival_probability)
     survival$set_standard_desviations(std_fertility, std_survival_probability)
 
-    a <- survival$get_fertility()
-    b <- survival$get_fertility()
-    test_case_1 <- t.test(a, b)
-    is_the_same_distribution <- test_case_1$p.value > 0.05
+    is_the_same_distribution <- get_first_comparation(survival)
     expect_true(is_the_same_distribution)
 
-    two_hundred_times_fertility <- iterate_fertility_by_n_times(survival, 200)
-    test_case_2 <- t.test(a, two_hundred_times_fertility)
-    is_the_same_distribution <- test_case_2$p.value > 0.05
+    is_the_same_distribution <- get_second_comparation(survival, 200)
     expect_true(is_the_same_distribution)
   })
   it("Compare fertility from distribution on kathryn_Survival_Fertility", {
     kathryn <- kathryn_Survival_Fertility$new(fertility, survival_probability)
     kathryn$set_standard_desviations(std_fertility, std_survival_probability)
 
-    a <- kathryn$get_fertility()
-    b <- kathryn$get_fertility()
-    test_case_1 <- t.test(a, b)
-    is_the_same_distribution <- test_case_1$p.value > 0.05
+    is_the_same_distribution <- get_first_comparation(kathryn)
     expect_true(is_the_same_distribution)
 
-    two_hundred_times_fertility <- iterate_fertility_by_n_times(kathryn, 200)
-    test_case_2 <- t.test(a, two_hundred_times_fertility)
-    is_the_same_distribution <- test_case_2$p.value > 0.05
+    is_the_same_distribution <- get_second_comparation(kathryn, 200)
     expect_false(is_the_same_distribution)
   })
 })
