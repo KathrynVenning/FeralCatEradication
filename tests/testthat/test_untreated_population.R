@@ -105,12 +105,12 @@ iterate_fertility_by_n_times <- function(survival_fertility, n_times) {
 }
 
 describe("The class Kathryn_Survival_Fertility", {
+  fertility <- rep(1, 20)
+  survival_probability <- rep(0.46, 20)
+  std_fertility <- rbeta(20, 1, 1)
+  std_survival_probability <- rep(0.1150, 19)
   it("Compare fertility from distribution on Stochastic_Survival_Fertility", {
-    fertility <- rep(1, 20)
-    survival_probability <- rep(0.46, 20)
     survival <- Stochastic_Survival_Fertility$new(fertility, survival_probability)
-    std_fertility <- rbeta(20, 1, 1)
-    std_survival_probability <- rep(0.1150, 19)
     survival$set_standard_desviations(std_fertility, std_survival_probability)
 
     a <- survival$get_fertility()
@@ -125,11 +125,7 @@ describe("The class Kathryn_Survival_Fertility", {
     expect_true(is_the_same_distribution)
   })
   it("Compare fertility from distribution on kathryn_Survival_Fertility", {
-    fertility <- rep(1, 20)
-    survival_probability <- rep(0.46, 20)
     kathryn <- kathryn_Survival_Fertility$new(fertility, survival_probability)
-    std_fertility <- rbeta(20, 1, 1)
-    std_survival_probability <- rep(0.1150, 19)
     kathryn$set_standard_desviations(std_fertility, std_survival_probability)
 
     a <- kathryn$get_fertility()
