@@ -15,8 +15,9 @@ max_lambda(ml)
 max_lambda(mml)^12
 survival <- Monthly_Survival_Fertility$new(fertility, survival_probability)
 population <- Population$new(survival)
-population$run_generations(interval_time, initial_population = initial_population)
+simulator <- Runner_Population$new(population)
+simulator$run_generations(interval_time, initial_population = initial_population)
 
 plotter <- Plotter_Population$new()
-plotter$plot(population)
+plotter$plot(simulator)
 plotter$save("reports/figures/monthly_time_serie_individuals.jpg")

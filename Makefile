@@ -1,3 +1,24 @@
+all: reports/predicting_targets_and_costs.pdf
+
+define renderLatexBibtexAndPythontex
+	cd $(@D) && pdflatex $(<F)
+	cd $(<D) && pythontex $(<F)
+	cd $(<D) && bibtex $(subst .tex,,$(<F))
+	cd $(@D) && pdflatex $(<F)
+	cd $(@D) && pdflatex $(<F)
+endef
+
+define checkDirectories
+	mkdir --parents $(@D)
+endef
+
+reports/predicting_targets_and_costs.pdf: reports/predicting_targets_and_costs.tex \
+	reports/figures/reduction_factor.jpg \
+	reports/figures/simulation.jpg \
+	reports/figures/constant_proportional_annual_cull.jpg \
+	reports/figures/monthly_time_serie_individuals.jpg
+	$(renderLatexBibtexAndPythontex)
+
 reports/figures/reduction_factor.jpg: src/plot_reduction_factor.R
 	mkdir --parents $(@D)
 	Rscript src/plot_reduction_factor.R
@@ -40,10 +61,12 @@ check:
 	  | grep FALSE
 
 clean:
+	cd reports && ls | egrep --invert-match "*.tex|*.md|*.bib" | xargs --delimiter="\n" rm --force --recursive
 	rm --force --recursive FeralCatEradication.Rcheck
 	rm --force --recursive reports/figures
 	rm --force --recursive tests/testthat/_snaps
 	rm --force FeralCatEradication_*.tar.gz
+	rm --force --recursive reports/pythontex-files-predicting_targets_and_costs
 	rm --force NAMESPACE
 	rm --force Rplots.pdf
 
