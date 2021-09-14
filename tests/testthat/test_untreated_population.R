@@ -114,7 +114,7 @@ get_first_comparation <- function(survival_fertility, p_value = 0.05) {
   return(test_case_1$p.value > p_value)
 }
 
-assess_are_equal <- function(survival, std_fertility, std_survival_probability){
+assess_are_equal <- function(survival, std_fertility, std_survival_probability) {
   survival$set_standard_desviations(std_fertility, std_survival_probability)
   is_the_same_distribution <- get_first_comparation(survival)
   expect_true(is_the_same_distribution)
