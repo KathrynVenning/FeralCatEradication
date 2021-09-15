@@ -318,3 +318,36 @@ Runner_Population_With_CC_harvest <- R6::R6Class("Runner_Population_With_CC_harv
     }
   )
 )
+
+#' @export
+Runner_Population_With_CC_two_harvest <- R6::R6Class("Runner_Population_With_CC_two_harvest",
+  inherit = Runner_Population,
+  public = list(
+    coefficients = NULL,
+    harvest = NULL,
+    initialize = function(population, coefficients, harvest) {
+      self$population <- population
+      self$coefficients <- coefficients
+      self$harvest <- harvest
+    },
+    run_generations = function(interval_time, initial_population) {
+      n_mat <- private$setup_variables(interval_time, initial_population)
+      for (year in 1:private$years) {
+        n_mat[, year + 1] <- private$run_a_year(n_mat[, year], year)
+      }
+      self$n_mat <- n_mat
+    }
+  ),
+  private = list(
+    run_a_year = function(n_mat, year) {
+      tot_n_i <- sum(n_mat)
+      modified_survival_probability <- modifier_survival_probability(tot_n_i, self$coefficients, self$population$survival$get_survival())
+      popmat <- matrix_leslie(self$population$survival$get_fertility(), modified_survival_probability)
+      population_next_year <- popmat %*% n_mat
+      ssd <- FeralCatEradication::stable_stage_dist(popmat)
+      population_next_year <- population_next_year - round(ssd * round(sum(population_next_year) * self$harvest[year], 0), 0)
+      population_next_year[which(population_next_year < 0)] <- 0
+      return(population_next_year)
+    }
+  )
+)
